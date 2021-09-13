@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=always'
+alias ls='ls --color'
 alias ll='ls -l'
 alias l='ls -al'
 alias less='less -r'
