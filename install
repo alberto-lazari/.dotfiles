@@ -1,4 +1,6 @@
-ln -s $PWD/.[^.]* -t ~/
+#!/bin/bash
+
+ln -s $PWD/.{[^.^\(git\)]*,git?*} -t ~/
 ln -s $PWD/user.bashrc ~/.bashrc
 sudo ln -s $PWD/root.bashrc /root/.bashrc
 sudo ln -s $PWD/.bash_profile /root/
