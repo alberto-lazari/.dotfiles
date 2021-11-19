@@ -1,3 +1,5 @@
 [user]
 	name = Alberto Lazari
 	email = alberto.lazari@gmail.com
+[pull]
+	rebase = false

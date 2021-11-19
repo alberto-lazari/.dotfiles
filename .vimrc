@@ -45,6 +45,7 @@ set smartcase
 set nocompatible
 
 "Do NOT wrap text if too long
+set linebreak
 set nowrap
 
 "Show line numbers relative to the current one
