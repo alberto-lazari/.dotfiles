@@ -20,7 +20,7 @@ shell=$1
 
 ([ $os = linux ] && [ $shell = zsh ]) && { echo zsh is not yet supported on Linux >& 2; exit 1; }
 
-(grep -E 'bash|zsh' <<< $shell > /dev/null) || { print_help; exit 1; }
+(echo $shell | grep -E 'bash|zsh' > /dev/null) || { print_help; exit 1; }
 
 for file in $script_dir/default/.[^.]* $script_dir/default/$os/$shell/.[^.]*
 do
