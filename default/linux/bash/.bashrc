@@ -10,6 +10,6 @@ alias ll='ls -l'
 alias l='ls -al'
 alias less='less -r'
 
-PS1+='\[\e[1;32m\]\w '
+PS1='\[\e[1;32m\]\w '
 PS1+='\[\e[0m\]$ '
 export PS1

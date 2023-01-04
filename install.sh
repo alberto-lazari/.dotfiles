@@ -32,6 +32,6 @@ do
     ([ -f $home_file ] || [ -L $home_file ]) && rm $home_file
     case $os in
         macos)  ln -s $actual_file $home_file;;
-        linux)  ln -s $actual_file -t $home_file;;
+        linux)  ln -s $actual_file -t ~/;;
     esac
 done
