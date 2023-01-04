@@ -22,14 +22,12 @@ set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
 "           | + lines saved each register (old name for <, vi6.2)
 "           + save/restore buffer list
 
-set noerrorbells
-set tabstop=4 softtabstop=4
-set shiftwidth=4
+"Scroll when over number of lines
 set scrolloff=2
 
-"Cursor line settings
-let g:conoline_auto_enable = 1
-let g:conoline_use_colorscheme_default_normal = 1
+"Mouse support
+"Drains a crazy amount of battery power if enabled
+"set mouse=a
 
 "Allow backspace
 set backspace=indent,eol,start
@@ -37,12 +35,10 @@ set backspace=indent,eol,start
 "Tabs -> spaces
 set expandtab
 
+"Indentation
+set tabstop=4 softtabstop=4
+set shiftwidth=4
 set smartindent
-set noswapfile
-set nobackup
-set undodir=~/.vim/undodir
-set undofile
-set incsearch
 
 "Window title
 set title
@@ -51,14 +47,18 @@ set titlestring=%t%(\ %M%)%a\ -\ VIM
 "Smart case-sensitive search
 set smartcase
 
-"Wrap text if too long
-set linebreak
-
 "Show line numbers relative to the current one
 set number relativenumber
 
 "VS Code theme
 colorscheme codedark
+
+"Misc
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+set undofile
+set incsearch
 
 "Vim-airline settings
 let g:airline_powerline_fonts = 1
@@ -66,3 +66,7 @@ let g:airline_theme = 'deus'
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
+
+"Cursor line settings
+let g:conoline_auto_enable = 1
+let g:conoline_use_colorscheme_default_normal = 1
