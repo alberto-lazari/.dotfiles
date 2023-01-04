@@ -14,7 +14,7 @@ case $(uname) in
 esac
 
 # Check if $1 is provided
-[ ${1:-unset} = unset ] && { print help; exit 1; }
+[ ${1:-unset} = unset ] && { print_help; exit 1; }
 
 shell=$1
 
