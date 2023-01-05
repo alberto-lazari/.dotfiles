@@ -34,9 +34,13 @@ link_files_in () {
         actual_file="$dir/$file"
         home_file="$HOME/.$file"
 
-        [[ ${allow_overwrite-unset} != unset ]] || read -p 'File found, overwrite? [y/N] ' allow_overwrite
+        if [[ -L $home_file || -e $home_file ]]
+        then
+            [[ ${allow_overwrite-unset} != unset ]] || read -p "WARNING: already existing dotfiles will be overridden. Continue anyway? [y/N] " allow_overwrite
 
-        [[ ! ( -L $home_file || -e $home_file ) || "$allow_overwrite" != [yY] ]] || rm $home_file
+            [[ "$allow_overwrite" != [yY] ]] && continue || rm $home_file
+        fi
+
         ln -s $actual_file $home_file
     done
 }

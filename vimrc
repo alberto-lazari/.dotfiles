@@ -35,10 +35,14 @@ set backspace=indent,eol,start
 "Tabs -> spaces
 set expandtab
 
+"Preserve words on wrap
+set linebreak
+
 "Indentation
 set tabstop=4 softtabstop=4
 set shiftwidth=4
 set smartindent
+set breakindent
 
 "Window title
 set title

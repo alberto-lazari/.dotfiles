@@ -1,5 +1,6 @@
 alias ls='ls --color'
 alias ll='ls -l'
+alias la='ls -a'
 alias l='ls -al'
 alias less='less -r'
 
@@ -18,8 +19,8 @@ alias pop='git stash pop'
 alias feature='git-flow feature'
 
 # Git custom
-cf() {
-  git checkout "feature/${1}"
+cf () {
+  git checkout "feature/$1"
 }
 alias c='git commit -m'
 alias rmbr='git branch -d'
