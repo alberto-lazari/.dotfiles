@@ -11,8 +11,9 @@ For MacOS both bash and zsh are supported, while Linux is mostly configured just
 
 ## Local hooks
 [`.zshrc`](macos/zshrc), [`.bashrc`](bashrc) and [`.alias`](alias) use hooks to add local configurations to each file respectively.
+
 For instance, my general `.bashrc` could be like this:
-```
+```bash
 export PS1='\$ '
 
 export PATH="$HOME/bin:$PATH"
@@ -21,7 +22,7 @@ export PATH="$HOME/bin:$PATH"
 ```
 
 Then, for a specific configuration I want to add to my `.bashrc.local` this:
-```
+```bash
 neofetch
 
 export PATH=".:$PATH"
