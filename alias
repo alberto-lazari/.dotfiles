@@ -1,11 +1,3 @@
-#
-# ~/.bashrc
-#
-
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
-
-# Aliases
 alias ls='ls --color'
 alias ll='ls -l'
 alias l='ls -al'
@@ -36,6 +28,5 @@ alias restore='git restore'
 alias unstage='git restore --staged'
 alias cleanbr='git branch -D `git branch | grep -v \* | xargs`'
 
-PS1='\[\e[1;36m\]\w '
-PS1+='\[\e[0m\]$ '
-export PS1
+# Hook for local aliases
+[[ ! -f ~/.alias.local ]] || . ~/.alias.local
