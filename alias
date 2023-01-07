@@ -1,7 +1,7 @@
 alias ls='ls --color'
 alias ll='ls -l'
-alias la='ls -a'
-alias l='ls -al'
+alias la='ls -A'
+alias l='ls -Al'
 alias less='less -r'
 
 # Git
