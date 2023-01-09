@@ -4,10 +4,9 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'git@github.com:kien/ctrlp.vim.git'
 Plug 'mbbill/undotree'
 Plug 'miyakogi/conoline.vim'
-Plug 'tomasiser/vim-code-dark'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
@@ -54,8 +53,8 @@ set smartcase
 "Show line numbers relative to the current one
 set number relativenumber
 
-"VS Code theme
-colorscheme codedark
+"Theme
+colorscheme onedark
 
 "Misc
 set noswapfile
@@ -64,13 +63,15 @@ set undodir=~/.vim/undodir
 set undofile
 set incsearch
 
+"No '-- INSERT --' in status line
+set noshowmode
+
 "Vim-airline settings
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'deus'
+let g:airline_theme = 'onedark'
 
+"Enable buffers line
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
 
 "Cursor line settings
-let g:conoline_auto_enable = 1
 let g:conoline_use_colorscheme_default_normal = 1
