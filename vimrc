@@ -7,6 +7,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'mbbill/undotree'
 Plug 'miyakogi/conoline.vim'
 Plug 'joshdick/onedark.vim'
+Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
