@@ -2,7 +2,7 @@
 [[ $- != *i* ]] && return
 
 # Custom prompt
-PS1='\[\e[1;36m\]\w '
+PS1='\[\e[1;34m\]\w '
 PS1+='\[\e[0m\]$ '
 export PS1
 
