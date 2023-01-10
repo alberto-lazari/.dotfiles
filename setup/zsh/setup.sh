@@ -1,5 +1,7 @@
 #!/bin/bash -eu
 
+script_dir="$(dirname "$(readlink -f $0)")"
+
 # Default zsh variables values
 ZSH=${ZSH:-~/.oh-my-zsh}
 ZSH_CUSTOM=${ZSH_CUSTOM:-$ZSH/custom}
@@ -14,7 +16,7 @@ ZSH_CUSTOM=${ZSH_CUSTOM:-$ZSH/custom}
 [[ -d $ZSH_CUSTOM/themes/powerlevel10k ]] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 
 # Install custom plugins
-for repo in $(cat plugins.zsh)
+for repo in $(cat $script_dir/plugins.zsh)
 do
     plugin=${repo/*\//}
 
