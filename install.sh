@@ -55,5 +55,5 @@ esac
 
 script_dir="$(dirname "$(readlink -f $0)")"
 
-link_files_in $script_dir -e 'install.sh|readme.md|macos'
+link_files_in $script_dir -e 'install.sh|readme.md|macos|setup'
 [[ ! $os == macos ]] || link_files_in $script_dir/macos
