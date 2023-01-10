@@ -67,6 +67,9 @@ set incsearch
 "No '-- INSERT --' in status line
 set noshowmode
 
+"Show partial command while typing it
+set showcmd
+
 "No ESC delay
 set timeoutlen=1000 ttimeoutlen=0
 
