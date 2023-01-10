@@ -67,6 +67,9 @@ set incsearch
 "No '-- INSERT --' in status line
 set noshowmode
 
+"No ESC delay
+set timeoutlen=1000 ttimeoutlen=0
+
 "Vim-airline settings
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'onedark'
