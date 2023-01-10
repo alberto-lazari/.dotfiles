@@ -1,4 +1,4 @@
 #!/bin/bash -eu
 
-echo not yet implemented >& 2
-exit 1
+# Install vim-plug to manage plugins
+[[ -f ~/.vim/autoload/plug.vim ]] || curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
