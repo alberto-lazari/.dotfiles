@@ -77,7 +77,7 @@ CASE_SENSITIVE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=($(cat ~/.dotfiles/setup/zsh/plugins.zsh | sed -e 's/^.*\///'))
+plugins=($(cat ~/.dotfiles/zsh/plugins.zsh | sed -e 's/^.*\///'))
 
 # Move .zcompdump files to zsh cache directory, to keep home cleaner
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST

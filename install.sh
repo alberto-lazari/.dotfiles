@@ -22,14 +22,13 @@ load_options () {
 # usage: link_files_in DIRECTORY [-e 'excluded|files|separated|with|pipes']
 link_files_in () {
     dir=$1
-    if [[ ${2:-unset} == '-e' ]]
-    then
-        exclude=$3
-    else
-        exclude=''
-    fi
+    [[ ${2:-unset} != '-e' ]] || exclude="|$3"
 
-    for file in $(ls --color=never $dir | grep -Ewv "$exclude")
+    # Exclude sub-directories and explicitly excluded files
+    exclude=".*/${exclude:-}"
+
+    # Loop on every file in DIRECTORY, except the excluded ones
+    for file in $(ls -p --color=never $dir | grep -Ewv "$exclude")
     do
         actual_file="$dir/$file"
         home_file="$HOME/.$file"
@@ -55,5 +54,5 @@ esac
 
 script_dir="$(dirname "$(readlink -f $0)")"
 
-link_files_in $script_dir -e 'install.sh|readme.md|macos|setup'
+link_files_in $script_dir -e 'install.sh|readme.md'
 [[ ! $os == macos ]] || link_files_in $script_dir/macos
