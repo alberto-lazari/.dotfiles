@@ -1,3 +1,3 @@
-# Plugins loaded automatically when vim starts
+" Plugins loaded automatically when vim starts
 mbbill/undotree
 joshdick/onedark.vim

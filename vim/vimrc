@@ -1,8 +1,9 @@
 syntax on
 
-" Load plugins
+" Load opt plugins
 for plugin in readfile(expand('~/.dotfiles/vim/opt-plugins.vim'))
-    if plugin =~ '^[^#]'
+    " Ignore comments
+    if plugin =~ '^[^"]'
         let plugin = substitute(plugin, '.*/', '', '')
         exe 'packadd!' plugin
     endif
