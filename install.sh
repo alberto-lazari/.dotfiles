@@ -44,6 +44,10 @@ link_files_in () {
     done
 }
 
+setup () {
+    $script_dir/$1/setup.sh
+}
+
 load_options "$@"
 
 case $(uname) in
@@ -56,3 +60,7 @@ script_dir="$(dirname "$(readlink -f $0)")"
 
 link_files_in $script_dir -e 'install.sh|readme.md'
 [[ ! $os == macos ]] || link_files_in $script_dir/macos
+
+# Run vim and zsh setups
+setup vim
+setup zsh
