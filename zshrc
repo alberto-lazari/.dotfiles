@@ -100,7 +100,10 @@ export EDITOR='vim'
 # No less history file
 export LESSHISTFILE=-
 
-# No ESC timeout delay
+# Set vi keybindings
+set -o vi
+
+# No ESC timeout delay for vi keybindings
 KEYTIMEOUT=1
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
