@@ -16,7 +16,7 @@ ZSH_CUSTOM=${ZSH_CUSTOM:-$ZSH/custom}
 [[ -d $ZSH_CUSTOM/themes/powerlevel10k ]] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 
 # Install custom plugins
-for repo in $(cat $script_dir/plugins.zsh)
+for repo in $(cat $script_dir/plugins.zsh | grep -v '^#')
 do
     plugin=${repo/*\//}
 

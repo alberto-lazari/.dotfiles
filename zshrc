@@ -8,6 +8,8 @@ fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+### Oh My Zsh preferences
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -69,33 +71,22 @@ CASE_SENSITIVE="true"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=($(cat ~/.dotfiles/zsh/plugins.zsh | sed -e 's/^.*\///'))
+# Load custom plugins
+plugin_file=~/.dotfiles/zsh/plugins.zsh
+plugins=($(cat $plugin_file | grep -v '^#' | sed -e 's/^.*\///'))
 
 # Move .zcompdump files to zsh cache directory, to keep home cleaner
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+### Custom preferences
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
+# Language environment
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
 # No less history file
 export LESSHISTFILE=-
@@ -106,11 +97,16 @@ set -o vi
 # No ESC timeout delay for vi keybindings
 KEYTIMEOUT=1
 
+# Enable history substring search with vi keybindings
+bindkey -M vicmd 'k' history-beginning-search-backward
+bindkey -M vicmd 'j' history-beginning-search-forward
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 eval "$(direnv hook zsh)"
 
+# Load aliases
 [[ ! ( -L ~/.alias || -f ~/.alias ) ]] || . ~/.alias
 
 # Hook for non-versioned .zshrc.local
