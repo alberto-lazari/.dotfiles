@@ -101,6 +101,9 @@ KEYTIMEOUT=1
 bindkey -M vicmd 'k' history-beginning-search-backward
 bindkey -M vicmd 'j' history-beginning-search-forward
 
+# Immediately complete on tab completion
+setopt MENU_COMPLETE
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
