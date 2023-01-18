@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 install_plugins () {
-    for repo in $(cat $script_dir/$1-plugins.vim | grep -v '^#')
+    for repo in $(cat $script_dir/$1-plugins.vim | grep -v '^["#]')
     do
         plugin=${repo/*\//}
 
