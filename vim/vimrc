@@ -54,7 +54,10 @@ set breakindent
 set title
 set titlestring=%t%(\ %M%)%a\ -\ VIM
 
-" Smart case-sensitive search
+" Default case-insensitive search patterns
+set ignorecase
+
+" Switch to case-sensitive search if capital letter used. \C to set it manually
 set smartcase
 
 " Show line numbers relative to the current one
