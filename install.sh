@@ -72,7 +72,7 @@ setup () {
 cd $(dirname $BASH_SOURCE)
 
 # Update repo
-git pull origin main
+git pull origin main > /dev/null
 
 load_options "$@"
 
