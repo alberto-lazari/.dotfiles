@@ -71,6 +71,9 @@ setup () {
 
 cd $(dirname $BASH_SOURCE)
 
+# Update repo
+git pull origin main
+
 load_options "$@"
 
 case $(uname) in
