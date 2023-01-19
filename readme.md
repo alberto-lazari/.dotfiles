@@ -4,10 +4,10 @@ My personal collection of dotfiles for MacOS and Linux that I currently use.
 If you are reading this you may be interested in the way I configure and use my \*NIX systems or in finding a complete and robust configuration for your system. If the latter is your case, I'm sorry to say that you are in the wrong place. The world is not perfect and so am I...
 
 ## Installation
-Use the [`install.sh`](install.sh) automated script to create symlinks on your home directory
+Use the [`install.sh`](install.sh) automated script to create symlinks on your home directory. The script is completely automated and installs based on platform (macOS/Linux) and installed programs (vim, zsh)
 
-## Supported shells
-For MacOS both bash and zsh are supported, while Linux is mostly configured just for bash. This reflects my personal usage of these OSes, and may vary over time, or maybe not
+### Custom setup
+Every optional program configuration is configured with a `program/setup.sh` script, that cares about installing the base configuration, along with custom plugins
 
 ## Local hooks
 [`.zshrc`](macos/zshrc), [`.bashrc`](bashrc) and [`.alias`](alias) use hooks to add local configurations to each file respectively.
