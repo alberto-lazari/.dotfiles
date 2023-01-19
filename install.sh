@@ -27,7 +27,7 @@ overwrite () {
             read -p "WARNING: already existing dotfiles will be overwritten. Continue anyway? [y/N] " allow_overwrite
 
             [[ ${allow_overwrite:-empty} != empty ]] || allow_overwrite=N
-            [[ "$allow_overwrite" = [yYnN] ]] || echo 'You need to answer Y(es) or N(o) (default N)'
+            [[ "$allow_overwrite" = [yYnN] ]] || echo 'You need to answer Y(es) or N(o) (default N)'$'\n'
         done
 
         [[ "$allow_overwrite" != [yY] ]] && return 1 || rm $file
