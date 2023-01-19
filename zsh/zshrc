@@ -73,7 +73,7 @@ CASE_SENSITIVE="true"
 
 # Load custom plugins
 plugin_file=~/.dotfiles/zsh/plugins.zsh
-plugins=($(cat $plugin_file | grep -v '^#' | sed -e 's/^.*\///'))
+plugins=($(cat $plugin_file | grep -Ev '^#|^$' | sed -e 's/^.*\///'))
 
 # Move .zcompdump files to zsh cache directory, to keep home cleaner
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST

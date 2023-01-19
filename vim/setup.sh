@@ -2,7 +2,7 @@
 
 install_plugins () {
     # Read plugins, ignoring comments starting with " or #
-    for repo in $(cat $1-plugins.vim | grep -v '^["#]'); do
+    for repo in $(cat $1-plugins.vim | grep -Ev '^["#]|^$'); do
         plugin=${repo/*\//}
 
         [[ -d ~/.vim/pack/$package/$1/$plugin ]] || git clone https://github.com/$repo ~/.vim/pack/$package/$1/$plugin
