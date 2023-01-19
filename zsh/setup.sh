@@ -1,13 +1,12 @@
 #!/bin/bash -eu
 
-script_dir="$(dirname "$(readlink -f $0)")"
+cd $(dirname $BASH_SOURCE)
 
 # Default zsh variables values
 ZSH=${ZSH:-~/.oh-my-zsh}
 ZSH_CUSTOM=${ZSH_CUSTOM:-$ZSH/custom}
 
-# Load eventual custom zsh variables set in zshrc
-[[ ! -L ~/.zshrc || -e ~/.zshrc ]] || . ~/.zshrc
+! overwrite ~/.zshrc || ln -s $(readlink -f zshrc) ~/.zshrc
 
 # Install Oh My Zsh
 [[ -d $ZSH ]] || sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -16,8 +15,7 @@ ZSH_CUSTOM=${ZSH_CUSTOM:-$ZSH/custom}
 [[ -d $ZSH_CUSTOM/themes/powerlevel10k ]] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 
 # Install custom plugins
-for repo in $(cat $script_dir/plugins.zsh | grep -v '^#')
-do
+for repo in $(cat plugins.zsh | grep -v '^#'); do
     plugin=${repo/*\//}
 
     [[ -d $ZSH_CUSTOM/plugins/$plugin ]] || git clone https://github.com/$repo $ZSH_CUSTOM/plugins/$plugin
