@@ -27,7 +27,7 @@ set breakindent
 
 " Window title
 set title
-set titlestring=%t%(\ %M%)%a\ -\ VIM
+set titlestring=%t%(\ [%M]%)%a\ -\ VIM
 
 " Default case-insensitive search patterns
 set ignorecase
