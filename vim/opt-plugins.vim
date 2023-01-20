@@ -4,8 +4,5 @@
 vim-airline/vim-airline
 vim-airline/vim-airline-themes
 
-" Cursor line
-miyakogi/conoline.vim
-
 " Filetype icons
 ryanoasis/vim-devicons

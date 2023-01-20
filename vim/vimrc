@@ -1,44 +1,19 @@
+" Theme
+colorscheme onedark
+
+" Always display status line
+set laststatus=2
+
+" Enable syntax highlighting
 syntax on
-
-" Move lines with Up/Down
-nnoremap <Down> :m .+1<CR>==
-nnoremap <Up> :m .-2<CR>==
-inoremap <Down> <Esc>:m .+1<CR>==gi
-inoremap <Up> <Esc>:m .-2<CR>==gi
-vnoremap <Down> :m '>+1<CR>gv=gv
-vnoremap <Up> :m '<-2<CR>gv=gv
-
-" Load opt plugins
-for plugin in readfile(expand('~/.dotfiles/vim/opt-plugins.vim'))
-    " Ignore comments
-    if plugin =~ '^[^"]'
-        let plugin = substitute(plugin, '.*/', '', '')
-        exe 'packadd!' plugin
-    endif
-endfor
-
-" Move .viminfo file
-set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
-"           | |    |   |   |    | |  + viminfo file path
-"           | |    |   |   |    | + file marks 0-9,A-Z 0=NOT stored
-"           | |    |   |   |    + disable 'hlsearch' loading viminfo
-"           | |    |   |   + command-line history saved
-"           | |    |   + search history saved
-"           | |    + files marks saved
-"           | + lines saved each register (old name for <, vi6.2)
-"           + save/restore buffer list
 
 " Scroll when over number of lines
 set scrolloff=2
 
-" Mouse support
-" Drains a crazy amount of battery power if enabled
-" set mouse=a
-
 " Allow backspace
-set backspace=indent,eol,start
+set backspace=2
 
-" Tabs -> spaces
+" Indent with spaces
 set expandtab
 
 " Preserve words on wrap
@@ -57,14 +32,14 @@ set titlestring=%t%(\ %M%)%a\ -\ VIM
 " Default case-insensitive search patterns
 set ignorecase
 
-" Switch to case-sensitive search if capital letter used. \C to set it manually
+" Switch to case-sensitive search if capital letter used. \C in pattern to set it manually
 set smartcase
 
 " Show line numbers relative to the current one
 set number relativenumber
 
-" Theme
-colorscheme onedark
+" Show horizontal cursor line
+set cursorline
 
 " Misc
 set noswapfile
@@ -84,28 +59,58 @@ set timeoutlen=1000 ttimeoutlen=0
 
 " Change cursor shape on different mode
 if exists('$ITERM_PROFILE')
-  " Vertical bar in insert mode
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  " Block in normal mode
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-  " Underline in replace mode
-  let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+    " Vertical bar in insert mode
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    " Block in normal mode
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    " Underline in replace mode
+    let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 else
-  " Vertical bar in insert mode
-  let &t_SI = "\e[5 q"
-  " Block in normal mode
-  let &t_SR = "\e[4 q"
-  " Underline in replace mode
-  let &t_EI = "\e[1 q"
+    " Vertical bar in insert mode
+    let &t_SI = "\e[5 q"
+    " Block in normal mode
+    let &t_SR = "\e[4 q"
+    " Underline in replace mode
+    let &t_EI = "\e[1 q"
 endif
 
-" Vim-airline settings
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'onedark'
+" Move .viminfo file
+set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
+"           | |    |   |   |    | |  + viminfo file path
+"           | |    |   |   |    | + file marks 0-9,A-Z 0=NOT stored
+"           | |    |   |   |    + disable 'hlsearch' loading viminfo
+"           | |    |   |   + command-line history saved
+"           | |    |   + search history saved
+"           | |    + files marks saved
+"           | + lines saved each register (old name for <, vi6.2)
+"           + save/restore buffer list
+
+" Mouse support
+" Drains a crazy amount of battery power if enabled
+" set mouse=a
+
+
+" Custom mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Move lines with Up/Down
+nnoremap <Down> :m .+1<CR>==
+nnoremap <Up> :m .-2<CR>==
+inoremap <Down> <Esc>:m .+1<CR>==gi
+inoremap <Up> <Esc>:m .-2<CR>==gi
+vnoremap <Down> :m '>+1<CR>gv=gv
+vnoremap <Up> :m '<-2<CR>gv=gv
+
+
+" Plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Load opt plugins
+for plugin in readfile(expand('~/.dotfiles/vim/opt-plugins.vim'))
+    " Ignore comments
+    if plugin =~ '^[^"]'
+        let plugin = substitute(plugin, '.*/', '', '')
+        exe 'packadd!' plugin
+    endif
+endfor
 
 " Enable buffers line
 let g:airline#extensions#tabline#enabled = 1
-
-" Use colorscheme cursorline color in normal and insert modes
-let g:conoline_use_colorscheme_default_normal = 1
-let g:conoline_use_colorscheme_default_insert = 1
