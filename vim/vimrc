@@ -4,6 +4,13 @@ colorscheme onedark
 " Always display status line
 set laststatus=2
 
+" Window title
+set title
+set titlestring=vim\ -\ %t%(\ [%M]%)%a
+
+" Show horizontal cursor line
+set cursorline
+
 " Enable syntax highlighting
 syntax on
 
@@ -25,10 +32,6 @@ set shiftwidth=4
 set smartindent
 set breakindent
 
-" Window title
-set title
-set titlestring=%t%(\ [%M]%)%a\ -\ VIM
-
 " Default case-insensitive search patterns
 set ignorecase
 
@@ -37,9 +40,6 @@ set smartcase
 
 " Show line numbers relative to the current one
 set number relativenumber
-
-" Show horizontal cursor line
-set cursorline
 
 " Misc
 set noswapfile
@@ -56,6 +56,12 @@ set showcmd
 
 " No ESC delay
 set timeoutlen=1000 ttimeoutlen=0
+
+" Allow buffers to keep unsaved changes
+set hidden
+
+" Auto save on focus lost
+autocmd FocusLost * silent! wa
 
 " Change cursor shape on different mode
 if exists('$ITERM_PROFILE')
