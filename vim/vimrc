@@ -4,49 +4,38 @@ colorscheme onedark
 " Always display status line
 set laststatus=2
 
-" Window title
-set title
-set titlestring=vim\ -\ %t%(\ [%M]%)%a
+" Window title format: 'vim - file [+-=] (1 of n)'
+set title titlestring=vim\ -\ %t%(\ [%M]%)%a
 
 " Show horizontal cursor line
 set cursorline
 
-" Enable syntax highlighting
-syntax on
+" Show line numbers relative to the current one
+set number relativenumber
 
 " Scroll when over number of lines
 set scrolloff=2
 
+" Wrap preserving words and indentation
+set linebreak breakindent
+
+" Identify wrapped lines with @ and indentation
+let &showbreak='@ '
+
+" Indentation
+set expandtab tabstop=4 softtabstop=4 shiftwidth=4
+
+" Indent on newlines
+set smartindent
+
 " Allow backspace
 set backspace=2
 
-" Indent with spaces
-set expandtab
+" Show pattern match results. Default case-insensitive search
+set incsearch ignorecase smartcase
 
-" Preserve words on wrap
-set linebreak
-
-" Indentation
-set tabstop=4 softtabstop=4
-set shiftwidth=4
-set smartindent
-set breakindent
-
-" Default case-insensitive search patterns
-set ignorecase
-
-" Switch to case-sensitive search if capital letter used. \C in pattern to set it manually
-set smartcase
-
-" Show line numbers relative to the current one
-set number relativenumber
-
-" Misc
-set noswapfile
-set nobackup
-set undodir=~/.vim/undodir
-set undofile
-set incsearch
+" Enable syntax highlighting
+syntax on
 
 " No '-- INSERT --' in status line
 set noshowmode
@@ -59,9 +48,6 @@ set timeoutlen=1000 ttimeoutlen=0
 
 " Allow buffers to keep unsaved changes
 set hidden
-
-" Auto save on focus lost
-autocmd FocusLost * silent! wa
 
 " Change cursor shape on different mode
 if exists('$ITERM_PROFILE')
@@ -79,6 +65,9 @@ else
     " Underline in replace mode
     let &t_EI = "\e[1 q"
 endif
+
+" Temp files
+set noswapfile nobackup undodir=~/.vim/undodir undofile
 
 " Move .viminfo file
 set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo

@@ -20,7 +20,7 @@ alias feature='git-flow feature'
 
 # Git custom
 cf () {
-  git checkout "feature/$1"
+    git checkout "feature/$1"
 }
 alias c='git commit -m'
 alias rmbr='git branch -d'
