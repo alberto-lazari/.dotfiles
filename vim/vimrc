@@ -25,6 +25,9 @@ let &showbreak='@ '
 " Indentation
 set expandtab tabstop=4 softtabstop=4 shiftwidth=4
 
+" Show whitespaces with ':set list'
+set listchars=eol:$,tab:>·,trail:~,extends:>,precedes:<,space:·
+
 " Indent on newlines
 set smartindent
 
@@ -101,7 +104,7 @@ vnoremap <Up> :m '<-2<CR>gv=gv
 " Load opt plugins
 for plugin in readfile(expand('~/.dotfiles/vim/opt-plugins.vim'))
     " Ignore comments
-    if plugin =~ '^[^"]'
+    if plugin =~ '^[^"#]'
         let plugin = substitute(plugin, '.*/', '', '')
         exe 'packadd!' plugin
     endif

@@ -6,5 +6,5 @@ vim-airline/vim-airline
 " Filetype icons
 ryanoasis/vim-devicons
 
-# F# syntax support
+" F# syntax support
 adelarsq/neofsharp.vim
