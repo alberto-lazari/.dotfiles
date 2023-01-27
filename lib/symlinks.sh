@@ -8,14 +8,14 @@ overwrite () {
     [[ ${1:-unset} != unset ]] && file=$1 || { echo lib/symlinks.sh: \'overwrite\' function: bad usage >&2; return 1; }
 
     if [[ -L $file || -e $file ]]; then
-        while [[ ${allow_overwrite-unset} = unset || $allow_overwrite != [yYnN] ]]; do
-            read -p "WARNING: found already existing dotfiles. Overwrite them? [y/N] " allow_overwrite
+        while [[ ${ALLOW_OVERWRITE-unset} = unset || $ALLOW_OVERWRITE != [yYnN] ]]; do
+            read -p 'WARNING: found already existing dotfiles. Overwrite them? [y/N] ' ALLOW_OVERWRITE
 
-            [[ ${allow_overwrite:-empty} != empty ]] || allow_overwrite=N
-            [[ "$allow_overwrite" = [yYnN] ]] || echo 'You need to answer Y(es) or N(o) (default N)'$'\n'
+            [[ ${ALLOW_OVERWRITE:-empty} != empty ]] || ALLOW_OVERWRITE=N
+            [[ "$ALLOW_OVERWRITE" = [yYnN] ]] || echo 'You need to answer Y(es) or N(o) (default N)'$'\n'
         done
 
-        [[ "$allow_overwrite" != [yY] ]] && return 1 || rm $file
+        [[ "$ALLOW_OVERWRITE" != [yY] ]] && return 1 || rm $file
     fi
 }
 
@@ -25,8 +25,8 @@ link_files_in () {
     [[ ${1:-unset} != unset ]] && dir=$(readlink -f $1) || { echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2; return 1; }
     [[ ${2:-unset} != '-e' ]] || exclude="|$3"
 
-    # Exclude sub-directories and explicitly excluded files
-    exclude=".*/|.+.sh${exclude:-}"
+    # Exclude sub-directories, scripts and explicitly excluded files
+    exclude=".*/|.+\.sh${exclude:-}"
 
     # Loop on every file in DIRECTORY, except the excluded ones
     for file in $(ls -p --color=never $dir | grep -Ewv "$exclude"); do
