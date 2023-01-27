@@ -5,7 +5,7 @@
 # Asks for permission to overwrite FILE if it exists, and removes it if allowed
 # usage: overwrite FILE
 overwrite () {
-    [[ ${1:-unset} != unset ]] && file=$1 || { echo lib/symlinks.sh: \'overwrite\' function: bad usage >&2; return 1; }
+    [[ ${1:-unset} != unset ]] && local file=$1 || { echo lib/symlinks.sh: \'overwrite\' function: bad usage >&2; return 1; }
 
     if [[ -L $file || -e $file ]]; then
         while [[ ${ALLOW_OVERWRITE-unset} = unset || $ALLOW_OVERWRITE != [yYnN] ]]; do
@@ -22,11 +22,13 @@ overwrite () {
 # Create symlinks of files found in DIRECTORY
 # usage: link_files_in DIRECTORY [-e 'excluded|files|separated|with|pipes']
 link_files_in () {
-    [[ ${1:-unset} != unset ]] && dir=$(readlink -f $1) || { echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2; return 1; }
-    [[ ${2:-unset} != '-e' ]] || exclude="|$3"
+    [[ ${1:-unset} != unset ]] && local dir=$(readlink -f $1) || { echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2; return 1; }
+    [[ ${2:-unset} != '-e' ]] || local exclude="|$3"
 
     # Exclude sub-directories, scripts and explicitly excluded files
-    exclude=".*/|.+\.sh${exclude:-}"
+    local exclude=".*/|.+\.sh${exclude:-}"
+
+    local file
 
     # Loop on every file in DIRECTORY, except the excluded ones
     for file in $(ls -p --color=never $dir | grep -Ewv "$exclude"); do

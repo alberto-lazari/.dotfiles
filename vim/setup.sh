@@ -1,6 +1,8 @@
 #!/bin/bash -eu
 
 install_plugins () {
+    local repo
+
     # Read plugins, ignoring comments starting with " or #
     for repo in $(cat $1-plugins.vim | grep -Ev '^["#]|^$'); do
         local plugin=${repo/*\//}

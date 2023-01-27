@@ -25,6 +25,7 @@ setup () {
     # Export overwrite permission to setups
     export ALLOW_OVERWRITE
 
+    local program
     for program in "$@"; do
         ! which $program &> /dev/null || $program/setup.sh
     done
