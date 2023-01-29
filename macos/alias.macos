@@ -5,15 +5,18 @@ alias up='brew update && brew upgrade'
 finder () {
     case ${1:--} in
         -)
-            open -a Finder ;;
+            open -a Finder
+            ;;
         *.app)
-            open -R $1/$(ls -AU $1 | head -n 1) ;;
+            open -R $1/$(ls -AU $1 | head -n 1)
+            ;;
         *)
             if [[ -d $1 ]]; then
                 open $1
             else
                 open -R $1
-            fi ;;
+            fi
+            ;;
     esac
 }
 
