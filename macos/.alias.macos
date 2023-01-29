@@ -1,0 +1,23 @@
+# Homebrew
+alias up='brew update && brew upgrade'
+
+# Applications
+finder () {
+    case ${1:--} in
+        -)
+            open -a Finder ;;
+        *.app)
+            open -R $1/$(ls -AU $1 | head -n 1) ;;
+        *)
+            if [[ -d $1 ]]; then
+                open $1
+            else
+                open -R $1
+            fi ;;
+    esac
+}
+
+alias chrome='open -a "Google Chrome"'
+
+# x86
+alias x86='arch -x86_64'

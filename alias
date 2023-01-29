@@ -29,5 +29,8 @@ alias restore='git restore'
 alias unstage='git restore --staged'
 alias cleanbr='git branch -D `git branch | grep -v \* | xargs`'
 
+# Load macOS specific aliases, if present
+[[ ! -f ~/.alias.macos ]] || . ~/.alias.macos
+
 # Hook for local aliases
 [[ ! -f ~/.alias.local ]] || . ~/.alias.local
