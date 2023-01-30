@@ -28,7 +28,7 @@ link_files_in () {
     set -- ${OPTS[@]-}
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            -d) local dotfile
+            -d) local dotfile=
                 shift
                 ;;
             -e) local exclude="$2"
