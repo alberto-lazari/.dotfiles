@@ -42,7 +42,7 @@ link_files_in () {
                 ;;
         esac
     done
-    
+
     [[ ${ARGS[0]:--} != - ]] && local dir=$(readlink -f "${ARGS[0]}") || { echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2; return 1; }
 
     # Exclude sub-directories, scripts and explicitly excluded files

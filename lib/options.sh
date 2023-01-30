@@ -22,7 +22,7 @@ parse_opts () {
                 local option
 
                 # Loop on pairs of (options, argument) or just options
-                while getopts :$optstring option "$1" "${2/-*/}"; do
+                while getopts :$optstring option "$1" "${2:+${2/-*/}}"; do
                     case $option in
                         :)  echo lib/options.sh: \'parse_opts\' function: option -$OPTARG requires an argument >&2
                             return 1
