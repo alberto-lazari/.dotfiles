@@ -3,30 +3,9 @@
 print_help () {
     echo usage: install.sh [-hfs]
     echo Shell options:
-    echo -f  force existing dotfiles overwrite
-    echo -u  update repository before install
-    echo -h  print this message
-}
-
-load_options () {
-    while getopts :hfu option; do
-        case "$option" in
-            f)
-                ALLOW_OVERWRITE=y
-                ;;
-            u)
-                update=true
-                ;;
-            h)
-                print_help
-                exit 0
-                ;;
-            *)
-                print_help
-                exit 1
-                ;;
-        esac
-    done
+    echo '-f          force existing dotfiles overwrite'
+    echo '-u          update repository before install'
+    echo '-h, --help  print this message'
 }
 
 # Run PROGRAMS setups, if installed
@@ -45,7 +24,27 @@ setup () {
 
 cd $(dirname $BASH_SOURCE)
 
-load_options "$@"
+. lib/options.sh
+
+parse_opts hfu "$@" || { print_help >&2; exit 1; }
+set -- ${OPTS[@]-}
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -f) ALLOW_OVERWRITE=y
+            shift
+            ;;
+        -u) update=true
+            shift
+            ;;
+        -h|--help)
+            print_help
+            exit 0
+            ;;
+        *)  print_help >&2
+            exit 1
+            ;;
+    esac
+done
 
 # Update repo
 if ${update:-false}; then
