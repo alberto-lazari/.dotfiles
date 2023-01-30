@@ -1,7 +1,5 @@
 #!/bin/bash -eu
 
-### Collection of functions used by the install and setup scripts
-
 # Asks for permission to overwrite FILE if it exists, and removes it if allowed
 # usage: overwrite FILE
 overwrite () {
@@ -22,30 +20,25 @@ overwrite () {
 # Create symlinks of files found in DIRECTORY
 # usage: link_files_in DIRECTORY [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
 link_files_in () {
-    set -- $(getopt e:t:)
-    while [[ ${1:--} != - ]]; do
+    . $(dirname $BASH_SOURCE)/options.sh
+
+    parse_opts e:t: "$@"
+    set -- ${OPTS[@]-}
+    while [[ $# -gt 0 ]]; do
         case "$1" in
-            --)
-                shift
+            -e) local exclude="$2"
+                shift 2
                 ;;
-            -e)
-                local exclude="$2"
-                shift; shift
+            -t) local target_dir="$2"
+                shift 2
                 ;;
-            -t)
-                local target_dir="$2"
-                shift; shift
-                ;;
-            -*)
-                echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2
+            *)  echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2
                 return 1
-                ;;
-            *)
-                local dir=$(readlink -f "$2")
-                shift; shift
                 ;;
         esac
     done
+    
+    [[ ${ARGS[0]:--} != - ]] && local dir=$(readlink -f "${ARGS[0]}") || { echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2; return 1; }
 
     # Exclude sub-directories, scripts and explicitly excluded files
     local exclude=".*/|.+\.sh${exclude:+|$exclude}"
