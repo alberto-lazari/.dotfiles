@@ -56,7 +56,7 @@ fi
 # Load functions
 . lib/symlinks.sh
 
-link_files_in . -e readme.md
-[[ $(uname) != Darwin ]] || link_files_in macos
+link_files_in . -de readme.md
+[[ $(uname) != Darwin ]] || link_files_in macos -d
 
 setup vim zsh

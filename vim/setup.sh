@@ -21,7 +21,7 @@ package=dotfiles
 . ../lib/symlinks.sh
 
 [[ -d ~/.vim ]] || mkdir ~/.vim
-! overwrite ~/.vim/vimrc || ln -s $(readlink -f vimrc) ~/.vim/vimrc
+link_files_in . -t ~/.vim
 
 install_plugins start
 install_plugins opt

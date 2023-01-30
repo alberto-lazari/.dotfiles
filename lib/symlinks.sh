@@ -18,14 +18,19 @@ overwrite () {
 }
 
 # Create symlinks of files found in DIRECTORY
-# usage: link_files_in DIRECTORY [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
+# usage: link_files_in DIRECTORY [-d] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
+# options:
+# -d    link as dotfile
 link_files_in () {
     . $(dirname $BASH_SOURCE)/options.sh
 
-    parse_opts e:t: "$@"
+    parse_opts de:t: "$@"
     set -- ${OPTS[@]-}
     while [[ $# -gt 0 ]]; do
         case "$1" in
+            -d) local dotfile
+                shift
+                ;;
             -e) local exclude="$2"
                 shift 2
                 ;;
@@ -47,7 +52,7 @@ link_files_in () {
     # Loop on every file in DIRECTORY, except the excluded ones
     for file in $(ls -p --color=never "$dir" | grep -Ewv "$exclude"); do
         local actual_file="$dir/$file"
-        local target_file="${target_dir:-$HOME}/.$file"
+        local target_file="${target_dir:-$HOME}/${dotfile+.}$file"
 
         # Check permission to overwrite (if necessary) and create the symlink
         ! overwrite "$target_file" || ln -s "$actual_file" "$target_file"

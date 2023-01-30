@@ -30,4 +30,4 @@ done
 . ../lib/symlinks.sh
 
 # Create symlinks after the installations
-link_files_in . -e plugins.zsh
+link_files_in . -de plugins.zsh

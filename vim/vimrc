@@ -102,7 +102,7 @@ vnoremap <Up> :m '<-2<CR>gv=gv
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Load opt plugins
-for plugin in readfile(expand('~/.dotfiles/vim/opt-plugins.vim'))
+for plugin in readfile(expand('~/.vim/opt-plugins.vim'))
     " Ignore comments
     if plugin =~ '^[^"#]'
         let plugin = substitute(plugin, '.*/', '', '')
