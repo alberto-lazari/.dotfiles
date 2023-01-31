@@ -34,8 +34,8 @@ set smartindent
 " Allow backspace
 set backspace=2
 
-" Show pattern match results. Default case-insensitive search
-set incsearch ignorecase smartcase
+" Show pattern match results. Default case-insensitive search on all line occurrences
+set incsearch ignorecase smartcase gdefault
 
 " Enable syntax highlighting
 syntax on
