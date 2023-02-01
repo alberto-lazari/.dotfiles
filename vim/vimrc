@@ -1,6 +1,3 @@
-" Theme
-colorscheme onedark
-
 " Always display status line
 set laststatus=2
 
@@ -101,14 +98,19 @@ vnoremap <Up> :m '<-2<CR>gv=gv
 
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Load opt plugins
-for plugin in readfile(expand('~/.vim/opt-plugins.vim'))
-    " Ignore comments
-    if plugin =~ '^[^"#]'
-        let plugin = substitute(plugin, '.*/', '', '')
-        exe 'packadd!' plugin
-    endif
-endfor
+if isdirectory(expand('~/.vim/pack/dotfiles'))
+    " Load opt plugins
+    for plugin in readfile(expand('~/.vim/opt-plugins.vim'))
+        " Ignore comments
+        if plugin =~ '^[^"#]'
+            let plugin = substitute(plugin, '.*/', '', '')
+            exe 'packadd!' plugin
+        endif
+    endfor
 
-" Enable buffers line
-let g:airline#extensions#tabline#enabled = 1
+    " Theme
+    colorscheme onedark
+
+    " Enable buffers line
+    let g:airline#extensions#tabline#enabled = 1
+endif
