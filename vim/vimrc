@@ -19,7 +19,7 @@ set linebreak breakindent
 " Identify wrapped lines with @ and indentation
 let &showbreak='@ '
 
-" Indentation
+" Indent with 4 spaces
 set expandtab tabstop=4 softtabstop=4 shiftwidth=4
 
 " Show whitespaces with ':set list'
@@ -28,11 +28,8 @@ set listchars=eol:$,tab:>·,trail:~,extends:>,precedes:<,space:·
 " Indent on newlines
 set smartindent
 
-" Allow backspace
-set backspace=2
-
-" Show pattern match results. Default case-insensitive search on all line occurrences
-set incsearch ignorecase smartcase gdefault
+" Show pattern match results. Default case-insensitive search
+set incsearch ignorecase smartcase
 
 " Enable syntax highlighting
 syntax on
