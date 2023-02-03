@@ -2,3 +2,6 @@
 
 " One Dark theme
 joshdick/onedark.vim
+
+" F# syntax support
+adelarsq/neofsharp.vim

@@ -1,48 +1,33 @@
 " Always display status line
 set laststatus=2
-
 " Window title format: 'vim - file [+-=] (1 of n)'
 set title titlestring=vim\ -\ %t%(\ [%M]%)%a
-
 " Show horizontal cursor line
 set cursorline
-
 " Show line numbers relative to the current one
 set number relativenumber
-
 " Scroll when over number of lines
 set scrolloff=2
-
 " Wrap preserving words and indentation
 set linebreak breakindent
-
 " Identify wrapped lines with @ and indentation
 let &showbreak='@ '
-
 " Indent with 4 spaces
 set expandtab tabstop=4 softtabstop=4 shiftwidth=4
-
 " Show whitespaces with ':set list'
 set listchars=eol:$,tab:>·,trail:~,extends:>,precedes:<,space:·
-
 " Indent on newlines
 set smartindent
-
 " Show pattern match results. Default case-insensitive search
 set incsearch ignorecase smartcase
-
 " Enable syntax highlighting
 syntax on
-
 " No '-- INSERT --' in status line
 set noshowmode
-
 " Show partial command while typing it
 set showcmd
-
 " No ESC delay
 set timeoutlen=1000 ttimeoutlen=0
-
 " Allow buffers to keep unsaved changes
 set hidden
 
@@ -65,7 +50,6 @@ endif
 
 " Temp files
 set noswapfile nobackup undodir=~/.vim/undodir undofile
-
 " Move .viminfo file
 set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
 "           | |    |   |   |    | |  + viminfo file path
@@ -80,18 +64,6 @@ set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
 " Mouse support
 " Drains a crazy amount of battery power if enabled
 " set mouse=a
-
-
-" Custom mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Move lines with Up/Down
-nnoremap <Down> :m .+1<CR>==
-nnoremap <Up> :m .-2<CR>==
-inoremap <Down> <Esc>:m .+1<CR>==gi
-inoremap <Up> <Esc>:m .-2<CR>==gi
-vnoremap <Down> :m '>+1<CR>gv=gv
-vnoremap <Up> :m '<-2<CR>gv=gv
-
 
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -110,4 +82,27 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
 
     " Enable buffers line
     let g:airline#extensions#tabline#enabled = 1
+    " Show filename only in buffers line
+    let g:airline#extensions#tabline#formatter = 'unique_tail'
+    " Don't show encoding if it is default one
+    let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+    " Goes inactive when focus lost
+    let g:airline_focuslost_inactive = 1
+    " Always show the mode part
+    call airline#parts#define_minwidth('mode', 0)
+
+    " Enable powerline fonts
+    " let g:airline_powerline_fonts = 1
+    " Hide empty sections
+    " let g:airline_skip_empty_sections = 1
+
+    " Thousand separated line numbers
+    function! LineNumber()
+        return substitute(line('.'), '\d\@<=\(\(\d\{3\}\)\+\)$', ',&', 'g') . '/' .
+        \   substitute(line('$'), '\d\@<=\(\(\d\{3\}\)\+\)$', ',&', 'g')
+    endfunction
+
+    call airline#parts#define('linenumber', {'function': 'LineNumber'})
+
+    let g:airline_section_z = airline#section#create(['ln ', 'linenumber', ' col ', '%v'])
 endif
