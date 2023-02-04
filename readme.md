@@ -1,16 +1,16 @@
 # Dotfiles
 My personal collection of dotfiles for MacOS and Linux that I currently use.
 
-If you are reading this you may be interested in the way I configure and use my \*NIX systems or in finding a complete and robust configuration for your system. If the latter is your case, I'm sorry to say that you are in the wrong place. The world is not perfect and so am I...
+If you are reading this you may be interested in the way I configure and use my \*NIX systems or in finding a complete and robust configuration for your system. If the latter is your case, I'm sorry to say that you are looking in the wrong place. The world is not perfect and so am I...
 
 ## Installation
 Use the [`install.sh`](install.sh) automated script to create symlinks on your home directory. The script is completely automated and installs based on platform (macOS/Linux) and installed programs (vim, zsh)
 
 ### Custom setup
-Every optional program configuration is configured with a `program/setup.sh` script, that cares about installing the base configuration, along with custom plugins
+Every optional program configuration is configured with a `program/setup.sh` script, that cares about installing the base configuration, along with custom plugins. This way, running the setup once, gets you a completely ready-to-use environment
 
 ## Local hooks
-[`.zshrc`](macos/zshrc), [`.bashrc`](bashrc) and [`.alias`](alias) use hooks to add local configurations to each file respectively.
+[`.zshrc`](macos/zshrc), [`.bashrc`](bashrc) and [`.alias`](alias) use hooks to add local configurations to each file respectively
 
 For instance, my general `.bashrc` could be like this:
 ```bash
