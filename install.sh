@@ -49,7 +49,7 @@ if ${update:-false}; then
     if git pull -q origin main; then
         update=false
         # Install using the eventually updated script
-        exec install.sh
+        exec ./install.sh
     fi
 fi
 
