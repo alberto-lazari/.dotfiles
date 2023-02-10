@@ -21,6 +21,8 @@ overwrite () {
 # usage: link_files_in DIRECTORY [-d] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
 # options:
 # -d    link as dotfile
+# -e    exclude files
+# -t    directory to put links in
 link_files_in () {
     . $(dirname $BASH_SOURCE)/options.sh
 
@@ -55,6 +57,9 @@ link_files_in () {
         local target_file="${target_dir:-$HOME}/${dotfile+.}$file"
 
         # Check permission to overwrite (if necessary) and create the symlink
-        ! overwrite "$target_file" || ln -s "$actual_file" "$target_file"
+        if overwrite "$target_file"; then
+            [[ ${verbose+set} != set ]] || echo Creating link: ${target_file/$HOME/\~}
+            ln -s "$actual_file" "$target_file"
+        fi
     done
 }
