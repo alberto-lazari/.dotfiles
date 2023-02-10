@@ -38,16 +38,15 @@ parse_opts () {
 
                 # Double shift only if an argument was provided
                 ${arg-false} && shift
-                shift
                 ;;
             --*)
                 OPTS+=("$1")
-                shift
                 ;;
             *)
                 ARGS+=("$1")
-                shift
                 ;;
         esac
+
+        shift
     done
 }

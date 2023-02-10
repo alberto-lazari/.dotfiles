@@ -9,7 +9,7 @@ install_plugins () {
 
         if [[ ! -d ~/.vim/pack/$package/$1/$plugin ]]; then
             echo Installing vim plugin: $plugin...
-            git clone https://github.com/$repo ~/.vim/pack/$package/$1/$plugin 2> /dev/null
+            git clone -q https://github.com/$repo ~/.vim/pack/$package/$1/$plugin
         fi
     done
 }

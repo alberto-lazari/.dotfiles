@@ -13,7 +13,7 @@ fi
 
 if [[ ! -d $ZSH_CUSTOM/themes/powerlevel10k ]]; then
     echo Installing Powerlevel10k theme...
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k 2> /dev/null
+    git clone -q --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 fi
 
 # Install custom plugins
@@ -22,7 +22,7 @@ for repo in $(cat plugins.zsh | grep -Ev '^#|^$'); do
 
     if [[ ! -d $ZSH_CUSTOM/plugins/$plugin ]]; then
         echo Installing zsh plugin: $plugin...
-        git clone https://github.com/$repo $ZSH_CUSTOM/plugins/$plugin 2> /dev/null
+        git clone -q https://github.com/$repo $ZSH_CUSTOM/plugins/$plugin
     fi
 done
 

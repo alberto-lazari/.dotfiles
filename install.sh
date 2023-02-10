@@ -30,12 +30,8 @@ parse_opts hfu "$@" || { print_help >&2; exit 1; }
 set -- ${OPTS[@]-}
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        -f) ALLOW_OVERWRITE=y
-            shift
-            ;;
-        -u) update=true
-            shift
-            ;;
+        -f) ALLOW_OVERWRITE=y;;
+        -u) update=true;;
         -h|--help)
             print_help
             exit 0
@@ -44,12 +40,17 @@ while [[ $# -gt 0 ]]; do
             exit 1
             ;;
     esac
+    shift
 done
 
 # Update repo
 if ${update:-false}; then
     echo Updating repository...
-    git pull origin main > /dev/null
+    if git pull -q origin main; then
+        update=false
+        # Install using the eventually updated script
+        exec install.sh
+    fi
 fi
 
 # Load functions

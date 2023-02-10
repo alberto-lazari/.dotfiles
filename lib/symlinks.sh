@@ -7,7 +7,7 @@ overwrite () {
 
     if [[ -L "$file" || -e "$file" ]]; then
         while [[ ${ALLOW_OVERWRITE-unset} = unset || $ALLOW_OVERWRITE != [yYnN] ]]; do
-            read -p 'WARNING: found already existing dotfiles. Overwrite them? [y/N] ' ALLOW_OVERWRITE
+            read -p 'WARNING: existing dotfiles found. Overwrite them? [y/N] ' ALLOW_OVERWRITE
 
             [[ ${ALLOW_OVERWRITE:-empty} != empty ]] || ALLOW_OVERWRITE=N
             [[ "$ALLOW_OVERWRITE" = [yYnN] ]] || echo 'You need to answer Y(es) or N(o) (default N)'$'\n'
@@ -29,18 +29,18 @@ link_files_in () {
     while [[ $# -gt 0 ]]; do
         case "$1" in
             -d) local dotfile=
-                shift
                 ;;
             -e) local exclude="$2"
-                shift 2
+                shift
                 ;;
             -t) local target_dir="$2"
-                shift 2
+                shift
                 ;;
             *)  echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2
                 return 1
                 ;;
         esac
+        shift
     done
 
     [[ ${ARGS[0]:--} != - ]] && local dir=$(readlink -f "${ARGS[0]}") || { echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2; return 1; }
