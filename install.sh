@@ -58,7 +58,7 @@ if ${update-false}; then
         git pull -q origin main
     fi
 
-    if $?; then
+    if [[ $? = 0]]; then
         update=false
         # Install using the eventually updated script
         exec ./install.sh
