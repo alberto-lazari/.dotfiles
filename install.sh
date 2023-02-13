@@ -31,7 +31,7 @@ set -- ${OPTS[@]-}
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -f|--force)
-            ALLOW_OVERWRITE=Y;;
+            export ALLOW_OVERWRITE=Y;;
         -s|--silent|--quiet)
             silent=true;;
         -u|--update)
@@ -59,9 +59,8 @@ if ${update-false}; then
     fi
 
     if [[ $? = 0 ]]; then
-        update=false
         # Install using the eventually updated script
-        exec ./install.sh
+        exec ./install.sh ${silent+-s} ${verbose+-v}
     fi
 fi
 
