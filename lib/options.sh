@@ -33,11 +33,15 @@ parse_opts () {
                     esac
 
                     OPTS+=(-$option "${OPTARG-}")
-                    [[ "${OPTARG:--}" = - ]] || local arg=true
+                    if [[ "${OPTARG:--}" = - ]]; then
+                        local arg=false
+                    else
+                        local arg=true
+                    fi
                 done
 
                 # Double shift only if an argument was provided
-                ${arg-false} && shift
+                ! $arg || shift
                 ;;
             --*)
                 OPTS+=("$1")

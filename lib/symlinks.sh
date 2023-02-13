@@ -1,43 +1,27 @@
-#!/bin/bash -eu
-
-# Asks for permission to overwrite FILE if it exists, and removes it if allowed
-# usage: overwrite FILE
-overwrite () {
-    [[ ${1:-unset} != unset ]] && local file="$1" || { echo lib/symlinks.sh: \'overwrite\' function: bad usage >&2; return 1; }
-
-    if [[ -L "$file" || -e "$file" ]]; then
-        while [[ ${ALLOW_OVERWRITE-unset} = unset || $ALLOW_OVERWRITE != [yYnN] ]]; do
-            read -p 'WARNING: existing dotfiles found. Overwrite them? [y/N] ' ALLOW_OVERWRITE
-
-            [[ ${ALLOW_OVERWRITE:-empty} != empty ]] || ALLOW_OVERWRITE=N
-            [[ "$ALLOW_OVERWRITE" = [yYnN] ]] || echo 'You need to answer Y(es) or N(o) (default N)'$'\n'
-        done
-
-        [[ "$ALLOW_OVERWRITE" != [yY] ]] && return 1 || rm "$file"
-    fi
-}
-
 # Create symlinks of files found in DIRECTORY
-# usage: link_files_in DIRECTORY [-d] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
+# usage: link_files_in DIRECTORY [-dv] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
 # options:
-# -d    link as dotfile
-# -e    exclude files
-# -t    directory to put links in
+# -d, --as-dotfile  link as dotfile
+# -e                exclude files
+# -t                directory to put links in
+# -v, --verbose     print detailed log messages
 link_files_in () {
     . $(dirname $BASH_SOURCE)/options.sh
 
-    parse_opts de:t: "$@"
+    parse_opts de:t:v "$@"
     set -- ${OPTS[@]-}
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            -d) local dotfile=
-                ;;
+            -d|--as-dotfile)
+                local dotfile=true;;
             -e) local exclude="$2"
                 shift
                 ;;
             -t) local target_dir="$2"
                 shift
                 ;;
+            -v|--verbose)
+                local verbose=true;;
             *)  echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2
                 return 1
                 ;;
@@ -48,7 +32,7 @@ link_files_in () {
     [[ ${ARGS[0]:--} != - ]] && local dir=$(readlink -f "${ARGS[0]}") || { echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2; return 1; }
 
     # Exclude sub-directories, scripts and explicitly excluded files
-    local exclude=".*/|.+\.sh${exclude:+|$exclude}"
+    local exclude=".*/|.+\.sh${exclude+|$exclude}"
     local file
 
     # Loop on every file in DIRECTORY, except the excluded ones
@@ -56,9 +40,31 @@ link_files_in () {
         local actual_file="$dir/$file"
         local target_file="${target_dir:-$HOME}/${dotfile+.}$file"
 
-        # Check permission to overwrite (if necessary) and create the symlink
-        if overwrite "$target_file"; then
-            [[ ${verbose+set} != set ]] || echo Creating link: ${target_file/$HOME/\~}
+        if [[ -L "$target_file" || -e "$target_file" ]]; then
+            # Check permissions to overwrite the existing file
+            while [[ "${ALLOW_OVERWRITE:--}" = - || "$ALLOW_OVERWRITE" != [yYnN] ]]; do
+                read -p 'WARNING: existing dotfiles found. Overwrite them? [y/N] ' ALLOW_OVERWRITE
+
+                [[ "${ALLOW_OVERWRITE:--}" != - ]] || ALLOW_OVERWRITE=N
+
+                [[ "$ALLOW_OVERWRITE" = [yYnN] ]] || echo 'You need to answer Y(es) or N(o) (default N)'$'\n' >&2
+            done
+
+            case $ALLOW_OVERWRITE in
+                [yY])
+                    ! ${verbose-false} || echo Replacing file: ${target_file/$HOME/\~}
+                    rm "$target_file"
+                    ln -s "$actual_file" "$target_file"
+                    ;;
+                [nN])
+                    ! ${verbose-false} || echo Skipping file: ${target_file/$HOME/\~}
+                    ;;
+                *)  echo lib/symlinks.sh: programming error >&2
+                    return 2
+                    ;;
+            esac
+        else
+            ! ${verbose-false} || echo Creating link: ${target_file/$HOME/\~}
             ln -s "$actual_file" "$target_file"
         fi
     done

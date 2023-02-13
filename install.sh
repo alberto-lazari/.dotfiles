@@ -18,10 +18,8 @@ setup () {
 
     local program
     for program in "$@"; do
-        ! which $program &> /dev/null || $program/setup.sh
+        ! which $program &> /dev/null || $program/setup.sh ${verbose+-v}
     done
-
-    unset ALLOW_OVERWRITE
 }
 
 cd $(dirname $BASH_SOURCE)
@@ -33,13 +31,13 @@ set -- ${OPTS[@]-}
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -f|--force)
-            ALLOW_OVERWRITE=y;;
+            ALLOW_OVERWRITE=Y;;
         -s|--silent|--quiet)
-            export silent=;;
+            silent=true;;
         -u|--update)
             update=true;;
         -v|--verbose)
-            export verbose=;;
+            verbose=true;;
         -h|--help)
             print_help
             exit 0
@@ -52,19 +50,24 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Update repo
-if ${update:-false}; then
+if ${update-false}; then
     echo Updating repository...
-    if git pull ${verbose--q} origin main; then
+    if ${verbose-false}; then
+        git pull origin main
+    else
+        git pull -q origin main
+    fi
+
+    if $?; then
         update=false
         # Install using the eventually updated script
         exec ./install.sh
     fi
 fi
 
-# Load functions
 . lib/symlinks.sh
 
-link_files_in . -de readme.md
-[[ $(uname) != Darwin ]] || link_files_in macos -d
+link_files_in . -e readme.md --as-dotfile ${verbose+-v}
+[[ $(uname) != Darwin ]] || link_files_in macos --as-dotfile ${verbose+-v}
 
 setup vim zsh
