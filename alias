@@ -22,12 +22,13 @@ alias feature='git-flow feature'
 cf () {
     git checkout "feature/$1"
 }
-alias c='git commit -m'
+alias c='git commit -am'
+alias commit='git commit -m'
 alias rmbr='git branch -d'
-alias publish='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
+alias publish='git push -u origin $(git branch --show-current)'
 alias restore='git restore'
 alias unstage='git restore --staged'
-alias cleanbr='git branch -D `git branch | grep -v \* | xargs`'
+alias cleanbr='git branch -D $(git branch | grep -v \*)'
 
 # Load macOS specific aliases, if present
 [[ ! -f ~/.alias.macos ]] || . ~/.alias.macos
