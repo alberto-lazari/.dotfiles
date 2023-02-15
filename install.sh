@@ -26,7 +26,10 @@ cd $(dirname $BASH_SOURCE)
 
 . lib/options.sh
 
-parse_opts hfsuv "$@" || { print_help >&2; exit 1; }
+parse_opts hfsuv "$@" || {
+    print_help >&2
+    exit 1
+}
 set -- ${OPTS[@]-}
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -51,7 +54,7 @@ done
 
 # Update repo
 if [[ "${update+true}" = true ]]; then
-    echo Updating repository...
+    [[ "${silent+true}" = true ]] || echo Updating repository...
     git pull ${verbose--q} origin main
 
     if [[ $? = 0 ]]; then
