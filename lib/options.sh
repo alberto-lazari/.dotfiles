@@ -1,5 +1,3 @@
-#!/bin/bash -eu
-
 # Returns the expanded options, with thier arguments, and positional arguments respectively in the OPTS and ARGS array
 # usage: parse_opts optstring [params ...]
 #
