@@ -53,14 +53,12 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Update repo
-if [[ "${update+true}" = true ]]; then
-    [[ "${silent+true}" = true ]] || echo Updating repository...
+if [[ -n "${update+set}" ]]; then
+    [[ -n "${silent+set}" ]] || echo Updating repository...
     git pull ${verbose--q} origin main
 
-    if [[ $? = 0 ]]; then
-        # Install using the eventually updated script
-        exec ./install.sh ${silent+-s} ${verbose+-v}
-    fi
+    # Install using the updated script
+    exec ./install.sh ${silent+-s} ${verbose+-v}
 fi
 
 . lib/symlinks.sh

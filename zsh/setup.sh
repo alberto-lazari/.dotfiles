@@ -42,12 +42,12 @@ ZSH=${ZSH:-~/.oh-my-zsh}
 ZSH_CUSTOM=${ZSH_CUSTOM:-$ZSH/custom}
 
 if [[ ! -d $ZSH ]]; then
-    [[ "${silent+true}" = true ]] || echo 'Installing Oh My Zsh... (once completed exit the prompt to continue with the installation)'
+    [[ -n "${silent+set}" ]] || echo 'Installing Oh My Zsh... (once completed exit the prompt to continue with the installation)'
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" ${verbose-&> /dev/null}
 fi
 
 if [[ ! -d $ZSH_CUSTOM/themes/powerlevel10k ]]; then
-    [[ "${silent+true}" = true ]] || echo Installing Powerlevel10k theme...
+    [[ -n "${silent+set}" ]] || echo Installing Powerlevel10k theme...
     git clone ${verbose--q} --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 fi
 
@@ -56,7 +56,7 @@ for repo in $(grep -Ev '^#|^$' < plugins.zsh); do
     plugin=${repo/*\//}
 
     if [[ ! -d $ZSH_CUSTOM/plugins/$plugin ]]; then
-        [[ "${silent+true}" = true ]] || echo Installing zsh plugin: $plugin...
+        [[ -n "${silent+set}" ]] || echo Installing zsh plugin: $plugin...
         git clone ${verbose--q} https://github.com/$repo $ZSH_CUSTOM/plugins/$plugin
     fi
 done

@@ -53,26 +53,26 @@ link_files_in () {
             while [[ -z "${ALLOW_OVERWRITE-}" || "$ALLOW_OVERWRITE" != [yYnN] ]]; do
                 read -p 'WARNING: existing dotfiles found. Overwrite them? (y/N) ' ALLOW_OVERWRITE
 
-                [[ ! -z "${ALLOW_OVERWRITE-}" ]] || ALLOW_OVERWRITE=N
+                [[ -n "${ALLOW_OVERWRITE-}" ]] || ALLOW_OVERWRITE=N
 
                 [[ "$ALLOW_OVERWRITE" = [yYnN] ]] || echo "You need to answer Y(es) or N(o) (default N)\n" >&2
             done
 
             case $ALLOW_OVERWRITE in
                 [yY])
-                    [[ "${silent+true}" = true ]] || echo Replacing file: ${target_file/$HOME/\~}
+                    [[ -n "${silent+set}" ]] || echo Replacing file: ${target_file/$HOME/\~}
                     rm "$target_file"
                     ln -s "$actual_file" "$target_file"
                     ;;
                 [nN])
-                    [[ "${silent+true}" = true ]] || echo Skipping file: ${target_file/$HOME/\~}
+                    [[ -n "${silent+set}" ]] || echo Skipping file: ${target_file/$HOME/\~}
                     ;;
                 *)  echo lib/symlinks.sh: programming error >&2
                     return 2
                     ;;
             esac
         else
-            [[ "${silent+true}" = true ]] || echo Creating link: ${target_file/$HOME/\~}
+            [[ -n "${silent+set}" ]] || echo Creating link: ${target_file/$HOME/\~}
             ln -s "$actual_file" "$target_file"
         fi
     done

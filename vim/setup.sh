@@ -49,7 +49,7 @@ for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
     plugin=${repo/*\//}
 
     if [[ ! -d ~/.vim/pack/$package/opt/$plugin ]]; then
-        [[ "${silent+true}" = true ]] || echo Installing vim plugin: $plugin...
+        [[ -n "${silent+set}" ]] || echo Installing vim plugin: $plugin...
         git clone ${verbose--q} https://github.com/$repo ~/.vim/pack/$package/opt/$plugin
     fi
 done
