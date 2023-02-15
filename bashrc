@@ -8,9 +8,10 @@ set -o vi
 KEYTIMEOUT=1
 
 # Custom prompt
-PS1='\[\e[1;34m\]\w '
-PS1+='\[\e[0m\]$ '
-export PS1
+export PS1="\n\[\e[1;34m\]\w"
+# Git branch
+PS1+="\[\e[0m\]\$(git status &> /dev/null && echo ' on') \[\e[32m\]\$(git branch --show-current 2> /dev/null)\n"
+PS1+="\[\e[0m\]$ "
 
 # Load custom aliases
 [[ ! ( -L ~/.alias || -f ~/.alias ) ]] || . ~/.alias
