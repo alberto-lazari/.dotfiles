@@ -13,16 +13,19 @@ cd $(dirname $BASH_SOURCE)
 
 . ../lib/options.sh
 
-parse_opts hfsv "$@" || { print_help >&2; exit 1; }
+parse_opts hfsv "$@" || {
+    print_help >&2
+    exit 1
+}
 set -- ${OPTS[@]-}
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -f|--force)
             ALLOW_OVERWRITE=Y;;
         -s|--silent|--quiet)
-            silent=true;;
+            silent=;;
         -v|--verbose)
-            verbose=true;;
+            verbose=;;
         -h|--help)
             print_help
             exit 0
@@ -46,11 +49,7 @@ for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
     plugin=${repo/*\//}
 
     if [[ ! -d ~/.vim/pack/$package/opt/$plugin ]]; then
-        echo Installing vim plugin: $plugin...
-        if ${verbose-false}; then
-            git clone https://github.com/$repo ~/.vim/pack/$package/opt/$plugin
-        else
-            git clone -q https://github.com/$repo ~/.vim/pack/$package/opt/$plugin
-        fi
+        [[ "${silent+true}" = true ]] || echo Installing vim plugin: $plugin...
+        git clone ${verbose--q} https://github.com/$repo ~/.vim/pack/$package/opt/$plugin
     fi
 done

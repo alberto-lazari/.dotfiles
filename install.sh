@@ -18,7 +18,7 @@ setup () {
 
     local program
     for program in "$@"; do
-        ! which $program &> /dev/null || $program/setup.sh ${verbose+-v}
+        ! which $program &> /dev/null || $program/setup.sh ${silent+-s} ${verbose+-v}
     done
 }
 
@@ -33,11 +33,11 @@ while [[ $# -gt 0 ]]; do
         -f|--force)
             export ALLOW_OVERWRITE=Y;;
         -s|--silent|--quiet)
-            silent=true;;
+            silent=;;
         -u|--update)
-            update=true;;
+            update=;;
         -v|--verbose)
-            verbose=true;;
+            verbose=;;
         -h|--help)
             print_help
             exit 0
@@ -50,13 +50,9 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Update repo
-if ${update-false}; then
+if [[ "${update+true}" = true ]]; then
     echo Updating repository...
-    if ${verbose-false}; then
-        git pull origin main
-    else
-        git pull -q origin main
-    fi
+    git pull ${verbose--q} origin main
 
     if [[ $? = 0 ]]; then
         # Install using the eventually updated script
@@ -66,7 +62,9 @@ fi
 
 . lib/symlinks.sh
 
-link_files_in . -e readme.md --as-dotfile ${verbose+-v}
-[[ $(uname) != Darwin ]] || link_files_in macos --as-dotfile ${verbose+-v}
+link_files_in base --as-dotfile ${silent+-s} ${verbose+-v}
+if [[ $(uname) = Darwin ]]; then
+    link_files_in macos --as-dotfile ${silent+-s} ${verbose+-v}
+fi
 
 setup vim zsh

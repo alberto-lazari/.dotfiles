@@ -16,7 +16,10 @@ parse_opts () {
     ARGS=()
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            -[^-]*)
+            --*)
+                OPTS+=("$1")
+                ;;
+            -*)
                 # Reset index every time, since getopts get called multiple times
                 OPTIND=1
                 local option
@@ -42,9 +45,6 @@ parse_opts () {
 
                 # Double shift only if an argument was provided
                 ! $arg || shift
-                ;;
-            --*)
-                OPTS+=("$1")
                 ;;
             *)
                 ARGS+=("$1")
