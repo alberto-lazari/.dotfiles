@@ -43,7 +43,7 @@ ZSH_CUSTOM=${ZSH_CUSTOM:-$ZSH/custom}
 
 if [[ ! -d $ZSH ]]; then
     [[ -n "${silent+set}" ]] || echo 'Installing Oh My Zsh... (once completed exit the prompt to continue with the installation)'
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" ${verbose-&> /dev/null}
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" &> /dev/null
 fi
 
 if [[ ! -d $ZSH_CUSTOM/themes/powerlevel10k ]]; then
