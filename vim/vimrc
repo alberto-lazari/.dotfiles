@@ -1,9 +1,5 @@
-" Always display status line
-set laststatus=2
 " Window title format: 'vim - file [+-=] (1 of n)'
 set title titlestring=vim\ -\ %t%(\ [%M]%)%a
-" Show horizontal cursor line
-set cursorline
 " Show line numbers relative to the current one
 set number relativenumber
 " Scroll when over number of lines
@@ -22,8 +18,6 @@ set smartindent
 set incsearch ignorecase smartcase
 " Enable syntax highlighting
 syntax on
-" No '-- INSERT --' in status line
-set noshowmode
 " Show partial command while typing it
 set showcmd
 " No ESC delay
@@ -69,7 +63,7 @@ set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if isdirectory(expand('~/.vim/pack/dotfiles'))
     " Load opt plugins
-    for plugin in readfile(expand('~/.vim/opt-plugins.vim'))
+    for plugin in readfile(expand('~/.vim/plugins.vim'))
         " Ignore comments
         if plugin =~ '^[^"#]'
             let plugin = substitute(plugin, '.*/', '', '')
@@ -79,6 +73,10 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
 
     " Theme
     colorscheme onedark
+    " Show horizontal cursor line when using colorscheme
+    set cursorline
+    " No '-- INSERT --' in status line
+    set noshowmode
 
     " Enable buffers line
     let g:airline#extensions#tabline#enabled = 1

@@ -9,24 +9,6 @@ print_help () {
     echo '-h, --help             print this message'
 }
 
-install_plugins () {
-    local repo
-
-    # Read plugins, ignoring comments starting with " or #
-    for repo in $(cat $1-plugins.vim | grep -Ev '^["#]|^$'); do
-        local plugin=${repo/*\//}
-
-        if [[ ! -d ~/.vim/pack/$package/$1/$plugin ]]; then
-            echo Installing vim plugin: $plugin...
-            if ${verbose-false}; then
-                git clone https://github.com/$repo ~/.vim/pack/$package/$1/$plugin
-            else
-                git clone -q https://github.com/$repo ~/.vim/pack/$package/$1/$plugin
-            fi
-        fi
-    done
-}
-
 cd $(dirname $BASH_SOURCE)
 
 . ../lib/options.sh
@@ -59,5 +41,16 @@ package=dotfiles
 [[ -d ~/.vim ]] || mkdir ~/.vim
 link_files_in . -t ~/.vim ${verbose+-v}
 
-install_plugins start
-install_plugins opt
+# Read plugins, ignoring comments starting with " or #
+for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
+    plugin=${repo/*\//}
+
+    if [[ ! -d ~/.vim/pack/$package/opt/$plugin ]]; then
+        echo Installing vim plugin: $plugin...
+        if ${verbose-false}; then
+            git clone https://github.com/$repo ~/.vim/pack/$package/opt/$plugin
+        else
+            git clone -q https://github.com/$repo ~/.vim/pack/$package/opt/$plugin
+        fi
+    fi
+done
