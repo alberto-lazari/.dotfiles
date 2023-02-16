@@ -6,11 +6,21 @@ If you are reading this you may be interested in the way I configure and use my 
 ## Installation
 Use the [`install.sh`](install.sh) automated script to create symlinks on your home directory. The script is completely automated and installs based on platform (macOS/Linux) and installed programs (vim, zsh)
 
-### Custom setup
+`-h or --help` for usage and available options
+
+## Custom setup
 Every optional program configuration is configured with a `program/setup.sh` script, that cares about installing the base configuration, along with custom plugins. This way, running the setup once, gets you a completely ready-to-use environment
 
+### Vim
+The vim configuration is done using the specific [`vim/setup.sh`](vim/setup.sh), that puts [`vimrc`](vim/vimrc) and the specified plugins in `~/.vim/`
+
+All the specified plugins in [`plugins.vim`](vim/plugins.vim) will be installed and enabled by vim on startup, and can be ignored by running vim with `vim --noplugin`
+
+### Zsh
+Similarly to vim, zsh configuration is handled by [`zsh/setup.sh`](zsh/setup.sh). It creates relevant symlinks and installs Oh My Zsh, if not already present on the system. It also installs all the plugins listed in [`plugins.zsh`](zsh/plugins.zsh), the file used to enable them in [`.zshrc`](zsh/zshrc) too
+
 ## Local hooks
-[`.zshrc`](macos/zshrc), [`.bashrc`](bashrc) and [`.alias`](alias) use hooks to add local configurations to each file respectively
+[`.zshrc`](zsh/zshrc), [`.bashrc`](base/bashrc) and [`.alias`](base/alias) use hooks to add local configurations to each file respectively
 
 For instance, my general `.bashrc` could be like this:
 ```bash
@@ -25,7 +35,7 @@ Then, for a specific configuration I want to add to my `.bashrc.local` this:
 ```bash
 neofetch
 
-export PATH=".:$PATH"
+export PATH="/custom/path/bin:$PATH"
 ```
 
 `.bashrc.local` will not be versioned in this repo, this way I can have a global configuration and local small changes, depending on the system I am using
