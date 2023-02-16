@@ -22,16 +22,16 @@ Similarly to vim, zsh configuration is handled by [`zsh/setup.sh`](zsh/setup.sh)
 ## Local hooks
 [`.zshrc`](zsh/zshrc), [`.bashrc`](base/bashrc) and [`.alias`](base/alias) use hooks to add local configurations to each file respectively
 
-For instance, my general `.bashrc` could be like this:
+For instance, the general `.bashrc` could be like this:
 ```bash
-export PS1='\$ '
+export PS1='$ '
 
 export PATH="$HOME/bin:$PATH"
 
 ...
 ```
 
-Then, for a specific configuration I want to add to my `.bashrc.local` this:
+Then, configuration for a specific system can be added to `.bashrc.local`. It could be something like this:
 ```bash
 neofetch
 
