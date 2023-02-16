@@ -45,5 +45,3 @@ if [[ -n "${no_repo-unset}" ]]; then
     # Update using the updated script
     exec ./update.sh --no-repo ${silent+-s} ${verbose+-v}
 fi
-
-. lib/symlinks.sh
