@@ -52,7 +52,7 @@ bindkey -M vicmd 'j' history-beginning-search-forward
 ! which direnv &> /dev/null || eval "$(direnv hook zsh)"
 
 # Load aliases
-[[ ! ( -L ~/.alias || -f ~/.alias ) ]] || . ~/.alias
+[[ ! ( -L ~/.aliases || -f ~/.aliases ) ]] || . ~/.aliases
 
 # Hook for non-versioned .zshrc.local
 [[ ! -f ~/.zshrc.local ]] || . ~/.zshrc.local

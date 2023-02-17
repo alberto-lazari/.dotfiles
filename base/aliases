@@ -1,5 +1,11 @@
-# Use GNU-ls
-alias ls='gls -h --group-directories-first --color --quoting-style=literal'
+unalias ls &> /dev/null
+ls () {
+    if command which -s gls; then
+        # Use GNU-ls
+        local ls=gls
+    fi
+    ${ls-ls} -h --group-directories-first --color --quoting-style=literal "$@"
+}
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -Al'
@@ -32,7 +38,7 @@ alias unstage='git restore --staged'
 alias cleanbr='git branch -D $(git branch | grep -v \*)'
 
 # Load macOS specific aliases, if present
-[[ ! -f ~/.alias.macos ]] || . ~/.alias.macos
+[[ ! -f ~/.aliases.macos ]] || . ~/.aliases.macos
 
 # Hook for local aliases
-[[ ! -f ~/.alias.local ]] || . ~/.alias.local
+[[ ! -f ~/.aliases.local ]] || . ~/.aliases.local

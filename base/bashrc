@@ -14,7 +14,7 @@ PS1+="\[\e[0m\]\$(git status &> /dev/null && echo ' on') \[\e[32m\]\$(git branch
 PS1+='\[\e[0m\]$ '
 
 # Load custom aliases
-[[ ! ( -L ~/.alias || -f ~/.alias ) ]] || . ~/.alias
+[[ ! ( -L ~/.aliases || -f ~/.aliases ) ]] || . ~/.aliases
 
 # Hook for non-versioned .bashrc.local
 [[ ! -f ~/.bashrc.local ]] || . ~/.bashrc.local
