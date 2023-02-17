@@ -1,4 +1,5 @@
-alias ls='ls --color'
+# Use GNU-ls
+alias ls='gls --group-directories-first --color'
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -Al'
