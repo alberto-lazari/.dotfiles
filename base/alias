@@ -1,5 +1,5 @@
 # Use GNU-ls
-alias ls='gls --group-directories-first --color'
+alias ls='gls -h --group-directories-first --color --quoting-style=literal'
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -Al'
