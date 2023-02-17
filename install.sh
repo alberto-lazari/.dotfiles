@@ -18,7 +18,7 @@ setup () {
 
     local program
     for program in "$@"; do
-        ! which -s $program || $program/setup.sh ${silent+-s} ${verbose+-v}
+        ! which $program &> /dev/null || $program/setup.sh ${silent+-s} ${verbose+-v}
     done
 }
 

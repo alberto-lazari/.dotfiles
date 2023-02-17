@@ -1,6 +1,6 @@
 unalias ls &> /dev/null
 ls () {
-    if command which -s gls; then
+    if which gls &> /dev/null; then
         # Use GNU-ls
         local ls=gls
     fi
