@@ -1,11 +1,9 @@
-unalias ls &> /dev/null
-ls () {
-    if which gls &> /dev/null; then
-        # Use GNU-ls
-        local ls=gls
-    fi
-    ${ls-ls} -h --group-directories-first --color --quoting-style=literal "$@"
-}
+if which gls &> /dev/null; then
+    # Use GNU-ls
+    alias ls='gls -h --group-directories-first --color=auto --quoting-style=literal'
+else
+    alias ls='ls -h --group-directories-first --color=auto --quoting-style=literal'
+fi
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -Al'
