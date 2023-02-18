@@ -1,15 +1,14 @@
 # Create symlinks of files found in DIRECTORY
-# usage: link_files_in DIRECTORY [-dsv] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
+# usage: link_files_in DIRECTORY [-ds] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
 # options:
 # -d, --as-dotfile        link as dotfile
 # -e                      exclude files
 # -s, --silent, --quiet   don't print log messages
 # -t                      directory to put links in
-# -v, --verbose           print detailed log messages
 link_files_in () {
     . $(dirname $BASH_SOURCE)/options.sh
 
-    parse_opts de:st:v "$@"
+    parse_opts de:st: "$@"
     set -- ${OPTS[@]-}
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -23,8 +22,6 @@ link_files_in () {
             -t) local target_dir="$2"
                 shift
                 ;;
-            -v|--verbose)
-                local verbose=;;
             *)  echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2
                 return 1
                 ;;

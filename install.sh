@@ -63,9 +63,9 @@ fi
 
 . lib/symlinks.sh
 
-link_files_in base --as-dotfile ${silent+-s} ${verbose+-v}
+link_files_in base --as-dotfile ${silent+-s}
 if [[ $(uname) = Darwin ]]; then
-    link_files_in macos --as-dotfile ${silent+-s} ${verbose+-v}
+    link_files_in macos --as-dotfile ${silent+-s}
 fi
 
 setup vim zsh

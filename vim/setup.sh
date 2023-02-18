@@ -42,7 +42,7 @@ package=dotfiles
 . ../lib/symlinks.sh
 
 [[ -d ~/.vim ]] || mkdir ~/.vim
-link_files_in . -t ~/.vim ${verbose+-v}
+link_files_in . -t ~/.vim ${silent+-s}
 
 # Read plugins, ignoring comments starting with " or #
 for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do

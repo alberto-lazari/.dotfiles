@@ -64,4 +64,4 @@ done
 . ../lib/symlinks.sh
 
 # Create symlinks after the installations
-link_files_in . -e plugins.zsh --as-dotfile ${verbose+-v}
+link_files_in . -e plugins.zsh --as-dotfile ${silent+-s}
