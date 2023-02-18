@@ -64,7 +64,7 @@ fi
 . lib/symlinks.sh
 
 link_files_in base --as-dotfile ${silent+-s}
-if [[ $(uname) = Darwin ]]; then
+if [[ "$(uname)" = Darwin ]]; then
     link_files_in macos --as-dotfile ${silent+-s}
 fi
 
