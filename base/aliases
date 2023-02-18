@@ -1,9 +1,7 @@
-if which gls &> /dev/null; then
-    # Use GNU-ls
-    alias ls='gls -h --group-directories-first --color=auto --quoting-style=literal'
-else
-    alias ls='ls -h --group-directories-first --color=auto --quoting-style=literal'
-fi
+# Use GNU-ls when available
+alias ls="$(if which gls &> /dev/null; then echo gls; else echo ls; fi) -h --group-directories-first --color=auto --quoting-style=literal"
+# Don't use long options if they throw errors
+ls &> /dev/null || alias ls='ls -h --color=auto'
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -Al'

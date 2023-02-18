@@ -44,7 +44,7 @@ link_files_in () {
     local file
 
     # Loop on every file in DIRECTORY, except the excluded ones
-    for file in $(ls -p --color=never "$dir" | grep -Ewv "$exclude"); do
+    for file in $(ls -p "$dir" | grep -Ewv "$exclude"); do
         local actual_file="$dir/$file"
         local target_file="${target_dir:-$HOME}/${dotfile+.}$file"
 
