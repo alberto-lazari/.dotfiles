@@ -22,22 +22,14 @@ fi
 
 ZSH="$ZDOTDIR"
 
+# Load common rc
+! [[ -L ~/.shrc || -f ~/.shrc ]] || . ~/.shrc
+
 # Don't save duplicates on history
 setopt HIST_IGNORE_ALL_DUPS
 # Don't show duplicates on history search
 setopt HIST_FIND_NO_DUPS
 
-# Language environment
-export LANG=en_US.UTF-8
-# Preferred editor for local and remote sessions
-export EDITOR=vim
-# No less history file
-export LESSHISTFILE=-
-
-# Set vi keybindings
-set -o vi
-# No ESC timeout delay for vi keybindings
-KEYTIMEOUT=1
 # Enable history substring search with vi keybindings
 bindkey -M vicmd 'k' history-beginning-search-backward
 bindkey -M vicmd 'j' history-beginning-search-forward
@@ -47,9 +39,6 @@ load_plugins
 
 # Hook direnv, if installed
 ! which direnv &> /dev/null || eval "$(direnv hook zsh)"
-
-# Load aliases
-! [[ -L ~/.aliases || -f ~/.aliases ]] || . ~/.aliases
 
 # Hook for non-versioned .zshrc.local
 [[ ! -f $ZSH/.zshrc.local ]] || . $ZSH/.zshrc.local
