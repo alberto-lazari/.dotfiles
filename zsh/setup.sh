@@ -37,31 +37,26 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-# Default zsh variables values
-ZSH=${ZSH:-~/.oh-my-zsh}
-ZSH_CUSTOM=${ZSH_CUSTOM:-$ZSH/custom}
+ZSH=~/.config/zsh
 
-if [[ ! -d $ZSH ]]; then
-    [[ -n "${silent+set}" ]] || echo 'Installing Oh My Zsh... (once completed exit the prompt to continue with the installation)'
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" &> /dev/null
-fi
+. ../lib/symlinks.sh
 
-if [[ ! -d $ZSH_CUSTOM/themes/powerlevel10k ]]; then
+[[ -d $ZSH ]] || mkdir $ZSH
+link_file zshenv --as-dotfile ${silent+-s} ${verbose+-v}
+link_files_in . -t $ZSH --as-dotfile -e 'zshenv|plugins.zsh' ${silent+-s} ${verbose+-v}
+link_file plugins.zsh -t $ZSH ${silent+-s} ${verbose+-v}
+
+if [[ ! -d $ZSH/themes/powerlevel10k ]]; then
     [[ -n "${silent+set}" ]] || echo Installing Powerlevel10k theme...
-    git clone ${verbose--q} --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
+    git clone ${verbose--q} --depth=1 https://github.com/romkatv/powerlevel10k $ZSH/themes/powerlevel10k
 fi
 
 # Install custom plugins
 for repo in $(grep -Ev '^#|^$' < plugins.zsh); do
-    plugin=${repo/*\//}
+    plugin=$(basename $repo)
 
-    if [[ ! -d $ZSH_CUSTOM/plugins/$plugin ]]; then
+    if [[ ! -d $ZSH/plugins/$plugin ]]; then
         [[ -n "${silent+set}" ]] || echo Installing zsh plugin: $plugin...
-        git clone ${verbose--q} https://github.com/$repo $ZSH_CUSTOM/plugins/$plugin
+        git clone ${verbose--q} https://github.com/$repo $ZSH/plugins/$plugin
     fi
 done
-
-. ../lib/symlinks.sh
-
-# Create symlinks after the installations
-link_files_in . -e plugins.zsh --as-dotfile ${silent+-s}

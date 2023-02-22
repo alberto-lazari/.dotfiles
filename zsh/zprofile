@@ -1,0 +1,1 @@
+! [[ -L ~/.profile || -f ~/.profile ]] || . ~/.profile

@@ -1,23 +1,26 @@
 # Create symlink of the file
-# usage: link_file FILE [-ds] [-t TARGET_DIRECTORY]
+# usage: link_file FILE [-dsv] [-t TARGET_DIRECTORY]
 # options:
 # -d, --as-dotfile        link as dotfile
 # -s, --silent, --quiet   don't print log messages
 # -t                      directory to put the link in
+# -v, --verbose           print detailed log messages
 link_file () {
     . $(dirname $BASH_SOURCE)/options.sh
 
-    parse_opts dst: "$@"
+    parse_opts dst:v "$@"
     set -- ${OPTS[@]-}
     while [[ $# -gt 0 ]]; do
         case "$1" in
             -d|--as-dotfile)
                 local dotfile=;;
             -s|--silent|--quiet)
-                silent=;;
+                local silent=;;
             -t) local target_dir="$2"
                 shift
                 ;;
+            -v|--verbose)
+                local verbose=;;
             *)  echo lib/symlinks.sh: \'link_file\' function: bad usage >&2
                 return 1
                 ;;
@@ -52,7 +55,7 @@ link_file () {
                 ln -s "$actual_file" "$target_file"
                 ;;
             [nN])
-                [[ -n "${silent+set}" ]] || echo Skipping file: ${target_file/$HOME/\~}
+                [[ -n "${verbose-unset}" ]] || echo Skipping file: ${target_file/$HOME/\~}
                 ;;
             *)  echo lib/symlinks.sh: programming error >&2
                 return 2
@@ -65,16 +68,17 @@ link_file () {
 }
 
 # Create symlinks of files found in DIRECTORY
-# usage: link_files_in DIRECTORY [-ds] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
+# usage: link_files_in DIRECTORY [-dsv] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
 # options:
 # -d, --as-dotfile        link as dotfile
 # -e                      exclude files
 # -s, --silent, --quiet   don't print log messages
 # -t                      directory to put links in
+# -v, --verbose           print detailed log messages
 link_files_in () {
     . $(dirname $BASH_SOURCE)/options.sh
 
-    parse_opts de:st: "$@"
+    parse_opts de:st:v "$@"
     set -- ${OPTS[@]-}
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -88,6 +92,8 @@ link_files_in () {
             -t) local target_dir="$2"
                 shift
                 ;;
+            -v|--verbose)
+                local verbose=;;
             *)  echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2
                 return 1
                 ;;
@@ -108,6 +114,6 @@ link_files_in () {
 
     # Loop on every file in DIRECTORY, except the excluded ones
     for file in $(ls -p "$dir" | grep -Ewv "$exclude"); do
-        link_file "$dir/$file" ${dotfile+-d} ${target_dir+-t $target_dir} ${silent+-s}
+        link_file "$dir/$file" ${dotfile+-d} ${target_dir+-t $target_dir} ${silent+-s} ${verbose+-v}
     done
 }

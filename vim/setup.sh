@@ -42,11 +42,11 @@ package=dotfiles
 . ../lib/symlinks.sh
 
 [[ -d ~/.vim ]] || mkdir ~/.vim
-link_files_in . -t ~/.vim ${silent+-s}
+link_files_in . -t ~/.vim ${silent+-s} ${verbose+-v}
 
 # Read plugins, ignoring comments starting with " or #
 for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
-    plugin=${repo/*\//}
+    plugin=$(basename $repo)
 
     if [[ ! -d ~/.vim/pack/$package/opt/$plugin ]]; then
         [[ -n "${silent+set}" ]] || echo Installing vim plugin: $plugin...
