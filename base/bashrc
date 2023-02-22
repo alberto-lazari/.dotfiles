@@ -1,11 +1,13 @@
 # Load common rc
 ! [[ -L ~/.shrc || -f ~/.shrc ]] || . ~/.shrc
 
-# Custom prompt
-export PS1="\n\[\e[1;34m\]\w"
-# Git branch
-PS1+="\[\e[0m\]\$(git status &> /dev/null && echo ' on') \[\e[32m\]\$(git branch --show-current 2> /dev/null)\n"
-PS1+='\[\e[0m\]$ '
+# Simple prompt
+export PS1="$ "
+
+# Show detailed prompt
+p () {
+    echo "[1;34m$(dirs +0)[0m $(git status &> /dev/null && echo 'on')[0;32m $(git branch --show-current 2> /dev/null)[0m"
+}
 
 # Hook for non-versioned .bashrc.local
 [[ ! -f ~/.bashrc.local ]] || . ~/.bashrc.local
