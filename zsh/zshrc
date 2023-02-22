@@ -25,6 +25,10 @@ ZSH="$ZDOTDIR"
 # Load common rc
 ! [[ -L ~/.shrc || -f ~/.shrc ]] || . ~/.shrc
 
+HISTFILE=$ZSH/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
 # Don't save duplicates on history
 setopt HIST_IGNORE_ALL_DUPS
 # Don't show duplicates on history search
