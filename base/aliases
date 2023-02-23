@@ -7,6 +7,7 @@ alias la='ls -A'
 alias l='ls -Al'
 
 alias chx='chmod +x'
+! which bpytop &> /dev/null || alias top='bpytop'
 
 # Git
 alias s='git status'
