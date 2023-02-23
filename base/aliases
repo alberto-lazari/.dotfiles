@@ -5,7 +5,8 @@ ls &> /dev/null || alias ls='ls -h --color=auto'
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -Al'
-alias less='less -r'
+
+alias chx='chmod +x'
 
 # Git
 alias s='git status'
