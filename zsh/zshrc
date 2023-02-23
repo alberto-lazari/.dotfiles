@@ -41,6 +41,9 @@ bindkey -M vicmd 'j' history-beginning-search-forward
 load_prompt_theme powerlevel10k
 load_plugins
 
+# Load tab completions
+autoload -Uz compinit && compinit
+
 # Hook direnv, if installed
 ! which direnv &> /dev/null || eval "$(direnv hook zsh)"
 
