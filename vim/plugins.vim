@@ -11,7 +11,7 @@ vim-airline/vim-airline
 ryanoasis/vim-devicons
 
 " Comments
-tpope/vim-commentary
+tomtom/tcomment_vim
 
 " Autoclose parenthesis
 cohama/lexima.vim
