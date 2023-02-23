@@ -55,7 +55,7 @@ done
 # Update repo
 if [[ -n "${update+set}" ]]; then
     [[ -n "${silent+set}" ]] || echo Updating repository...
-    git pull ${verbose--q} origin main
+    git pull ${silent+-q} origin main
 
     # Install using the updated script
     exec ./install.sh ${silent+-s} ${verbose+-v}

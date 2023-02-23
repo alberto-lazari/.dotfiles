@@ -40,7 +40,7 @@ done
 # Update repo
 if [[ -n "${no_repo-unset}" ]]; then
     [[ -n "${silent+set}" ]] || echo Updating repository...
-    git pull ${verbose--q} origin main
+    git pull ${silent+-q} origin main
 
     # Update using the updated script
     exec ./update.sh --no-repo ${silent+-s} ${verbose+-v}
