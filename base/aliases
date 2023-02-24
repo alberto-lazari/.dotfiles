@@ -8,6 +8,7 @@ alias l='ls -Al'
 
 alias chx='chmod +x'
 ! which bpytop &> /dev/null || alias top='bpytop'
+alias svim='vim -Nu ~/.vim/simplerc'
 
 # Git
 alias s='git status'

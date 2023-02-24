@@ -1,5 +1,6 @@
-" Window title format: 'vim - file [+-=] (1 of n)'
-set title titlestring=vim\ -\ %t%(\ [%M]%)%a
+" Import basic configuration
+source ~/.vim/simplerc
+
 " Show line numbers relative to the current one
 set number relativenumber
 " Scroll when over number of lines
@@ -8,22 +9,16 @@ set scrolloff=2
 set linebreak breakindent
 " Identify wrapped lines with @ and indentation
 let &showbreak='@ '
-" Indent with 4 spaces
-set expandtab tabstop=4 softtabstop=4 shiftwidth=4
-" Show whitespaces with ':set list'
-set listchars=eol:$,tab:>·,trail:~,extends:>,precedes:<,space:·
-" Indent on newlines
-set smartindent
 " Show pattern match results. Default case-insensitive search
 set incsearch ignorecase smartcase
-" Enable syntax highlighting
-syntax on
-" Show partial command while typing it
-set showcmd
 " No ESC delay
 set timeoutlen=1000 ttimeoutlen=0
 " Allow buffers to keep unsaved changes
 set hidden
+
+" Mouse support
+" Drains a crazy amount of battery power if enabled
+" set mouse=a
 
 " Change cursor shape on different mode
 if exists('$ITERM_PROFILE')
@@ -42,23 +37,6 @@ else
     let &t_EI = "\e[1 q"
 endif
 
-" Temp files
-set noswapfile nobackup undodir=~/.vim/undodir undofile
-" Move .viminfo file
-set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
-"           | |    |   |   |    | |  + viminfo file path
-"           | |    |   |   |    | + file marks 0-9,A-Z 0=NOT stored
-"           | |    |   |   |    + disable 'hlsearch' loading viminfo
-"           | |    |   |   + command-line history saved
-"           | |    |   + search history saved
-"           | |    + files marks saved
-"           | + lines saved each register (old name for <, vi6.2)
-"           + save/restore buffer list
-
-" Mouse support
-" Drains a crazy amount of battery power if enabled
-" set mouse=a
-
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if isdirectory(expand('~/.vim/pack/dotfiles'))
@@ -71,10 +49,6 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
         endif
     endfor
 
-    " Theme
-    colorscheme onedark
-    " Show horizontal cursor line when using colorscheme
-    set cursorline
     " No '-- INSERT --' in status line
     set noshowmode
 

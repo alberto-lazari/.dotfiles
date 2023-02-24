@@ -1,0 +1,38 @@
+" Simple configuration file
+
+" Window title format: 'vim - file [+-=] (1 of n)'
+set title titlestring=vim\ -\ %t%(\ [%M]%)%a
+" Normal backspace behavior
+set backspace=2
+" Indent with 4 spaces
+set expandtab tabstop=4 softtabstop=4 shiftwidth=4
+" Show whitespaces with ':set list'
+set listchars=eol:$,tab:>·,trail:~,extends:>,precedes:<,space:·
+" Indent on newlines
+set smartindent
+" Enable syntax highlighting
+syntax on
+" Show partial command while typing it
+set showcmd
+
+" Temp files
+set noswapfile nobackup undodir=~/.vim/undodir undofile
+" Move .viminfo file
+set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
+"           | |    |   |   |    | |  + viminfo file path
+"           | |    |   |   |    | + file marks 0-9,A-Z 0=NOT stored
+"           | |    |   |   |    + disable 'hlsearch' loading viminfo
+"           | |    |   |   + command-line history saved
+"           | |    |   + search history saved
+"           | |    + files marks saved
+"           | + lines saved each register (old name for <, vi6.2)
+"           + save/restore buffer list
+
+" Load theme
+if isdirectory(expand('~/.vim/pack/dotfiles'))
+    packadd! onedark.vim
+    colorscheme onedark
+
+    " Show horizontal cursor line when using colorscheme
+    set cursorline
+endif
