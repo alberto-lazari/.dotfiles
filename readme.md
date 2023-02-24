@@ -17,25 +17,4 @@ The vim configuration is done using the specific [`vim/setup.sh`](vim/setup.sh),
 All the specified plugins in [`plugins.vim`](vim/plugins.vim) will be installed and enabled by vim on startup, and can be ignored by running vim with `vim --noplugin`
 
 ### Zsh
-Similarly to vim, zsh configuration is handled by [`zsh/setup.sh`](zsh/setup.sh). It creates relevant symlinks and installs Oh My Zsh, if not already present on the system. It also installs all the plugins listed in [`plugins.zsh`](zsh/plugins.zsh), the file used to enable them in [`.zshrc`](zsh/zshrc) too
-
-## Local hooks
-[`.zshrc`](zsh/zshrc), [`.bashrc`](base/bashrc) and [`.alias`](base/alias) use hooks to add local configurations to each file respectively
-
-For instance, the general `.bashrc` could be like this:
-```bash
-export PS1='$ '
-
-export PATH="$HOME/bin:$PATH"
-
-...
-```
-
-Then, configuration for a specific system can be added to `.bashrc.local`. It could be something like this:
-```bash
-neofetch
-
-export PATH="/custom/path/bin:$PATH"
-```
-
-`.bashrc.local` will not be versioned in this repo, this way I can have a global configuration and local small changes, depending on the system I am using
+Similarly to vim, zsh configuration is handled by [`zsh/setup.sh`](zsh/setup.sh). It creates relevant symlinks inside `~/.config/zsh/`. It also installs and enables all the plugins listed in [`plugins.zsh`](zsh/plugins.zsh)
