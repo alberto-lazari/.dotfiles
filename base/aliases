@@ -22,12 +22,12 @@ alias merge='git merge'
 alias reset='git reset'
 alias stash='git stash'
 alias pop='git stash pop'
+alias submod='git submodule'
+alias gdiff='git diff'
 alias feature='git-flow feature'
 
 # Git custom
-cf () {
-    git checkout "feature/$1"
-}
+cf() { git checkout "feature/$1"; }
 alias c='git commit -am'
 alias commit='git commit -m'
 alias rmbr='git branch -d'
@@ -35,6 +35,7 @@ alias publish='git push -u origin $(git branch --show-current)'
 alias restore='git restore'
 alias unstage='git restore --staged'
 alias cleanbr='git branch -D $(git branch | grep -v \*)'
+submod-add() { git submodule add $(git -C $1 remote get-url origin) $1; }
 
 # Load macOS specific aliases, if present
 [[ ! -f ~/.aliases.macos ]] || . ~/.aliases.macos
