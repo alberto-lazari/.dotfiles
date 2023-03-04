@@ -12,6 +12,3 @@ ryanoasis/vim-devicons
 
 " Comments
 tomtom/tcomment_vim
-
-" Autoclose parenthesis
-cohama/lexima.vim
