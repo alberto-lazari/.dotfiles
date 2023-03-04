@@ -25,10 +25,10 @@ parse_opts () {
                 # Loop on pairs of (options, argument) or just options
                 while getopts :$optstring option "$1" "${2:+${2/-*/}}"; do
                     case $option in
-                        :)  echo $0 option -$OPTARG requires an argument >&2
+                        :)  echo $0: option -$OPTARG requires an argument >&2
                             return 1
                             ;;
-                        \?) echo $0 illegal option -$OPTARG >&2
+                        \?) echo $0: illegal option -$OPTARG >&2
                             return 1
                             ;;
                     esac
