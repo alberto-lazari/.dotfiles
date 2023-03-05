@@ -41,7 +41,7 @@ ZSH=~/.config/zsh
 
 . ../lib/symlinks.sh
 
-[[ -d $ZSH ]] || mkdir $ZSH
+[[ -d $ZSH ]] || mkdir -p $ZSH
 link_file zshenv --as-dotfile ${silent+-s} ${verbose+-v}
 link_files_in . -t $ZSH --as-dotfile -e 'zshenv|plugins.zsh' ${silent+-s} ${verbose+-v}
 link_file plugins.zsh -t $ZSH ${silent+-s} ${verbose+-v}
