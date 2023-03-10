@@ -13,7 +13,7 @@ open_zathura() { ( zathura ${1--} &> /dev/null & ); }
 alias zathura='open_zathura'
 
 # Git
-alias s='git status'
+alias s='git status --short'
 alias a='git add'
 alias cb='git checkout'
 alias pull='git pull'
