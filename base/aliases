@@ -9,6 +9,8 @@ alias l='ls -Al'
 alias chx='chmod +x'
 ! which bpytop &> /dev/null || alias top='bpytop'
 alias svim='vim -Nu ~/.vim/simplerc'
+open_zathura() { ( zathura ${1--} &> /dev/null & ); }
+alias zathura='open_zathura'
 
 # Git
 alias s='git status'
