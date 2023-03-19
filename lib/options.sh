@@ -6,7 +6,7 @@
 #   - as a result: OPTS=(-a -b -o optarg -h) and ARGS=(arg1 arg2)
 # Putting : after an option, in the optstring, means that it requires an argument
 # Supports long options (--help), but without arguments
-parse_opts () {
+parse_opts() {
     local optstring="$1"
     shift
 
@@ -22,8 +22,9 @@ parse_opts () {
                 OPTIND=1
                 local option
 
-                # Loop on pairs of (options, argument) or just options
-                while getopts :$optstring option "$1" "${2:+${2/-*/}}"; do
+                # Loop on pairs of (options, argument)
+                # If the next parameter is another option make it empty, as if no arguement was provided
+                while getopts :$optstring option "$1" "${2/-*/}"; do
                     case $option in
                         :)  echo $0: option -$OPTARG requires an argument >&2
                             return 1
@@ -33,8 +34,10 @@ parse_opts () {
                             ;;
                     esac
 
-                    OPTS+=(-$option "${OPTARG-}")
-                    if [[ "${OPTARG:--}" = - ]]; then
+                    OPTS+=(-$option "$OPTARG")
+
+                    # If OPTARG is unset no arguement was required by the option
+                    if [[ -z "${OPTARG+set}" ]]; then
                         local arg=false
                     else
                         local arg=true

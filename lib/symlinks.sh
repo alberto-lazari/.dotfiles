@@ -1,26 +1,24 @@
 # Create symlink of the file
-# usage: link_file FILE [-dsv] [-t TARGET_DIRECTORY]
+# usage: link_file FILE [-d] [-t TARGET_DIRECTORY]
 # options:
 # -d, --as-dotfile        link as dotfile
-# -s, --silent, --quiet   don't print log messages
 # -t                      directory to put the link in
-# -v, --verbose           print detailed log messages
-link_file () {
+link_file() {
+    [[ -n $SILENT ]] || local SILENT=false
+    [[ -n $VERBOSE ]] || local VERBOSE=false
+    local dotfile=false
+
     . $(dirname $BASH_SOURCE)/options.sh
 
-    parse_opts dst:v "$@"
+    parse_opts dt: "$@"
     set -- ${OPTS[@]-}
     while [[ $# -gt 0 ]]; do
         case "$1" in
             -d|--as-dotfile)
-                local dotfile=;;
-            -s|--silent|--quiet)
-                local silent=;;
+                dotfile=true;;
             -t) local target_dir="$2"
                 shift
                 ;;
-            -v|--verbose)
-                local verbose=;;
             *)  echo lib/symlinks.sh: \'link_file\' function: bad usage >&2
                 return 1
                 ;;
@@ -28,7 +26,7 @@ link_file () {
         shift
     done
 
-    if [[ -n ${ARGS[0]-} ]]; then
+    if [[ -n ${ARGS[0]} ]]; then
         local file="$(readlink -f "${ARGS[0]}")"
     else
         echo lib/symlinks.sh: \'link_file\' function: bad usage >&2
@@ -36,64 +34,63 @@ link_file () {
     fi
 
     local actual_file="$file"
-    local target_file="${target_dir:-$HOME}/${dotfile+.}$(basename "$file")"
+    local target_file="${target_dir:-$HOME}/$($dotfile && echo .)$(basename "$file")"
 
     if [[ -L "$target_file" || -e "$target_file" ]]; then
         # Check permissions to overwrite the existing file
-        while [[ -z "${ALLOW_OVERWRITE-}" || "$ALLOW_OVERWRITE" != [yYnN] ]]; do
+        while [[ -z "$ALLOW_OVERWRITE" || "$ALLOW_OVERWRITE" != [yYnN] ]]; do
+            export ALLOW_OVERWRITE
             read -p 'WARNING: existing dotfiles found. Overwrite them? (y/N) ' ALLOW_OVERWRITE
 
-            [[ -n "${ALLOW_OVERWRITE-}" ]] || ALLOW_OVERWRITE=N
+            [[ -n "$ALLOW_OVERWRITE" ]] || ALLOW_OVERWRITE=N
 
             [[ "$ALLOW_OVERWRITE" = [yYnN] ]] || echo "You need to answer Y(es) or N(o) (default N)\n" >&2
         done
 
         case $ALLOW_OVERWRITE in
             [yY])
-                [[ -n "${silent+set}" ]] || echo Replacing file: ${target_file/$HOME/\~}
+                $SILENT || echo Replacing file: ${target_file/$HOME/\~}
                 rm "$target_file"
                 ln -s "$actual_file" "$target_file"
                 ;;
             [nN])
-                [[ -n "${verbose-unset}" ]] || echo Skipping file: ${target_file/$HOME/\~}
+                ! $VERBOSE || echo Skipping file: ${target_file/$HOME/\~}
                 ;;
             *)  echo lib/symlinks.sh: programming error >&2
                 return 2
                 ;;
         esac
     else
-        [[ -n "${silent+set}" ]] || echo Creating link: ${target_file/$HOME/\~}
+        $SILENT || echo Creating link: ${target_file/$HOME/\~}
         ln -s "$actual_file" "$target_file"
     fi
 }
 
 # Create symlinks of files found in DIRECTORY
-# usage: link_files_in DIRECTORY [-dsv] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
+# usage: link_files_in DIRECTORY [-d] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
 # options:
 # -d, --as-dotfile        link as dotfile
 # -e                      exclude files
-# -s, --silent, --quiet   don't print log messages
 # -t                      directory to put links in
-# -v, --verbose           print detailed log messages
 link_files_in () {
+    [[ -n $SILENT ]] || local SILENT=false
+    [[ -n $VERBOSE ]] || local VERBOSE=false
+    local dotfile=false
+
     . $(dirname $BASH_SOURCE)/options.sh
 
-    parse_opts de:st:v "$@"
-    set -- ${OPTS[@]-}
+    parse_opts de:t: "$@"
+    set -- ${OPTS[@]}
     while [[ $# -gt 0 ]]; do
         case "$1" in
             -d|--as-dotfile)
-                local dotfile=;;
+                dotfile=true;;
             -e) local exclude="$2"
                 shift
                 ;;
-            -s|--silent|--quiet)
-                silent=;;
             -t) local target_dir="$2"
                 shift
                 ;;
-            -v|--verbose)
-                local verbose=;;
             *)  echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2
                 return 1
                 ;;
@@ -101,7 +98,7 @@ link_files_in () {
         shift
     done
 
-    if [[ -n ${ARGS[0]-} ]]; then
+    if [[ -n ${ARGS[0]} ]]; then
         local dir="$(readlink -f "${ARGS[0]}")"
     else
         echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2
@@ -114,6 +111,6 @@ link_files_in () {
 
     # Loop on every file in DIRECTORY, except the excluded ones
     for file in $(ls -p "$dir" | grep -Ewv "$exclude"); do
-        link_file "$dir/$file" ${dotfile+-d} ${target_dir+-t $target_dir} ${silent+-s} ${verbose+-v}
+        link_file "$dir/$file" $($dotfile && echo -d) ${target_dir+-t $target_dir}
     done
 }

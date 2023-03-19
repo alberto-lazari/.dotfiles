@@ -1,6 +1,6 @@
-#!/bin/bash -eu
+#!/bin/bash -e
 
-print_help () {
+print_help() {
     echo usage: install.sh [-hfsuv]
     echo options:
     echo '-f, --force            force existing dotfiles overwrite'
@@ -12,17 +12,19 @@ print_help () {
 
 # Run PROGRAMS setups, if installed
 # usage: setup [PROGRAM ...]
-setup () {
-    # Export overwrite permission to setups
-    export ALLOW_OVERWRITE
-
+setup() {
     local program
     for program in "$@"; do
-        ! which $program &> /dev/null || $program/setup.sh ${silent+-s} ${verbose+-v}
+        ! which $program &> /dev/null || $program/setup.sh
     done
 }
 
 cd $(dirname $BASH_SOURCE)
+
+# Default options
+[[ -n $SILENT ]] || export SILENT=false
+[[ -n $VERBOSE ]] || export VERBOSE=false
+update=false
 
 . lib/options.sh
 
@@ -30,17 +32,17 @@ parse_opts hfsuv "$@" || {
     print_help >&2
     exit 1
 }
-set -- ${OPTS[@]-}
+set -- ${OPTS[@]}
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -f|--force)
             export ALLOW_OVERWRITE=Y;;
         -s|--silent|--quiet)
-            silent=;;
+            SILENT=true;;
         -u|--update)
-            update=;;
+            update=true;;
         -v|--verbose)
-            verbose=;;
+            VERBOSE=true;;
         -h|--help)
             print_help
             exit 0
@@ -53,19 +55,19 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Update repo
-if [[ -n "${update+set}" ]]; then
-    [[ -n "${silent+set}" ]] || echo Updating repository...
-    git pull ${silent+-q} origin main
+if $update; then
+    $SILENT || echo Updating repository...
+    git pull $($SILENT && echo -q) origin main
 
     # Install using the updated script
-    exec ./install.sh ${silent+-s} ${verbose+-v}
+    exec ./install.sh
 fi
 
 . lib/symlinks.sh
 
-link_files_in base --as-dotfile ${silent+-s} ${verbose+-v}
+link_files_in base --as-dotfile
 if [[ "$(uname)" = Darwin ]]; then
-    link_files_in macos --as-dotfile ${silent+-s} ${verbose+-v}
+    link_files_in macos --as-dotfile
 fi
 
 setup vim zsh
