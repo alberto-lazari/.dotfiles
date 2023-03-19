@@ -1,13 +1,13 @@
 load_prompt_theme () {
     [[ -n "${1+set}" ]] || return 1
 
-    local theme=$1
-    . $ZSH/themes/$theme/$theme.zsh-theme
+    local theme="$1"
+    . "$ZSH/themes/$theme/$theme.zsh-theme"
 }
 
 load_plugins () {
     local repo
-    for repo in $(grep -Ev '^#|^$' < $ZSH/plugins.zsh); do
+    for repo in $(grep -Ev '^#|^$' < "$ZSH/plugins.zsh"); do
         local plugin=$(basename $repo)
         . "$ZSH/plugins/$plugin/$plugin.plugin.zsh"
     done
@@ -25,7 +25,7 @@ ZSH="$ZDOTDIR"
 # Load common rc
 ! [[ -L ~/.shrc || -f ~/.shrc ]] || . ~/.shrc
 
-HISTFILE=$ZSH/.zsh_history
+HISTFILE="$ZSH/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
@@ -44,11 +44,5 @@ load_plugins
 # Load tab completions
 autoload -Uz compinit && compinit
 
-# Hook direnv, if installed
-! which direnv &> /dev/null || eval "$(direnv hook zsh)"
-
-# Hook for non-versioned .zshrc.local
-[[ ! -f $ZSH/.zshrc.local ]] || . $ZSH/.zshrc.local
-
 # To customize prompt, run `p10k configure` or edit .p10k.zsh.
-[[ ! -f $ZSH/.p10k.zsh ]] || . $ZSH/.p10k.zsh
+[[ ! -f "$ZSH/.p10k.zsh" ]] || . "$ZSH/.p10k.zsh"

@@ -8,6 +8,3 @@ export PS1="$ "
 p () {
     echo "[1;34m$(dirs +0)[0m $(git status &> /dev/null && echo 'on')[0;32m $(git branch --show-current 2> /dev/null)[0m"
 }
-
-# Hook for non-versioned .bashrc.local
-[[ ! -f ~/.bashrc.local ]] || . ~/.bashrc.local
