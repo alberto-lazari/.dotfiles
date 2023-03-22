@@ -9,6 +9,8 @@ alias l='ls -Al'
 alias chx='chmod +x'
 ! which bpytop &> /dev/null || alias top='bpytop'
 alias svim='vim -Nu ~/.vim/simplerc'
+# Fix resolution for external monitor
+alias fixres='displayplacer "id:6CA13521-D181-91A8-0857-D6964E3302DB mode:52"'
 
 # Git
 alias s='git status --short'
