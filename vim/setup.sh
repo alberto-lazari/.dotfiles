@@ -52,7 +52,7 @@ for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
     plugin=$(basename $repo)
 
     if [[ ! -d ~/.vim/pack/$package/opt/$plugin ]]; then
-        ! $SILENT || echo Installing vim plugin: $plugin...
+        $SILENT || echo Installing vim plugin: $plugin...
         git clone $($VERBOSE || echo -q) https://github.com/$repo ~/.vim/pack/$package/opt/$plugin
     fi
 done
