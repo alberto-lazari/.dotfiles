@@ -12,3 +12,12 @@ ryanoasis/vim-devicons
 
 " Comments
 tomtom/tcomment_vim
+
+" Auto closing
+cohama/lexima.vim
+
+" Use surroundings
+tpope/vim-surround
+
+" Repeat surround commands with .
+tpope/vim-repeat
