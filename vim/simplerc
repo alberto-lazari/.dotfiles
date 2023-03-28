@@ -8,8 +8,10 @@ set backspace=2
 set expandtab tabstop=4 softtabstop=4 shiftwidth=4
 " Show whitespaces with ':set list'
 set listchars=eol:$,tab:>·,trail:~,extends:>,precedes:<,space:·
-" Indent on newlines
-set smartindent
+" Indent filetype
+filetype plugin indent on
+" Fix indentation problems
+set nosmartindent cinkeys-=0#
 " Enable syntax highlighting
 syntax on
 " Show partial command while typing it
