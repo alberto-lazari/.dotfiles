@@ -2,7 +2,7 @@
 alias up='brew update && brew upgrade'
 
 # Applications
-finder () {
+finder() {
     case ${1:--} in
         -)
             open -a Finder
@@ -21,6 +21,7 @@ finder () {
 }
 
 alias chrome='open -a "Google Chrome"'
+zathura() { open -a Zathura -n --args $(readlink -f "$1"); }
 
 # x86
 alias x86='arch -x86_64'
