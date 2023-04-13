@@ -11,6 +11,7 @@ alias chx='chmod +x'
 alias svim='vim -Nu ~/.vim/simplerc'
 # Fix resolution for external monitor
 alias fixres='displayplacer "id:6CA13521-D181-91A8-0857-D6964E3302DB mode:52"'
+md() { pandoc "$1" -V geometry:margin=.5in -V fontsize=12pt -o "${1%.*}.pdf"; }
 
 # Git
 alias s='git status --short'
