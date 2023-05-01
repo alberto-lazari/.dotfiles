@@ -40,7 +40,7 @@ link_file() {
         # Check permissions to overwrite the existing file
         while [[ -z "$ALLOW_OVERWRITE" || "$ALLOW_OVERWRITE" != [yYnN] ]]; do
             export ALLOW_OVERWRITE
-            read -p 'WARNING: existing dotfiles found. Overwrite them? (y/N) ' ALLOW_OVERWRITE
+            read -p 'Warning: existing dotfiles found. Overwrite them? (y/N) ' ALLOW_OVERWRITE
 
             [[ -n "$ALLOW_OVERWRITE" ]] || ALLOW_OVERWRITE=N
 

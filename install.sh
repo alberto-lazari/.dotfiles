@@ -15,7 +15,11 @@ print_help() {
 setup() {
     local program
     for program in "$@"; do
-        ! which $program &> /dev/null || $program/setup.sh
+        if which "$program" &> /dev/null; then
+            "$program/setup.sh"
+        else
+            $SILENT || echo Warning: $program not installed, skipping setup... >&2
+        fi
     done
 }
 
