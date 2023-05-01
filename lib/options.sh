@@ -34,12 +34,12 @@ parse_opts() {
                             ;;
                     esac
 
-                    OPTS+=(-$option "$OPTARG")
-
                     # If OPTARG is unset no arguement was required by the option
                     if [[ -z "${OPTARG+set}" ]]; then
+                        OPTS+=(-$option)
                         local arg=false
                     else
+                        OPTS+=(-$option "$OPTARG")
                         local arg=true
                     fi
                 done

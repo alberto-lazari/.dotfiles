@@ -19,7 +19,7 @@ setup() {
     done
 }
 
-cd $(dirname $BASH_SOURCE)
+cd "$(dirname "$BASH_SOURCE")"
 
 # Default options
 [[ -n $SILENT ]] || export SILENT=false
@@ -32,7 +32,7 @@ parse_opts hfsuv "$@" || {
     print_help >&2
     exit 1
 }
-set -- ${OPTS[@]}
+set -- "${OPTS[@]}"
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -f|--force)
