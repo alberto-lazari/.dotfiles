@@ -21,6 +21,7 @@ finder() {
 }
 
 alias chrome='open -a "Google Chrome"'
+alias firefox='open -a "Firefox"'
 zathura() { open -a Zathura -n --args "$(readlink -f "$1")"; }
 
 # x86
