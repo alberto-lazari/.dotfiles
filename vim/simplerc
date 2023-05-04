@@ -40,3 +40,6 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
     " Show horizontal cursor line when using colorscheme
     set cursorline
 endif
+
+" Set filetype to vim
+" vim: ft=vim
