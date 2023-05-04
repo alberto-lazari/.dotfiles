@@ -6,6 +6,7 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -Al'
 
+t() { tree -L 2 "$@"; }
 alias chx='chmod +x'
 ! which bpytop &> /dev/null || alias top='bpytop'
 alias svim='vim -Nu ~/.vim/simplerc'
