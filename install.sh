@@ -74,4 +74,4 @@ if [[ "$(uname)" = Darwin ]]; then
     link_files_in macos --as-dotfile
 fi
 
-setup vim zsh
+setup vim zsh emacs
