@@ -1,9 +1,19 @@
 ;; Don't show the splash screen
 (setq inhibit-startup-message t)
 
+;; Disable blinking cursor
+(blink-cursor-mode 0)
+
 ;; Relative line numbers
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-type 'relative)
+
+;; Scroll line by line
+(setq scroll-conservatively 101
+      scroll-margin 2)
+
+;; Current line highlighting
+(global-hl-line-mode 1)
 
 ;; Enable mouse support
 (xterm-mouse-mode 1)
@@ -49,9 +59,8 @@
   :demand t
   :bind (("<escape>" . keyboard-escape-quit))
   :init
-  (setq evil-want-keybinding nil)
-  ;; Redo with C-r
-  (setq evil-undo-system 'undo-redo)
+  (setq evil-want-keybinding nil
+        evil-undo-system 'undo-redo)    ; Redo with C-r
   :config
   (evil-mode 1))
 
@@ -61,6 +70,9 @@
   :config
   (setq evil-want-integration t)
   (evil-collection-init))
+
+(use-package simple-modeline
+  :hook (after-init . simple-modeline-mode))
 
 ;; Evil cursor change
 (use-package evil-terminal-cursor-changer
@@ -75,3 +87,16 @@
 (global-set-key (kbd "C-c C-v") 'agda2-compute-normalised-maybe-toplevel)
 (add-hook 'agda2-mode-hook
           #'(lambda () (define-key (current-local-map) (kbd "C-u") (lookup-key (current-local-map) (kbd "C-c")))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(doom-modeline use-package one-themes evil-terminal-cursor-changer evil-collection)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
