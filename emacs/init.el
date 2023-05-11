@@ -1,22 +1,23 @@
 ;; Don't show the splash screen
 (setq inhibit-startup-message t)
-
 ;; Disable blinking cursor
 (blink-cursor-mode 0)
-
 ;; Relative line numbers
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-type 'relative)
-
 ;; Scroll line by line
 (setq scroll-conservatively 101
       scroll-margin 2)
-
 ;; Current line highlighting
 (global-hl-line-mode 1)
-
 ;; Enable mouse support
-(xterm-mouse-mode 1)
+(unless (display-graphic-p)
+  (xterm-mouse-mode 1)
+  ;; Activate mouse-based scrolling
+  (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+  (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
+;; Disable menu bar mode
+(menu-bar-mode -1)
 
 ;; Put backup files neatly away (from: https://emacs.stackexchange.com/a/36)
 (let ((backup-dir "~/.emacs.d/backups")
@@ -54,17 +55,18 @@
   :init
   (load-theme 'one-dark t))
 
-;;; Vim Bindings
+;; Vim Bindings
 (use-package evil
   :demand t
   :bind (("<escape>" . keyboard-escape-quit))
   :init
   (setq evil-want-keybinding nil
-        evil-undo-system 'undo-redo)    ; Redo with C-r
+        ;; Redo with C-r
+        evil-undo-system 'undo-redo)
   :config
   (evil-mode 1))
 
-;;; Vim Bindings Everywhere else
+;; Vim Bindings Everywhere else
 (use-package evil-collection
   :after evil
   :config
@@ -87,16 +89,3 @@
 (global-set-key (kbd "C-c C-v") 'agda2-compute-normalised-maybe-toplevel)
 (add-hook 'agda2-mode-hook
           #'(lambda () (define-key (current-local-map) (kbd "C-u") (lookup-key (current-local-map) (kbd "C-c")))))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(doom-modeline use-package one-themes evil-terminal-cursor-changer evil-collection)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
