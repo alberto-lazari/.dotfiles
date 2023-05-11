@@ -77,4 +77,14 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
     call airline#parts#define('linenumber', {'function': 'LineNumber'})
 
     let g:airline_section_z = airline#section#create(['ln ', 'linenumber', ' col ', '%v'])
+
+    let g:airline_mode_map = {
+    \ 'c'      : '',
+    \ 'i'      : '',
+    \ 'n'      : '',
+    \ 'R'      : '',
+    \ 'v'      : '',
+    \ 'V'      : '',
+    \ ''     : '',
+    \ }
 endif
