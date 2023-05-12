@@ -18,4 +18,4 @@ set -o vi
 KEYTIMEOUT=1
 
 # Load custom aliases
-! [[ -L ~/.aliases || -f ~/.aliases ]] || . ~/.aliases
+[[ ! -f ~/.aliases ]] || . ~/.aliases

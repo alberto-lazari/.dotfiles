@@ -23,7 +23,7 @@ fi
 ZSH="$ZDOTDIR"
 
 # Load common rc
-! [[ -L ~/.shrc || -f ~/.shrc ]] || . ~/.shrc
+[[ ! -f ~/.shrc ]] || . ~/.shrc
 
 HISTFILE="$ZSH/.zsh_history"
 HISTSIZE=10000

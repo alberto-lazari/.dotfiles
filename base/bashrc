@@ -1,5 +1,5 @@
 # Load common rc
-! [[ -L ~/.shrc || -f ~/.shrc ]] || . ~/.shrc
+[[ ! -f ~/.shrc ]] || . ~/.shrc
 
 # Simple prompt
 export PS1="$ "
