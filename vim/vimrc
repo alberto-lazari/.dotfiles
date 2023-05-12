@@ -59,7 +59,7 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
     " Don't show encoding if it is default one
     let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
     " Goes inactive when focus lost
-    let g:airline_focuslost_inactive = 1
+    " let g:airline_focuslost_inactive = 1
     " Always show the mode part
     call airline#parts#define_minwidth('mode', 0)
 
