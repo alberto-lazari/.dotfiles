@@ -53,7 +53,7 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
     set noshowmode
 
     " Enable buffers line
-    let g:airline#extensions#tabline#enabled = 1
+    " let g:airline#extensions#tabline#enabled = 1
     " Show filename only in buffers line
     let g:airline#extensions#tabline#formatter = 'unique_tail'
     " Don't show encoding if it is default one
