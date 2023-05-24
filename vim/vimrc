@@ -15,6 +15,8 @@ set incsearch ignorecase smartcase
 set timeoutlen=1000 ttimeoutlen=0
 " Allow buffers to keep unsaved changes
 set hidden
+" Remove netrw banner
+let g:netrw_banner = 0
 
 " Mouse support
 " Drains a crazy amount of battery power if enabled
