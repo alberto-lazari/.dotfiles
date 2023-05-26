@@ -65,11 +65,6 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
     " Always show the mode part
     call airline#parts#define_minwidth('mode', 0)
 
-    " Enable powerline fonts
-    let g:airline_powerline_fonts = 1
-    " Hide empty sections
-    let g:airline_skip_empty_sections = 1
-
     " Thousand separated line numbers
     function! LineNumber()
         return substitute(line('.'), '\d\@<=\(\(\d\{3\}\)\+\)$', ',&', 'g') . '/' .
@@ -81,12 +76,12 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
     let g:airline_section_z = airline#section#create(['ln ', 'linenumber', ' col ', '%v'])
 
     let g:airline_mode_map = {
-    \ 'c'      : '',
-    \ 'i'      : '',
-    \ 'n'      : '',
-    \ 'R'      : '',
-    \ 'v'      : '',
-    \ 'V'      : '',
-    \ ''     : '',
+    \ 'c'      : '●',
+    \ 'i'      : '●',
+    \ 'n'      : '●',
+    \ 'R'      : '●',
+    \ 'v'      : '●',
+    \ 'V'      : '⁃',
+    \ ''     : '◼',
     \ }
 endif
