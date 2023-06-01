@@ -81,6 +81,15 @@
   :init
   (etcc-on))
 
+;; Vim-surround plugin for evil
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
+;; Auto closing parenthesis
+(electric-pair-mode t)
+
 ;; Agda mode
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda-mode locate")))
