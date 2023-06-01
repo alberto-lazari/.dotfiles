@@ -6,13 +6,13 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -Al'
 
-t() { tree -L 2 "$@"; }
+t () { tree -L 2 "$@"; }
 alias chx='chmod +x'
 ! which bpytop &> /dev/null || alias top='bpytop'
 alias svim='vim -Nu ~/.vim/simplerc'
 # Fix resolution for external monitor
 alias fixres='displayplacer "id:6CA13521-D181-91A8-0857-D6964E3302DB mode:52"'
-md() { pandoc "$1" -V geometry:margin=.5in -V fontsize=12pt -o "${1%.*}.pdf"; }
+md () { pandoc "$1" -V geometry:margin=.5in -V fontsize=12pt -o "${1%.*}.pdf"; }
 
 # Git
 alias s='git status --short'
@@ -31,7 +31,7 @@ alias gdiff='git diff'
 alias feature='git-flow feature'
 
 # Git custom
-cf() { git checkout "feature/$1"; }
+cf () { git checkout "feature/$1"; }
 alias c='git commit -am'
 alias commit='git commit -m'
 alias rmbr='git branch -d'
@@ -39,7 +39,7 @@ alias publish='git push -u origin $(git branch --show-current)'
 alias restore='git restore'
 alias unstage='git restore --staged'
 alias cleanbr='git branch -D $(git branch | grep -v \*)'
-submod-add() { git submodule add $(git -C $1 remote get-url origin) $1; }
+submod-add () { git submodule add $(git -C $1 remote get-url origin) $1; }
 
 # Load macOS specific aliases, if present
 [[ ! -f ~/.aliases.macos ]] || . ~/.aliases.macos

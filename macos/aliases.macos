@@ -2,19 +2,23 @@
 alias up='brew update && brew upgrade'
 
 # Applications
-finder() {
-    case ${1:--} in
-        -)
-            open -a Finder
-            ;;
+finder () {
+    if [[ -z "$1" ]]; then
+        # Open current directory by default
+        arg="$PWD"
+    else
+        arg="$1"
+    fi
+
+    case "$arg" in
         *.app)
-            open -R $1/$(ls -AU $1 | head -n 1)
+            open -R "$arg"/$(ls -AU "$arg" | head -n 1)
             ;;
         *)
-            if [[ -d $1 ]]; then
-                open $1
+            if [[ -d "$arg" ]]; then
+                open "$arg"
             else
-                open -R $1
+                open -R "$arg"
             fi
             ;;
     esac
@@ -22,7 +26,7 @@ finder() {
 
 alias chrome='open -a "Google Chrome"'
 alias firefox='open -a "Firefox"'
-zathura() { open -a Zathura -n --args "$(readlink -f "$1")"; }
+zathura () { open -a Zathura -n --args "$(readlink -f "$1")"; }
 
-# x86
+# Run x86 binaries with Rosetta
 alias x86='arch -x86_64'
