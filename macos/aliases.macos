@@ -1,3 +1,6 @@
+# Fix resolution for external monitor
+alias fixres='displayplacer "id:6CA13521-D181-91A8-0857-D6964E3302DB mode:52"'
+
 # Homebrew
 alias up='brew update && brew upgrade'
 
