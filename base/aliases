@@ -26,6 +26,7 @@ alias stash='git stash'
 alias pop='git stash pop'
 alias submod='git submodule'
 alias gdiff='git diff'
+alias clone='git clone --recurse-submodules'
 alias feature='git-flow feature'
 
 # Git custom
@@ -37,7 +38,30 @@ alias publish='git push -u origin $(git branch --show-current)'
 alias restore='git restore'
 alias unstage='git restore --staged'
 alias cleanbr='git branch -D $(git branch | grep -v \*)'
-submod-add () { git submodule add $(git -C $1 remote get-url origin) $1; }
+submod-add () {
+    if [[ -z $1 ]]; then
+        echo 'error: need to specify a submodule dir' >&2
+        return 1
+    fi
+    git submodule add $(git -C $1 remote get-url origin) $1
+}
+github-clone () {
+    url='git@github.com:'
+    if [[ $1 = --https ]]; then
+        url='https://github.com/'
+        shift
+    fi
+    if [[ -z $1 ]]; then
+        echo 'error: need a repo to clone (user/repo)' >&2
+        return 1
+    fi
+    if [[ $1 = -* ]]; then
+        echo 'usage: github-clone [--https] user/repo[.git] [dir]'
+    else
+        repo=$(sed 's|^.*github\.com[:/]||' <<< $1)
+        git clone --recurse-submodules $url$repo $2
+    fi
+}
 
 # Load macOS specific aliases, if present
 [[ ! -f ~/.aliases.macos ]] || . ~/.aliases.macos
