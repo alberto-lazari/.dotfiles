@@ -8,7 +8,6 @@ set window-title-basename "true"
 # Hide status bar (C-n to toggle on)
 set guioptions 0
 set statusbar-basename "true"
-set statusbar-fg "#B0B0B0"
 
 set notification-error-bg "#AC4142" #08
 set notification-error-fg "#151515" #00
@@ -29,7 +28,7 @@ set notification-bg "#90A959" #0B
 set notification-fg "#151515" #00
 
 # Recolor options (C-r)
-set recolor-lightcolor "#1B1B1B"
+set recolor-lightcolor "#101010"
 set recolor-darkcolor "#E0E0E0"
 # Don't reverse images (may not work)
 # set recolor-reverse-video "true"
