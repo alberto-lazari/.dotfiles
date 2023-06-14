@@ -18,3 +18,6 @@ tpope/vim-surround
 
 " Repeat surround commands with .
 tpope/vim-repeat
+
+" Typst support
+kaarmu/typst.vim
