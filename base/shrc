@@ -1,6 +1,10 @@
 # If not running interactively, don't do anything
 [[ $- = *i* ]] || return
 
+function set_terminal_title() {
+  echo -en "\e]2;$@\a"
+}
+
 # Language environment
 export LANG=en_US.UTF-8
 

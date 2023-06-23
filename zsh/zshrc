@@ -25,6 +25,8 @@ ZSH="$ZDOTDIR"
 # Load common rc
 [[ ! -f ~/.shrc ]] || . ~/.shrc
 
+precmd () { set_terminal_title zsh - $(basename "${PWD/$HOME/~}"); }
+
 HISTFILE="$ZSH/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000

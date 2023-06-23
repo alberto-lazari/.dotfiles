@@ -1,6 +1,8 @@
 # Load common rc
 [[ ! -f ~/.shrc ]] || . ~/.shrc
 
+PROMPT_COMMAND='set_terminal_title bash - $(basename "${PWD/$HOME/\~}")'
+
 # Simple prompt
 export PS1="$ "
 
