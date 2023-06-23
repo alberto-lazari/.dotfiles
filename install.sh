@@ -72,4 +72,4 @@ fi
 
 # Actual installation process
 link_files_in base --as-dotfile
-setup vim zsh zathura emacs
+setup vim zsh zathura emacs alacritty
