@@ -47,14 +47,16 @@ submod-add () {
 }
 github-clone () {
     url='git@github.com:'
-    if [[ $1 = --https ]]; then
-        url='https://github.com/'
-        shift
-    fi
     if [[ -z $1 ]]; then
         echo 'error: need a repo to clone (user/repo)' >&2
         return 1
     fi
+
+    if [[ $1 = --https ]]; then
+        url='https://github.com/'
+        shift
+    fi
+
     if [[ $1 = -* ]]; then
         echo 'usage: github-clone [--https] user/repo[.git] [dir]'
     else
@@ -63,8 +65,44 @@ github-clone () {
     fi
 }
 
-# Load macOS specific aliases, if present
-[[ ! -f ~/.aliases.macos ]] || . ~/.aliases.macos
+# macOS specific aliases
+if [[ "$(uname)" = Darwin ]]; then
+    # Fix resolution for external monitor
+    alias fixres='displayplacer "id:6CA13521-D181-91A8-0857-D6964E3302DB mode:52"'
+
+    # Homebrew
+    alias up='brew update && brew upgrade'
+
+    # Applications
+    finder () {
+        if [[ -z "$1" ]]; then
+            # Open current directory by default
+            arg="$PWD"
+        else
+            arg="$1"
+        fi
+
+        case "$arg" in
+            *.app)
+                open -R "$arg"/$(ls -AU "$arg" | head -n 1)
+                ;;
+            *)
+                if [[ -d "$arg" ]]; then
+                    open "$arg"
+                else
+                    open -R "$arg"
+                fi
+                ;;
+        esac
+    }
+
+    alias chrome='open -a "Google Chrome"'
+    alias firefox='open -a "Firefox"'
+    zathura () { open -a Zathura -n --args "$(readlink -f "$1")"; }
+
+    # Run x86 binaries with Rosetta
+    alias x86='arch -x86_64'
+fi
 
 # Hook for local aliases
 [[ ! -f ~/.aliases.local ]] || . ~/.aliases.local

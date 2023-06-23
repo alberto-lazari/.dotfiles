@@ -28,6 +28,7 @@ cd "$(dirname "$BASH_SOURCE")"
 # Default options
 [[ -n $SILENT ]] || export SILENT=false
 [[ -n $VERBOSE ]] || export VERBOSE=false
+# Exporting $update causes an update loop
 update=false
 
 . lib/options.sh
@@ -69,9 +70,6 @@ fi
 
 . lib/symlinks.sh
 
+# Actual installation process
 link_files_in base --as-dotfile
-if [[ "$(uname)" = Darwin ]]; then
-    link_files_in macos --as-dotfile
-fi
-
 setup vim zsh zathura emacs
