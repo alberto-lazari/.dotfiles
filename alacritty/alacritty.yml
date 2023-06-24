@@ -34,3 +34,6 @@ font:
 cursor:
   style:
     blinking: never
+
+mouse:
+  hide_when_typing: true
