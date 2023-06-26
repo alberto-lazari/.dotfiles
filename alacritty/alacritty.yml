@@ -16,7 +16,9 @@ window:
 
   padding:
     x: 5
-    y: 3
+    y: 5
+
+  decorations: buttonless
 
 font:
   normal:
