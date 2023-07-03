@@ -3,7 +3,7 @@
 # options:
 # -d, --as-dotfile        link as dotfile
 # -t                      directory to put the link in
-link_file() {
+link_file () {
     [[ -n $SILENT ]] || local SILENT=false
     [[ -n $VERBOSE ]] || local VERBOSE=false
     local dotfile=false

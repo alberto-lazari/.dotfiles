@@ -6,7 +6,7 @@
 #   - as a result: OPTS=(-a -b -o optarg -h) and ARGS=(arg1 arg2)
 # Putting : after an option, in the optstring, means that it requires an argument
 # Supports long options (--help), but without arguments
-parse_opts() {
+parse_opts () {
     local optstring="$1"
     shift
 

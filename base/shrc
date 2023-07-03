@@ -1,7 +1,7 @@
 # If not running interactively, don't do anything
 [[ $- = *i* ]] || return
 
-function set_terminal_title() {
+function set_terminal_title () {
   echo -en "\e]2;$@\a"
 }
 

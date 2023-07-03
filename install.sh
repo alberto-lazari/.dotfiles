@@ -12,7 +12,7 @@ print_help() {
 
 # Run PROGRAMS setups, if installed
 # usage: setup [PROGRAM ...]
-setup() {
+setup () {
     local program
     for program in "$@"; do
         if which "$program" &> /dev/null; then

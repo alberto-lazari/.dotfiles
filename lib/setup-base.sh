@@ -2,7 +2,7 @@
 # instantiate DIR variable with the config directory to put the files in
 # it will be automatically created, if non-existent
 
-print_help() {
+print_help () {
     echo usage: setup.sh [-hfsv]
     echo options:
     echo '-f, --force            force existing dotfiles overwrite'
