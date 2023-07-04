@@ -66,11 +66,11 @@ link_file () {
     fi
 }
 
-# Create symlinks of files found in DIRECTORY
+# Create symlinks of files found in DIRECTORY except scripts (.sh files)
 # usage: link_files_in DIRECTORY [-d] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
 # options:
 # -d, --as-dotfile        link as dotfile
-# -e                      exclude files
+# -e                      exclude files (regex escaped)
 # -t                      directory to put links in
 link_files_in () {
     [[ -n $SILENT ]] || local SILENT=false
