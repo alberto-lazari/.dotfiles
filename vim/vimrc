@@ -18,6 +18,8 @@ set hidden
 " Remove netrw banner
 let g:netrw_banner = 0
 
+autocmd FileType text,latex,tex,md,markdown,typst setlocal spell
+
 " Mouse support
 " Drains a crazy amount of battery power if enabled
 " set mouse=a
