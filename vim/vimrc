@@ -87,17 +87,12 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
     \ ''     : '◼',
     \ }
 
-    " Custom autoclosing rules
-    " Latex math mode
-    call lexima#add_rule({'char': '$', 'input_after': '$', 'filetype': 'tex'})
-    call lexima#add_rule({'char': '$', 'at': '\%#\$', 'leave': 1, 'filetype': 'tex'})
-    call lexima#add_rule({'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': 'tex'})
-    call lexima#add_rule({'char': '<space>', 'at': '\$\%#\$', 'input_before': ' ', 'input_after': ' ', 'filetype': 'tex'})
-    call lexima#add_rule({'char': '<BS>', 'at': '\$ \%# \$', 'delete': 1, 'filetype': 'tex'})
-    " Typst math mode
-    call lexima#add_rule({'char': '$', 'input_after': '$', 'filetype': 'typst'})
-    call lexima#add_rule({'char': '$', 'at': '\%#\$', 'leave': 1, 'filetype': 'typst'})
-    call lexima#add_rule({'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': 'typst'})
-    call lexima#add_rule({'char': '<space>', 'at': '\$\%#\$', 'input_before': ' ', 'input_after': ' ', 'filetype': 'typst'})
-    call lexima#add_rule({'char': '<BS>', 'at': '\$ \%# \$', 'delete': 1, 'filetype': 'typst'})
+    " Custom autoclosing rules for LaTeX and Typst math mode
+    for filetype in ['tex', 'latex', 'typst']
+        call lexima#add_rule({'char': '$', 'input_after': '$', 'filetype': filetype})
+        call lexima#add_rule({'char': '$', 'at': '\%#\$', 'leave': 1, 'filetype': filetype})
+        call lexima#add_rule({'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': filetype})
+        call lexima#add_rule({'char': '<space>', 'at': '\$\%#\$', 'input_before': ' ', 'input_after': ' ', 'filetype': filetype})
+        call lexima#add_rule({'char': '<BS>', 'at': '\$ \%# \$', 'delete': 1, 'filetype': filetype})
+    endfor
 endif
