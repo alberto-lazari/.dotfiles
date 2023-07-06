@@ -10,7 +10,6 @@ alias tree='tree -C'
 t () { tree -L 2 "$@"; }
 alias chx='chmod +x'
 ! which bpytop &> /dev/null || alias top='bpytop'
-alias svim='vim -Nu ~/.vim/simplerc'
 md () { pandoc "$1" -V geometry:margin=.5in -V fontsize=12pt -o "${1%.*}.pdf"; }
 
 # Git
