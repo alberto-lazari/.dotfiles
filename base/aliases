@@ -73,11 +73,11 @@ if [[ "$(uname)" = Darwin ]]; then
     # Homebrew
     up () {
         # Update Homebrew packages
-        brew update && brew upgrade
-
+        brew update && brew upgrade |
+        tee /dev/stderr |
         # Update Alacritty icon, because an update may overwrite it
-        # WARNING: this is an absolute path -> dotfiles have to be in home dir
-        ~/.dotfiles/alacritty/update-icon.sh
+        # WARNING: this calls an absolute path -> dotfiles have to be in home dir
+        { ! grep -w '[Aa]lacritty' &> /dev/null; } || ~/.dotfiles/alacritty/update-icon.sh
     }
 
     # Applications
