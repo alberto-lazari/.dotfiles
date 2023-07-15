@@ -32,15 +32,6 @@ set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
 "           | + lines saved each register (old name for <, vi6.2)
 "           + save/restore buffer list
 
-" Load theme
-if isdirectory(expand('~/.vim/pack/dotfiles'))
-    packadd! onedark.vim
-    colorscheme onedark
-
-    " Show horizontal cursor line when using colorscheme
-    set cursorline
-endif
-
 " Custom settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Show line numbers relative to the current one
@@ -95,8 +86,9 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
         endif
     endfor
 
-    " No '-- INSERT --' in status line
-    set noshowmode
+    colorscheme onedark
+    " Show horizontal cursor line when using colorscheme
+    set cursorline
 
     " Enable buffers line
     " let g:airline#extensions#tabline#enabled = 1
@@ -128,6 +120,9 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
     \ 'V'      : '⁃',
     \ ''     : '◼',
     \ }
+
+    " No '-- INSERT --' in status line
+    set noshowmode
 
     " Custom autoclosing rules for LaTeX and Typst math mode
     for filetype in ['tex', 'latex', 'typst']
