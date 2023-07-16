@@ -24,3 +24,12 @@ tpope/vim-repeat
 
 " Typst support
 kaarmu/typst.vim
+
+" Custom text objects
+kana/vim-textobj-user
+
+" Function parameter text object
+sgur/vim-textobj-parameter
+
+" Typst text objects
+albertolazari/vim-textobj-typst
