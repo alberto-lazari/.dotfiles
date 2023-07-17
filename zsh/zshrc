@@ -36,9 +36,14 @@ setopt HIST_IGNORE_ALL_DUPS
 # Don't show duplicates on history search
 setopt HIST_FIND_NO_DUPS
 
-# Enable history substring search with vi keybindings
-bindkey -M vicmd 'k' history-beginning-search-backward
-bindkey -M vicmd 'j' history-beginning-search-forward
+# Vi-mode configuration
+zvm_after_init () {
+    ZVM_ESCAPE_KEYTIMEOUT=0.01
+
+    # History substring search
+    zvm_bindkey viins '^p' history-beginning-search-backward
+    zvm_bindkey viins '^n' history-beginning-search-forward
+}
 
 load_prompt_theme powerlevel10k
 load_plugins
