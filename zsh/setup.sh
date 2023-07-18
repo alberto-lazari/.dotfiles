@@ -11,8 +11,8 @@ link_files_in . -t "$DIR" --as-dotfile -e 'zshenv|plugins.zsh'
 link_file plugins.zsh -t "$DIR"
 
 if [[ ! -d "$DIR/themes/powerlevel10k" ]]; then
-    $SILENT || echo Installing Powerlevel10k theme...
-    git clone $($VERBOSE || echo -q) --depth=1 https://github.com/romkatv/powerlevel10k "$DIR/themes/powerlevel10k"
+    $SILENT || echo Installing zsh Powerlevel10k theme...
+    git clone --depth 1 $($VERBOSE || echo -q) https://github.com/romkatv/powerlevel10k "$DIR/themes/powerlevel10k"
 fi
 
 # Install custom plugins
@@ -21,6 +21,6 @@ for repo in $(grep -Ev '^#|^$' < plugins.zsh); do
 
     if [[ ! -d "$DIR/plugins/$plugin" ]]; then
         $SILENT || echo Installing zsh plugin: $plugin...
-        git clone $($VERBOSE || echo -q) https://github.com/$repo "$DIR/plugins/$plugin"
+        git clone --depth 1 $($VERBOSE || echo -q) https://github.com/$repo "$DIR/plugins/$plugin"
     fi
 done
