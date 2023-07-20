@@ -10,19 +10,6 @@ print_help() {
     echo '-h, --help             print this message'
 }
 
-# Run PROGRAMS setups, if installed
-# usage: setup [PROGRAM ...]
-setup () {
-    local program
-    for program in "$@"; do
-        if which "$program" &> /dev/null; then
-            "$program/setup.sh"
-        else
-            $SILENT || echo Warning: $program not installed, skipping setup... >&2
-        fi
-    done
-}
-
 cd "$(dirname "$BASH_SOURCE")"
 
 # Default options
@@ -72,4 +59,12 @@ fi
 
 # Actual installation process
 link_files_in base --as-dotfile
-setup vim zsh zathura emacs alacritty
+
+# Setup all programs
+for program in $(ls -p | grep -Evw 'base|lib|.*[^/]$' | sed 's|/||'); do
+    if which "$program" &> /dev/null; then
+        "$program/setup.sh"
+    else
+        $SILENT || echo Warning: $program not installed, skipping setup... >&2
+    fi
+done
