@@ -1,13 +1,14 @@
 #!/bin/bash -e
 
 print_help() {
-    echo usage: install.sh [-hfsuv]
+    echo usage: install.sh [-hfnsuv]
     echo options:
-    echo '-f, --force            force existing dotfiles overwrite'
-    echo "-s, --silent, --quiet  don't print log messages"
-    echo '-u, --update           update repository before install'
-    echo '-v, --verbose          print detailed log messages'
-    echo '-h, --help             print this message'
+    echo '-f, --force, --overwrite  force existing dotfiles overwrite'
+    echo "-n, --no-overwrite        don't overwrite existing dotfiles"
+    echo "-s, --silent, --quiet     don't print log messages"
+    echo '-u, --update              update repository before install'
+    echo '-v, --verbose             print detailed log messages'
+    echo '-h, --help                print this message'
 }
 
 cd "$(dirname "$BASH_SOURCE")"
@@ -20,14 +21,16 @@ update=false
 
 . lib/options.sh
 
-parse_opts hfsuv "$@" || {
+parse_opts hfnsuv "$@" || {
     print_help >&2
     exit 1
 }
 set -- "${OPTS[@]}"
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        -f|--force)
+        -n|--no-overwrite)
+            export ALLOW_OVERWRITE=N;;
+        -f|--force|--overwrite)
             export ALLOW_OVERWRITE=Y;;
         -s|--silent|--quiet)
             SILENT=true;;
