@@ -1,5 +1,6 @@
 import:
   - "~/.config/alacritty/colors.yml"
+  - "~/.config/alacritty/os-specific.yml"
 
 # Reload config file when saved
 live_config_reload: true
@@ -18,18 +19,9 @@ window:
     x: 5
     y: 5
 
-  decorations: buttonless
-
 font:
   normal:
     family: MesloLGS NF
-    style: Regular
-
-  bold:
-    style: Bold
-
-  italic:
-    style: Italic
 
   size: 12.0
 
