@@ -1,8 +1,9 @@
 # Create symlink of the file
-# usage: link_file FILE [-d] [-t TARGET_DIRECTORY]
+# usage: link_file FILE [-d] [-t TARGET_DIRECTORY] [LINK_NAME]
 # options:
 # -d, --as-dotfile        link as dotfile
-# -t                      directory to put the link in
+# -t                      directory to put the link in (default: ~)
+# LINK_NAME               custom name for the link, ignoring -d (default: FILE)
 link_file () {
     [[ -n $SILENT ]] || local SILENT=false
     [[ -n $VERBOSE ]] || local VERBOSE=false
@@ -26,17 +27,24 @@ link_file () {
         shift
     done
 
-    if [[ -n ${ARGS[0]} ]]; then
+    # Read the file to link
+    if [[ -n "${ARGS[0]}" ]]; then
         local file="$(readlink -f "${ARGS[0]}")"
+        local actual_file="$file"
     else
         echo lib/symlinks.sh: \'link_file\' function: bad usage >&2
         return 1
     fi
 
-    local actual_file="$file"
-    local target_file="${target_dir:-$HOME}/$($dotfile && echo .)$(basename "$file")"
+    # Read the optional name of the link
+    if [[ -n "${ARGS[1]}" ]]; then
+        local link_name="${ARGS[1]}"
+    else
+        local link_name="$($dotfile && echo .)$(basename "$file")"
+    fi
+    local target_file="${target_dir:-$HOME}/$link_name"
 
-    if [[ -L "$target_file" || -e "$target_file" ]]; then
+    if [[ -f "$target_file" ]]; then
         # Check permissions to overwrite the existing file
         while [[ -z "$ALLOW_OVERWRITE" || "$ALLOW_OVERWRITE" != [yYnN] ]]; do
             export ALLOW_OVERWRITE
@@ -71,7 +79,7 @@ link_file () {
 # options:
 # -d, --as-dotfile        link as dotfile
 # -e                      exclude files (regex escaped)
-# -t                      directory to put links in
+# -t                      directory to put links in (default: ~)
 link_files_in () {
     [[ -n $SILENT ]] || local SILENT=false
     [[ -n $VERBOSE ]] || local VERBOSE=false
