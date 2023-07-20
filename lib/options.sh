@@ -1,4 +1,4 @@
-# Returns the expanded options, with thier arguments, and positional arguments respectively in the OPTS and ARGS array
+# Returns the expanded options, with their arguments, and positional arguments respectively in the OPTS and ARGS array
 # usage: parse_opts optstring [params ...]
 #
 # e.g. `parse_opts abo:h arg1 -ab -o optarg -h arg2`
@@ -23,7 +23,7 @@ parse_opts () {
                 local option
 
                 # Loop on pairs of (options, argument)
-                # If the next parameter is another option make it empty, as if no arguement was provided
+                # If the next parameter is another option make it empty, as if no argument was provided
                 while getopts :$optstring option "$1" "${2/-*/}"; do
                     case $option in
                         :)  echo $0: option -$OPTARG requires an argument >&2
@@ -34,7 +34,7 @@ parse_opts () {
                             ;;
                     esac
 
-                    # If OPTARG is unset no arguement was required by the option
+                    # If OPTARG is unset no argument was required by the option
                     if [[ -z "${OPTARG+set}" ]]; then
                         OPTS+=(-$option)
                         local arg=false
