@@ -7,6 +7,8 @@ package=dotfiles
 
 . ../lib/setup-base.sh
 
+# Undo files won't be created, unless the undo directory exists
+[[ -d $DIR/undodir ]] || mkdir -p $DIR/undodir
 link_files_in . -t $DIR
 
 # Read plugins, ignoring comments starting with " or #
