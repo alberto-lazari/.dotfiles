@@ -6,6 +6,3 @@ zsh-users/zsh-autosuggestions
 
 # Syntax highlighting for commands and paths
 zsh-users/zsh-syntax-highlighting
-
-# Better vi-mode
-jeffreytse/zsh-vi-mode
