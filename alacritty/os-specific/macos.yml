@@ -1,5 +1,5 @@
-window:
-  decorations: buttonless
+key_bindings:
+  - { key: N, mods: command, action: SpawnNewInstance }
 
 hints:
   enabled:
