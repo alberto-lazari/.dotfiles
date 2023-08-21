@@ -1,7 +1,15 @@
+# Load .bash_profile if never sourced
+if ! ${BASH_PROFILE_SOURCED-false}; then
+    [[ ! -f ~/.bash_profile ]] || . ~/.bash_profile
+fi
+
+# If not running interactively, don't do anything
+[[ $- = *i* ]] || return
+
 # Load common rc
 [[ ! -f ~/.shrc ]] || . ~/.shrc
 
-PROMPT_COMMAND='set_terminal_title bash - $(basename "${PWD/$HOME/\~}")'
+PROMPT_COMMAND='set_terminal_title bash - $(basename "$(dirs +0)")'
 
 # Simple prompt
 export PS1="$ "

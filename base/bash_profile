@@ -1,4 +1,14 @@
 [[ ! -f ~/.profile ]] || . ~/.profile
 
-# Load bashrc on login shells for macOS
+# Remember if .bash_profile has been sourced
+export BASH_PROFILE_SOURCED=true
+
+# Silence deprecation warning on macOS
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# Move history out of the home directory
+export HISTFILE=$HOME/.cache/bash/bash_history
+[[ -d ~/.cache/bash ]] || mkdir -p ~/.cache/bash
+
+# Load bashrc on login shells
 [[ ! -f ~/.bashrc ]] || . ~/.bashrc
