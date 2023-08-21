@@ -1,7 +1,7 @@
-[[ ! -f ~/.profile ]] || . ~/.profile
-
 # Remember if .bash_profile has been sourced
 export BASH_PROFILE_SOURCED=true
+
+[[ ! -f ~/.profile ]] || . ~/.profile
 
 # Silence deprecation warning on macOS
 export BASH_SILENCE_DEPRECATION_WARNING=1
