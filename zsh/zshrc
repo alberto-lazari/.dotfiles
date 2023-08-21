@@ -40,8 +40,23 @@ setopt HIST_FIND_NO_DUPS
 bindkey '^P' history-beginning-search-backward
 bindkey '^N' history-beginning-search-forward
 
+# Enable quotes text objects in vi-mode
+# https://github.com/ohmyzsh/ohmyzsh/issues/5708
+autoload -U select-quoted
+zle -N select-quoted
+for m in visual viopp; do
+    for c in {a,i}{\',\",\`}; do
+        bindkey -M $m $c select-quoted
+    done
+done
+
 load_prompt_theme powerlevel10k
 load_plugins
+
+# Fix cursor in visual mode
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_HIGHLIGHTERS+=(cursor)
+ZSH_HIGHLIGHT_STYLES[cursor]=bg=white
 
 # Load tab completions
 autoload -Uz compinit && compinit
