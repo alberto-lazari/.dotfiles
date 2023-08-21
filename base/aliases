@@ -67,7 +67,10 @@ github-clone () {
 
 # macOS specific aliases
 if [[ "$(uname)" = Darwin ]]; then
+    # macOS inconsistencies workarounds
     alias umount='diskutil unmount'
+    alias clear="printf '\33c'"
+
     # Fix resolution for external monitor
     alias fixres='displayplacer "id:6CA13521-D181-91A8-0857-D6964E3302DB mode:52"'
 
