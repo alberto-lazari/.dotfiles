@@ -1,5 +1,5 @@
 # Load .bash_profile if never sourced
-if ! ${BASH_PROFILE_SOURCED-false}; then
+if ! ${BASH_PROFILE_SOURCED:-false}; then
     [[ ! -f ~/.bash_profile ]] || . ~/.bash_profile
 fi
 

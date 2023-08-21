@@ -1,4 +1,5 @@
-# Remember if .bash_profile has been sourced
+# If .bash_profile has already been sourced do nothing
+! ${BASH_PROFILE_SOURCED:-false} || return
 export BASH_PROFILE_SOURCED=true
 
 [[ ! -f ~/.profile ]] || . ~/.profile
