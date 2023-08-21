@@ -1,5 +1,9 @@
 key_bindings:
-  - { key: N, mods: command, action: SpawnNewInstance }
+  - {
+    key: N,
+    mods: Command,
+    command: { program: "/bin/bash", args: ["-c", "eval $(compgen -G '/Users/*/.dotfiles/alacritty/spawn-new-instance.sh')"] }
+  }
 
 hints:
   enabled:
