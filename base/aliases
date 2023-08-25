@@ -71,6 +71,12 @@ if [[ "$(uname)" = Darwin ]]; then
     alias umount='diskutil unmount'
     alias clear="printf '\33c'"
 
+    # Use clamshell mode on battery power
+    clam () {
+        sudo pmset -a disablesleep 1
+        bash -c 'read -p "Close your MacBook lid, then press enter"'
+        sudo pmset -a disablesleep 0
+    }
 
     # Homebrew
     up () {
