@@ -84,7 +84,6 @@ if [[ "$(uname)" = Darwin ]]; then
         brew update && brew upgrade |
         tee /dev/stderr |
         # Update Alacritty icon, because an update may overwrite it
-        # WARNING: this calls an absolute path -> dotfiles have to be in home dir
         { ! grep -w '[Aa]lacritty' &> /dev/null; } || ~/.dotfiles/alacritty/update-icon.sh
     }
 
@@ -101,8 +100,7 @@ if [[ "$(uname)" = Darwin ]]; then
             *.app)
                 open -R "$arg"/$(ls -AU "$arg" | head -n 1)
                 ;;
-            *)
-                if [[ -d "$arg" ]]; then
+            *)  if [[ -d "$arg" ]]; then
                     open "$arg"
                 else
                     open -R "$arg"
@@ -112,8 +110,13 @@ if [[ "$(uname)" = Darwin ]]; then
     }
 
     alias chrome='open -a "Google Chrome"'
-    alias firefox='open -a "Firefox"'
-    zathura () { open -a Zathura -n --args "$(readlink -f "$1")"; }
+    alias firefox='open -a Firefox'
+    zathura () {
+        [[ $# -gt 0 ]] || { echo 'usage: zathura file [...]' >&2; return 1; }
+        for file in "$@"; do
+            open -na Zathura --args "$(readlink -f "$file")"
+        done
+    }
 
     # Run x86 binaries with Rosetta
     alias x86='arch -x86_64'
