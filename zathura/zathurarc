@@ -41,3 +41,8 @@ set selection-notification "false"
 unmap f
 map f toggle_fullscreen
 map [fullscreen] f toggle_fullscreen
+
+# Quit only with :q
+unmap q
+unmap <C-q>
+unmap [fullscreen] q
