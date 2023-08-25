@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 load_prompt_theme () {
     [[ -n "${1+set}" ]] || return 1
 
@@ -12,13 +19,6 @@ load_plugins () {
         . "$ZSH/plugins/$plugin/$plugin.plugin.zsh"
     done
 }
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 ZSH="$ZDOTDIR"
 
@@ -35,6 +35,9 @@ setopt appendhistory
 setopt HIST_IGNORE_ALL_DUPS
 # Don't show duplicates on history search
 setopt HIST_FIND_NO_DUPS
+
+# Case-insensitive completion
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 # Enable history substring search with c-p, c-n
 bindkey '^P' history-beginning-search-backward
@@ -58,7 +61,7 @@ typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(cursor)
 ZSH_HIGHLIGHT_STYLES[cursor]=bg=white
 
-# Load tab completions
+# Load tab completions (should stay at the end)
 autoload -Uz compinit && compinit
 
 # To customize prompt, run `p10k configure` or edit .p10k.zsh.
