@@ -59,10 +59,11 @@ github-clone () {
 
     if [[ $1 = -* ]]; then
         echo 'usage: github-clone [--https] user/repo[.git] [dir]'
-    else
-        repo=$(sed 's|^.*github\.com[:/]||' <<< $1)
-        git clone --recurse-submodules $url$repo $2
+        return
     fi
+
+    repo=$(sed 's|^.*github\.com[:/]||' <<< $1)
+    git clone --recurse-submodules $url$repo $2
 }
 
 # macOS specific aliases
@@ -70,6 +71,9 @@ if [[ "$(uname)" = Darwin ]]; then
     # macOS inconsistencies workarounds
     alias umount='diskutil unmount'
     alias clear="printf '\33c'"
+
+    # Run x86 binaries with Rosetta
+    alias x86='arch -x86_64'
 
     # Use clamshell mode on battery power
     clam () {
@@ -88,27 +92,6 @@ if [[ "$(uname)" = Darwin ]]; then
     }
 
     # Applications
-    finder () {
-        if [[ -z "$1" ]]; then
-            # Open current directory by default
-            arg="$PWD"
-        else
-            arg="$1"
-        fi
-
-        case "$arg" in
-            *.app)
-                open -R "$arg"/$(ls -AU "$arg" | head -n 1)
-                ;;
-            *)  if [[ -d "$arg" ]]; then
-                    open "$arg"
-                else
-                    open -R "$arg"
-                fi
-                ;;
-        esac
-    }
-
     alias chrome='open -a "Google Chrome"'
     alias firefox='open -a Firefox'
     zathura () {
@@ -117,9 +100,19 @@ if [[ "$(uname)" = Darwin ]]; then
             open -na Zathura --args "$(readlink -f "$file")"
         done
     }
+    finder () {
+        arg="$1"
+        # Open current directory by default
+        [[ -n "$arg" ]] || arg="$PWD"
 
-    # Run x86 binaries with Rosetta
-    alias x86='arch -x86_64'
+        if [[ "$arg" = *.app ]]; then
+            open -R "$arg"/$(ls -AU "$arg" | head -n 1)
+        elif [[ -d "$arg" ]]; then
+            open "$arg"
+        else
+            open -R "$arg"
+        fi
+    }
 fi
 
 # Hook for local aliases
