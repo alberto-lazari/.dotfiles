@@ -3,12 +3,14 @@
 # it will be automatically created, if non-existent
 
 print_help () {
-    echo usage: setup.sh [-hfsv]
-    echo options:
-    echo '-f, --force            force existing dotfiles overwrite'
-    echo "-s, --silent, --quiet  don't print log messages"
-    echo '-v, --verbose          print detailed log messages'
-    echo '-h, --help             print this message'
+    cat <<- 'EOF'
+	usage: setup.sh [-hfsv]
+	options:
+	-f, --force            force existing dotfiles overwrite
+	-s, --silent, --quiet  don't print log messages
+	-v, --verbose          print detailed log messages
+	-h, --help             print this message
+	EOF
 }
 
 [[ -n $SILENT ]] || export SILENT=false

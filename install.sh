@@ -1,14 +1,16 @@
 #!/bin/bash -e
 
 print_help() {
-    echo usage: install.sh [-hfnsuv]
-    echo options:
-    echo '-f, --force, --overwrite  force existing dotfiles overwrite'
-    echo "-n, --no-overwrite        don't overwrite existing dotfiles"
-    echo "-s, --silent, --quiet     don't print log messages"
-    echo '-u, --update              update repository before install'
-    echo '-v, --verbose             print detailed log messages'
-    echo '-h, --help                print this message'
+    cat <<- 'EOF'
+	usage: install.sh [-hfnsuv]
+	options:
+	-f, --force, --overwrite  force existing dotfiles overwrite
+	-n, --no-overwrite        don't overwrite existing dotfiles
+	-s, --silent, --quiet     don't print log messages
+	-u, --update              update repository before install
+	-v, --verbose             print detailed log messages
+	-h, --help                print this message
+	EOF
 }
 
 cd "$(dirname "$BASH_SOURCE")"
