@@ -11,6 +11,35 @@ t () { tree -L 2 "$@"; }
 alias chx='chmod +x'
 ! which bpytop &> /dev/null || alias top='bpytop'
 md () { pandoc "$1" -V geometry:margin=.5in -V fontsize=12pt -o "${1%.*}.pdf"; }
+pdfmerge () {
+    which gs &> /dev/null || { echo dependency not found: ghostscript is required; return 1; }
+    local force=false
+    while getopts :f opt; do
+        case $opt in
+            f)  force=true
+                ;;
+            *)  cat >&2 <<-EOF
+				usage: pdfmerge [-f] files... output_file
+				options:
+				-f  allow output file to be one of the input files
+				EOF
+                return 1
+                ;;
+        esac
+    done
+    $force && shift
+    local files=( "${@:1:$(( $# - 1 ))}" )
+    local out="${@:$#}"
+    if grep $out <<< "${files[@]}" &> /dev/null; then
+        if $force; then
+            echo warning: overwriting $out... >&2
+        else
+            echo warning: $out would be overwritten >&2
+            return 1
+        fi
+    fi
+    gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="$out" "${files[@]}"
+}
 
 # Git
 alias s='git status --short'
@@ -46,7 +75,7 @@ submod-add () {
     git submodule add $(git -C $1 remote get-url origin) $1
 }
 github-clone () {
-    url='git@github.com:'
+    local url='git@github.com:'
     if [[ -z $1 ]]; then
         echo 'error: need a repo to clone (user/repo)' >&2
         return 1
@@ -62,7 +91,7 @@ github-clone () {
         return
     fi
 
-    repo=$(sed 's|^.*github\.com[:/]||' <<< $1)
+    local repo=$(sed 's|^.*github\.com[:/]||' <<< $1)
     git clone --recurse-submodules $url$repo $2
 }
 
@@ -96,12 +125,13 @@ if [[ "$(uname)" = Darwin ]]; then
     alias firefox='open -a Firefox'
     zathura () {
         [[ $# -gt 0 ]] || { echo 'usage: zathura file [...]' >&2; return 1; }
+        local file
         for file in "$@"; do
             open -na Zathura --args "$(readlink -f "$file")"
         done
     }
     finder () {
-        arg="$1"
+        local arg="$1"
         # Open current directory by default
         [[ -n "$arg" ]] || arg="$PWD"
 
