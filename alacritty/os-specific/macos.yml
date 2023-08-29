@@ -2,8 +2,8 @@ key_bindings:
   - {
     key: N,
     mods: Command,
-    command: { program: "/bin/bash", args: ["-c", "eval $(compgen -G '/Users/*/.dotfiles/alacritty/spawn-new-instance.sh')"] }
-  }
+    command: { program: "/bin/zsh", args: ["-c", "eval $HOME/.dotfiles/alacritty/spawn-new-instance.sh"] }
+}
 
 hints:
   enabled:
