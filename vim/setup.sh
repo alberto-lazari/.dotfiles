@@ -9,6 +9,8 @@ package=dotfiles
 
 # Undo files won't be created, unless the undo directory exists
 [[ -d $DIR/undodir ]] || mkdir -p $DIR/undodir
+# Same for .viminfo
+[[ -d $DIR/cache ]] || mkdir -p $DIR/cache
 link_files_in . -t $DIR
 
 # Read plugins, ignoring comments starting with " or #
