@@ -11,35 +11,6 @@ t () { tree -L 2 "$@"; }
 alias chx='chmod +x'
 ! which bpytop &> /dev/null || alias top='bpytop'
 md () { pandoc "$1" -V geometry:margin=.5in -V fontsize=12pt -o "${1%.*}.pdf"; }
-pdfmerge () {
-    which gs &> /dev/null || { echo dependency not found: ghostscript is required; return 1; }
-    local force=false
-    while getopts :f opt; do
-        case $opt in
-            f)  force=true
-                ;;
-            *)  cat >&2 <<-EOF
-				usage: pdfmerge [-f] files... output_file
-				options:
-				-f  allow output file to be one of the input files
-				EOF
-                return 1
-                ;;
-        esac
-    done
-    $force && shift
-    local files=( "${@:1:$(( $# - 1 ))}" )
-    local out="${@:$#}"
-    if grep $out <<< "${files[@]}" &> /dev/null; then
-        if $force; then
-            echo warning: overwriting $out... >&2
-        else
-            echo warning: $out would be overwritten >&2
-            return 1
-        fi
-    fi
-    gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="$out" "${files[@]}"
-}
 
 # Git
 alias s='git status --short'
