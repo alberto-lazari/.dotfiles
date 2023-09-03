@@ -33,3 +33,6 @@ sgur/vim-textobj-parameter
 
 " Typst text objects
 albertolazari/vim-textobj-typst
+
+" Undo tree visualization
+mbbill/undotree
