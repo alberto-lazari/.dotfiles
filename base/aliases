@@ -86,9 +86,9 @@ if [[ "$(uname)" = Darwin ]]; then
     up () {
         # Update Homebrew packages
         brew update && brew upgrade |
-        tee /dev/stderr |
-        # Update Alacritty icon, because an update may overwrite it
-        { ! grep -w '[Aa]lacritty' &> /dev/null; } || ~/.dotfiles/alacritty/update-icon.sh
+            tee >(cat) |
+            # Update Alacritty icon, because an update may overwrite it
+            { ! grep -w '[Aa]lacritty' &> /dev/null; } || ~/.dotfiles/alacritty/update-icon.sh
     }
 
     # Applications
