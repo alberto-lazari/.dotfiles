@@ -79,6 +79,10 @@ shift + alt - 5 : yabai -m window --space 5;
 shift + alt - 6 : yabai -m window --space 6;
 shift + alt - 7 : yabai -m window --space 7;
 
+
+# Center floated window
+shift + alt - c : yabai -m window --grid 4:4:1:1:2:2
+
 # -- Starting/Stopping/Restarting Yabai --
 
 # Stop/start/restart yabai
