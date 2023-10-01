@@ -22,15 +22,15 @@ yabai -m config window_border_width          4
 yabai -m config window_border_hidpi          on
 yabai -m config window_border_blur           off
 yabai -m config window_border_radius         10
-yabai -m config active_window_border_color   0xff51afef  # doom-one blue
-# yabai -m config active_window_border_color   0xffffffff  # white
+# yabai -m config active_window_border_color   0xff51afef  # doom-one blue
+yabai -m config active_window_border_color   0xffffffff  # white
 yabai -m config normal_window_border_color   0xff555555
 
 # Opacity
 yabai -m config window_shadow                off
 yabai -m config window_opacity               off
 yabai -m config window_opacity_duration      0.25
-yabai -m config window_animation_duration    0.25
+yabai -m config window_animation_duration    0.00
 yabai -m config active_window_opacity        1.0
 yabai -m config normal_window_opacity        0.95
 
@@ -52,6 +52,7 @@ yabai -m mouse_drop_action                  swap
 
 # Disable specific apps
 yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^System Information$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^QuickTime Player$" manage=off
