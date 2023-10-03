@@ -70,7 +70,7 @@ github-clone () {
 if [[ "$(uname)" = Darwin ]]; then
     # macOS inconsistencies workarounds
     alias umount='diskutil unmount'
-    alias clear="printf '\33c'"
+    alias clear="printf '\33c\e[3J'"
 
     # Run x86 binaries with Rosetta
     alias x86='arch -x86_64'
