@@ -1,7 +1,10 @@
 PATH=$HOME/bin:$PATH
 
-# Silence macOS pre-release warning
-export HOMEBREW_DEVELOPER=1
-[[ ! -f /opt/homebrew/bin/brew ]] || eval "$(/opt/homebrew/bin/brew shellenv)"
+# Multiple Homebrews on Apple Silicon
+if [[ "$(arch)" = arm64 ]]; then
+    [[ ! -f /opt/homebrew/bin/brew ]] || eval "$(/opt/homebrew/bin/brew shellenv)"
+else
+    [[ ! -f /usr/local/bin/brew ]] || eval "$(/usr/local/bin/brew shellenv)"
+fi
 
 [[ ! -f ~/.profile.local ]] || . ~/.profile.local
