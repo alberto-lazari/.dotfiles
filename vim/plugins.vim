@@ -36,3 +36,6 @@ albertolazari/vim-textobj-typst
 
 " Undo tree visualization
 mbbill/undotree
+
+" Kotlin support
+udalov/kotlin-vim
