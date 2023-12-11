@@ -6,6 +6,10 @@ alt - k : yabai -m window --focus north
 alt - h : yabai -m window --focus west
 alt - l : yabai -m window --focus east
 
+# Change space
+alt - p : skhd -k 'ctrl - left'
+alt - n : skhd -k 'ctrl - right'
+
 # Change focus between external displays (left and right)
 alt - s : yabai -m display --focus west
 alt - g : yabai -m display --focus east
