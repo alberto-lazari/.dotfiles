@@ -1,0 +1,29 @@
+import = [
+    "~/.config/alacritty/colors.toml",
+    "~/.config/alacritty/os-specific.toml"
+]
+live_config_reload = true
+
+[cursor.style]
+blinking = "never"
+
+[font]
+size = 12.0
+
+[font.normal]
+family = "MesloLGS NF"
+
+[mouse]
+hide_when_typing = true
+
+[shell]
+args = ["--login"]
+program = "zsh"
+
+[window.dimensions]
+columns = 125
+lines = 30
+
+[window.padding]
+x = 5
+y = 3

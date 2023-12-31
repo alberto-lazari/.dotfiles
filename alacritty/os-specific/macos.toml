@@ -1,0 +1,17 @@
+[[hints.enabled]]
+command = "open"
+post_processing = true
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
+# Use CMD + Click to open links
+[hints.enabled.mouse]
+enabled = true
+mods = "command"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "command"
+
+[keyboard.bindings.command]
+args = ["-c", "eval $HOME/.dotfiles/alacritty/spawn-new-instance.sh"]
+program = "/bin/bash"

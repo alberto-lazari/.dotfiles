@@ -1,0 +1,9 @@
+[[hints.enabled]]
+command = "xdg-open"
+post_processing = true
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
+# Use CTRL + Click to open links
+[hints.enabled.mouse]
+enabled = true
+mods = "control"
