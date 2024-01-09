@@ -1,10 +1,10 @@
-# Source this from a setup.sh script
+# Source this from a `setup` script
 # instantiate DIR variable with the config directory to put the files in
 # it will be automatically created, if non-existent
 
 print_help () {
     cat <<- 'EOF'
-	usage: setup.sh [-hfsv]
+	usage: setup [-hfsv]
 	options:
 	-f, --force            force existing dotfiles overwrite
 	-s, --silent, --quiet  don't print log messages

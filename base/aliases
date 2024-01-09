@@ -88,7 +88,7 @@ if [[ "$(uname)" = Darwin ]]; then
         brew update && brew upgrade |
             tee >(cat) |
             # Update Alacritty icon, because an update may overwrite it
-            if grep -w '[Aa]lacritty' &> /dev/null; then ~/.dotfiles/alacritty/update-icon.sh; fi
+            if grep -w '[Aa]lacritty' &> /dev/null; then ~/.config/alacritty/update-icon; fi
     }
 
     # Applications

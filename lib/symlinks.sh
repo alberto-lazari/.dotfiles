@@ -74,7 +74,7 @@ link_file () {
     fi
 }
 
-# Create symlinks of files found in DIRECTORY except scripts (.sh files)
+# Create symlinks of files found in DIRECTORY except setup scripts
 # usage: link_files_in DIRECTORY [-d] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
 # options:
 # -d, --as-dotfile        link as dotfile
@@ -113,8 +113,8 @@ link_files_in () {
         return 1
     fi
 
-    # Exclude sub-directories, scripts and explicitly excluded files
-    local exclude=".*/|.+\.sh${exclude+|$exclude}"
+    # Exclude sub-directories, setupt scripts and explicitly excluded files
+    local exclude=".*/|setup${exclude+|$exclude}"
     local file
 
     # Loop on every file in DIRECTORY, except the excluded ones

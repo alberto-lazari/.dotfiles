@@ -2,7 +2,7 @@
 
 print_help() {
     cat <<- 'EOF'
-	usage: install.sh [-hfnsuv]
+	usage: install [-hfnsuv]
 	options:
 	-f, --force, --overwrite  force existing dotfiles overwrite
 	-n, --no-overwrite        don't overwrite existing dotfiles
@@ -57,7 +57,7 @@ if $update; then
     git pull $($SILENT && echo -q) origin main
 
     # Install using the updated script
-    exec ./install.sh
+    exec ./install
 fi
 
 . lib/symlinks.sh
@@ -68,7 +68,7 @@ link_files_in base --as-dotfile
 # Setup all programs
 for program in $(ls -p | grep -Evw 'base|lib|.*[^/]$' | sed 's|/||'); do
     if which "$program" &> /dev/null; then
-        "$program/setup.sh"
+        "$program/setup"
     else
         $SILENT || echo Warning: $program not installed, skipping setup... >&2
     fi

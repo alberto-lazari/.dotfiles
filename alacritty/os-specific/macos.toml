@@ -13,5 +13,5 @@ key = "N"
 mods = "command"
 
 [keyboard.bindings.command]
-args = ["-c", "eval $HOME/.dotfiles/alacritty/spawn-new-instance.sh"]
+args = ["-c", "eval $HOME/.config/alacritty/spawn-new-instance"]
 program = "/bin/bash"
