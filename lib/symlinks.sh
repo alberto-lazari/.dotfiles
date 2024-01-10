@@ -1,9 +1,9 @@
 # Create symlink of the file
 # usage: link_file FILE [-d] [-t TARGET_DIRECTORY] [LINK_NAME]
 # options:
-# -d, --as-dotfile        link as dotfile
-# -t                      directory to put the link in (default: ~)
-# LINK_NAME               custom name for the link, ignoring -d (default: FILE)
+# -d, --as-dotfile    link as dotfile
+# -t                  directory to put the link in (default: ~)
+# LINK_NAME           custom name for the link, ignoring -d (default: FILE)
 link_file () {
     [[ -n $SILENT ]] || local SILENT=false
     [[ -n $VERBOSE ]] || local VERBOSE=false
@@ -77,9 +77,9 @@ link_file () {
 # Create symlinks of files found in DIRECTORY except setup scripts
 # usage: link_files_in DIRECTORY [-d] [-e 'excluded|files|separated|with|pipes'] [-t TARGET_DIRECTORY]
 # options:
-# -d, --as-dotfile        link as dotfile
-# -e                      exclude files (regex escaped)
-# -t                      directory to put links in (default: ~)
+# -d, --as-dotfile    link as dotfile
+# -e                  exclude files (regex escaped)
+# -t                  directory to put links in (default: ~)
 link_files_in () {
     [[ -n $SILENT ]] || local SILENT=false
     [[ -n $VERBOSE ]] || local VERBOSE=false
@@ -106,14 +106,14 @@ link_files_in () {
         shift
     done
 
-    if [[ -n ${ARGS[0]} ]]; then
+    if [[ -n "${ARGS[0]}" ]]; then
         local dir="$(readlink -f "${ARGS[0]}")"
     else
         echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2
         return 1
     fi
 
-    # Exclude sub-directories, setupt scripts and explicitly excluded files
+    # Exclude sub-directories, setup scripts and explicitly excluded files
     local exclude=".*/|setup${exclude+|$exclude}"
     local file
 

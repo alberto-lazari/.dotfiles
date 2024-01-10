@@ -2,8 +2,11 @@
 # instantiate DIR variable with the config directory to put the files in
 # it will be automatically created, if non-existent
 
+. "$(dirname $BASH_SOURCE)/options.sh"
+. "$(dirname $BASH_SOURCE)/symlinks.sh"
+
 print_help () {
-    cat <<- 'EOF'
+    cat >&2 <<- EOF
 	usage: setup [-hfsv]
 	options:
 	-f, --force            force existing dotfiles overwrite
@@ -16,10 +19,8 @@ print_help () {
 [[ -n $SILENT ]] || export SILENT=false
 [[ -n $VERBOSE ]] || export VERBOSE=false
 
-. "$(dirname $BASH_SOURCE)/options.sh"
-
 parse_opts hfsv "$@" || {
-    print_help >&2
+    print_help
     exit 1
 }
 set -- "${OPTS[@]}"
@@ -35,7 +36,7 @@ while [[ $# -gt 0 ]]; do
             print_help
             exit 0
             ;;
-        *)  print_help >&2
+        *)  print_help
             exit 1
             ;;
     esac
@@ -43,7 +44,4 @@ while [[ $# -gt 0 ]]; do
 done
 
 DIR="${DIR:-~}"
-
-. "$(dirname $BASH_SOURCE)/symlinks.sh"
-
 [[ -d "$DIR" ]] || mkdir -p "$DIR"
