@@ -7,15 +7,13 @@ function set_terminal_title () {
 
 # Language environment
 export LANG=en_US.UTF-8
-
 # Preferred editor for local and remote sessions
 export EDITOR=vim
-
 # Set terminal type
 export TERM=xterm-256color
 
 # Display colors on less and quit if content fits in one page
-LESS=RF
+export LESS=RF
 # No less history file
 export LESSHISTFILE=-
 
