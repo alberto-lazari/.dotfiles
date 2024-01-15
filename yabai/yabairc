@@ -11,9 +11,9 @@ yabai -m config window_placement             second_child
 
 # Padding
 for edge in {top,bottom,left,right}; do
-    yabai -m config ${edge}_padding          15
+    yabai -m config ${edge}_padding          12
 done
-yabai -m config window_gap                   20
+yabai -m config window_gap                   15
 
 # Opacity
 yabai -m config window_shadow                off
@@ -47,4 +47,8 @@ yabai -m rule --add app="^Calculator$"         manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^QuickTime Player$"   manage=off
 
-borders active_color=0xff77a0fc inactive_color=0xff4c566a width=11.0 &
+borders \
+    active_color=0xff77a0fc \
+    inactive_color=0xff4c566a \
+    width=9.0 \
+    &
