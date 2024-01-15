@@ -25,5 +25,5 @@ columns = 125
 lines = 30
 
 [window.padding]
-x = 3
-y = 3
+x = 5
+y = 5
