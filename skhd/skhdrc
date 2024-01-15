@@ -26,7 +26,7 @@ shift + alt - y : yabai -m space --mirror y-axis
 shift + alt - x : yabai -m space --mirror x-axis
 
 # Toggle window float
-shift + alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # Toggle window split type
 shift + alt - s : yabai -m window --toggle split
@@ -96,4 +96,4 @@ ctrl + alt - r : yabai --restart-service
 
 
 # Open new terminal instance
-ctrl + alt - t : open -na alacritty
+alt - return : open -na alacritty
