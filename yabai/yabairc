@@ -1,30 +1,19 @@
 # Requires SIP partially disabled
 # sudo yabai --load-sa
-# launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist > /dev/null 2>&1 &
+# launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist &> /dev/null &
 # yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
 # Default layout (can be bsp, stack or float)
-yabai -m config layout                      bsp
+yabai -m config layout                       bsp
 
 # New window spawns to the right if vertical split, or bottom if horizontal split
-yabai -m config window_placement            second_child
+yabai -m config window_placement             second_child
 
 # Padding
-padding=10
 for edge in {top,bottom,left,right}; do
-    yabai -m config ${edge}_padding         $padding
+    yabai -m config ${edge}_padding          15
 done
-yabai -m config window_gap                  $padding
-
-# Border settings
-yabai -m config window_border                off
-yabai -m config window_border_width          4
-yabai -m config window_border_hidpi          on
-yabai -m config window_border_blur           off
-yabai -m config window_border_radius         10
-# yabai -m config active_window_border_color   0xff51afef  # doom-one blue
-yabai -m config active_window_border_color   0xffffffff  # white
-yabai -m config normal_window_border_color   0xff555555
+yabai -m config window_gap                   20
 
 # Opacity
 yabai -m config window_shadow                off
@@ -37,22 +26,25 @@ yabai -m config normal_window_opacity        0.95
 # -- mouse settings --
 
 # Center mouse on window with focus
-yabai -m config mouse_follows_focus         on
+yabai -m config mouse_follows_focus          off
+yabai -m config focus_follows_mouse          autofocus
 
 # Modifier for clicking and dragging with mouse
-# yabai -m config mouse_modifier              alt
+# yabai -m config mouse_modifier               alt
 # Set modifier + left-click drag to move window
-yabai -m config mouse_action1               move
+yabai -m config mouse_action1                move
 # Set modifier + right-click drag to resize window
-# yabai -m config mouse_action2               resize
+# yabai -m config mouse_action2                resize
 
 # When window is dropped in center of another window, swap them (on edges it will split it)
-yabai -m mouse_drop_action                  swap
+yabai -m mouse_drop_action                   swap
 
 
 # Disable specific apps
-yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^System Settings$"    manage=off
 yabai -m rule --add app="^System Information$" manage=off
-yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Calculator$"         manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
-yabai -m rule --add app="^QuickTime Player$" manage=off
+yabai -m rule --add app="^QuickTime Player$"   manage=off
+
+borders active_color=0xff77a0fc inactive_color=0xff4c566a width=11.0 &
