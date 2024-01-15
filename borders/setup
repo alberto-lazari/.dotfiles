@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+cd "$(dirname $BASH_SOURCE)"
+
+DIR=~/.config/borders
+. ../lib/setup-base.sh
+
+link_files_in . -t $DIR

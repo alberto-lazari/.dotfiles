@@ -47,8 +47,5 @@ yabai -m rule --add app="^Calculator$"         manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^QuickTime Player$"   manage=off
 
-borders \
-    active_color=0xff77a0fc \
-    inactive_color=0xff4c566a \
-    width=9.0 \
-    &
+# Display borders
+borders &
