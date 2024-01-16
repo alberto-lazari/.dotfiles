@@ -5,8 +5,8 @@
 # -t                  directory to put the link in (default: ~)
 # LINK_NAME           custom name for the link, ignoring -d (default: FILE)
 link_file () {
-    [[ -n $SILENT ]] || local SILENT=false
-    [[ -n $VERBOSE ]] || local VERBOSE=false
+    [[ -n $DOTFILES_SILENT ]] || local DOTFILES_SILENT=false
+    [[ -n $DOTFILES_VERBOSE ]] || local DOTFILES_VERBOSE=false
     [[ -n "$overwrite_file" ]] || local overwrite_file=/tmp/dotfiles.overwrite
     local dotfile=false
 
@@ -67,19 +67,19 @@ link_file () {
 
         case $overwrite in
             [yY])
-                $SILENT || echo Replacing file: ${target_file/$HOME/\~}
+                $DOTFILES_SILENT || echo Replacing file: ${target_file/$HOME/\~}
                 rm "$target_file"
                 ln -s "$actual_file" "$target_file"
                 ;;
             [nN])
-                ! $VERBOSE || echo Skipping file: ${target_file/$HOME/\~}
+                ! $DOTFILES_VERBOSE || echo Skipping file: ${target_file/$HOME/\~}
                 ;;
             *)  echo lib/symlinks.sh: programming error >&2
                 return 2
                 ;;
         esac
     else
-        $SILENT || echo Creating link: ${target_file/$HOME/\~}
+        $DOTFILES_SILENT || echo Creating link: ${target_file/$HOME/\~}
         ln -s "$actual_file" "$target_file"
     fi
 }
@@ -91,8 +91,8 @@ link_file () {
 # -e                  exclude files (regex escaped)
 # -t                  directory to put links in (default: ~)
 link_files_in () {
-    [[ -n $SILENT ]] || local SILENT=false
-    [[ -n $VERBOSE ]] || local VERBOSE=false
+    [[ -n $DOTFILES_SILENT ]] || local DOTFILES_SILENT=false
+    [[ -n $DOTFILES_VERBOSE ]] || local DOTFILES_VERBOSE=false
     local dotfile=false
 
     . $(dirname $BASH_SOURCE)/options.sh

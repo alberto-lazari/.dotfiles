@@ -2,7 +2,7 @@
 set -e
 cd "$(dirname $BASH_SOURCE)"
 
-DIR=~/.config/git
+SETUP_DIR=~/.config/git
 . ../lib/setup-base.sh
 
 skipped=false
@@ -21,8 +21,8 @@ done
 ! $skipped ||
     cat >&2 <<- EOF
 	Git user info setup skipped. You can configure them manually with
-	git config -f ${DIR/$HOME/~}/config.local user.name 'Your Name'
-	git config -f ${DIR/$HOME/~}/config.local user.email 'mail@domain.com'
+	git config -f ${SETUP_DIR/$HOME/~}/config.local user.name 'Your Name'
+	git config -f ${SETUP_DIR/$HOME/~}/config.local user.email 'mail@domain.com'
 	EOF
 
-link_files_in . -t $DIR
+link_files_in . -t $SETUP_DIR

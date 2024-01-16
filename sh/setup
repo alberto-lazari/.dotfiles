@@ -2,7 +2,7 @@
 set -e
 cd "$(dirname $BASH_SOURCE)"
 
-DIR=~/.config/sh
+SETUP_DIR=~/.config/sh
 . ../lib/setup-base.sh
 
-link_files_in . -t $DIR
+link_files_in . -t $SETUP_DIR

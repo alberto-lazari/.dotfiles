@@ -3,26 +3,26 @@ set -e
 cd "$(dirname $BASH_SOURCE)"
 
 package=dotfiles
-DIR=~/.vim
+SETUP_DIR=~/.vim
 . ../lib/setup-base.sh
 
 # Undo files won't be created, unless the undo directory exists
-[[ -d $DIR/undodir ]] || mkdir -p $DIR/undodir
+[[ -d $SETUP_DIR/undodir ]] || mkdir -p $SETUP_DIR/undodir
 # Same for .viminfo
-[[ -d $DIR/cache ]] || mkdir -p $DIR/cache
-link_files_in . -t $DIR
+[[ -d $SETUP_DIR/cache ]] || mkdir -p $SETUP_DIR/cache
+link_files_in . -t $SETUP_DIR
 
 # Read plugins, ignoring comments starting with " or #
 for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
     plugin=$(basename $repo)
 
-    if [[ ! -d "$DIR/pack/$package/opt/$plugin" ]]; then
-        $SILENT ||
+    if [[ ! -d "$SETUP_DIR/pack/$package/opt/$plugin" ]]; then
+        $DOTFILES_SILENT ||
             echo Installing vim plugin: $plugin...
         git clone \
             --depth 1 \
-            $($VERBOSE || echo -q) \
+            $($DOTFILES_VERBOSE || echo -q) \
             https://github.com/$repo \
-            "$DIR/pack/$package/opt/$plugin"
+            "$SETUP_DIR/pack/$package/opt/$plugin"
     fi
 done

@@ -1,5 +1,5 @@
 # Source this from a `setup` script
-# instantiate DIR variable with the config directory to put the files in
+# instantiate SETUP_DIR variable with the config directory to put the files in
 # it will be automatically created, if non-existent
 
 . "$(dirname $BASH_SOURCE)/options.sh"
@@ -17,9 +17,9 @@ print_help () {
 	EOF
 }
 
-[[ -n "$DIR" ]] || export DIR="$HOME"
-[[ -n "$SILENT" ]] || export SILENT=false
-[[ -n "$VERBOSE" ]] || export VERBOSE=false
+[[ -n "$SETUP_DIR" ]] || export SETUP_DIR="$HOME"
+[[ -n "$DOTFILES_SILENT" ]] || export DOTFILES_SILENT=false
+[[ -n "$DOTFILES_VERBOSE" ]] || export DOTFILES_VERBOSE=false
 [[ -n "$DOTFILES_INSTALL" ]] || export DOTFILES_INSTALL=false
 [[ -n "$overwrite_file" ]] || overwrite_file=/tmp/dotfiles.overwrite
 
@@ -44,9 +44,9 @@ while [[ $# -gt 0 ]]; do
         -n|--no-overwrite)
             echo N > "$overwrite_file";;
         -q|--quiet|--silent)
-            SILENT=true;;
+            DOTFILES_SILENT=true;;
         -v|--verbose)
-            VERBOSE=true;;
+            DOTFILES_VERBOSE=true;;
         -h|--help)
             print_help
             exit 0
@@ -58,4 +58,4 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-[[ -d "$DIR" ]] || mkdir -p "$DIR"
+[[ -d "$SETUP_DIR" ]] || mkdir -p "$SETUP_DIR"
