@@ -117,4 +117,4 @@ if [[ "$(uname)" = Darwin ]]; then
 fi
 
 # Hook for local aliases
-[[ ! -f ~/.aliases.local ]] || . ~/.aliases.local
+[[ ! -f ~/.config/sh/aliases.local ]] || . ~/.config/sh/aliases.local

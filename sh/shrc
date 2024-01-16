@@ -23,4 +23,4 @@ set -o vi
 KEYTIMEOUT=1
 
 # Load custom aliases
-[[ ! -f ~/.aliases ]] || . ~/.aliases
+[[ ! -f ~/.config/sh/aliases ]] || . ~/.config/sh/aliases

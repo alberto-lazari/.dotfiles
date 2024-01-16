@@ -1,4 +1,4 @@
-[[ ! -f ~/.profile ]] || . ~/.profile
+[[ ! -f ~/.config/sh/profile ]] || . ~/.config/sh/profile
 
 # Load homebrew zsh completions
 ! which brew &> /dev/null || FPATH="$(brew --prefix)/share/zsh/site-functions:$FPATH"

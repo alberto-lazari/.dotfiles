@@ -7,7 +7,7 @@ fi
 [[ $- = *i* ]] || return
 
 # Load common rc
-[[ ! -f ~/.shrc ]] || . ~/.shrc
+[[ ! -f ~/.config/sh/shrc ]] || . ~/.config/sh/shrc
 
 PROMPT_COMMAND='set_terminal_title bash - $(basename "$(dirs +0)")'
 

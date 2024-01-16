@@ -43,5 +43,5 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-DIR="${DIR:-~}"
+DIR="${DIR:-$HOME}"
 [[ -d "$DIR" ]] || mkdir -p "$DIR"

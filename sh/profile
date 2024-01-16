@@ -7,4 +7,4 @@ else
     [[ ! -f /usr/local/bin/brew ]] || eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-[[ ! -f ~/.profile.local ]] || . ~/.profile.local
+[[ ! -f ~/.config/sh/profile.local ]] || . ~/.config/sh/profile.local

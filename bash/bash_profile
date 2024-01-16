@@ -2,7 +2,7 @@
 ! ${BASH_PROFILE_SOURCED:-false} || return
 export BASH_PROFILE_SOURCED=true
 
-[[ ! -f ~/.profile ]] || . ~/.profile
+[[ ! -f ~/.config/sh/profile ]] || . ~/.config/sh/profile
 
 # Silence deprecation warning on macOS
 export BASH_SILENCE_DEPRECATION_WARNING=1

@@ -23,7 +23,7 @@ load_plugins () {
 }
 
 # Load common rc
-[[ ! -f ~/.shrc ]] || . ~/.shrc
+[[ ! -f ~/.config/sh/shrc ]] || . ~/.config/sh/shrc
 
 precmd () { set_terminal_title zsh - $(basename "${PWD/$HOME/~}"); }
 
