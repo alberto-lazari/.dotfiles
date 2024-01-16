@@ -7,6 +7,7 @@
 link_file () {
     [[ -n $SILENT ]] || local SILENT=false
     [[ -n $VERBOSE ]] || local VERBOSE=false
+    [[ -n "$overwrite_file" ]] || local overwrite_file=/tmp/dotfiles.overwrite
     local dotfile=false
 
     . $(dirname $BASH_SOURCE)/options.sh
@@ -45,17 +46,26 @@ link_file () {
     local target_file="${target_dir:-$HOME}/$link_name"
 
     if [[ -f "$target_file" || -L "$target_file" ]]; then
+        [[ -n "$DOTFILES_SETUP" ]] || {
+            # Not called from a setup, file has to be initialized
+            echo > "$overwrite_file"
+        }
+
+        local overwrite=$(cat "$overwrite_file")
         # Check permissions to overwrite the existing file
-        while [[ -z "$ALLOW_OVERWRITE" || "$ALLOW_OVERWRITE" != [yYnN] ]]; do
-            export ALLOW_OVERWRITE
-            read -p 'Warning: existing dotfiles found. Overwrite them? (y/N) ' ALLOW_OVERWRITE
+        while [[ -z "$overwrite" || "$overwrite" != [yYnN] ]]; do
+            read -p 'Warning: existing dotfiles found. Overwrite them? (y/N) ' overwrite
 
-            [[ -n "$ALLOW_OVERWRITE" ]] || ALLOW_OVERWRITE=N
+            [[ -n "$overwrite" ]] || overwrite=N
 
-            [[ "$ALLOW_OVERWRITE" = [yYnN] ]] || echo "You need to answer Y(es) or N(o) (default N)\n" >&2
+            if [[ "$overwrite" = [yYnN] ]]; then
+                echo $overwrite > "$overwrite_file"
+            else
+                echo "You need to answer Y(es) or N(o) (default N)\n" >&2
+            fi
         done
 
-        case $ALLOW_OVERWRITE in
+        case $overwrite in
             [yY])
                 $SILENT || echo Replacing file: ${target_file/$HOME/\~}
                 rm "$target_file"

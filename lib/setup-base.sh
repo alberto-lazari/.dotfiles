@@ -7,19 +7,32 @@
 
 print_help () {
     cat >&2 <<- EOF
-	usage: setup [-hfsv]
+	usage: setup [-hfnqv]
 	options:
-	-f, --force            force existing dotfiles overwrite
-	-s, --silent, --quiet  don't print log messages
-	-v, --verbose          print detailed log messages
-	-h, --help             print this message
+	-f, --force, --overwrite  force existing dotfiles overwrite
+	-n, --no-overwrite        don't overwrite existing dotfiles
+	-q, --quiet, --silent     don't print log messages
+	-v, --verbose             print detailed log messages
+	-h, --help                print this message
 	EOF
 }
 
-[[ -n $SILENT ]] || export SILENT=false
-[[ -n $VERBOSE ]] || export VERBOSE=false
+[[ -n "$DIR" ]] || export DIR="$HOME"
+[[ -n "$SILENT" ]] || export SILENT=false
+[[ -n "$VERBOSE" ]] || export VERBOSE=false
+[[ -n "$DOTFILES_INSTALL" ]] || export DOTFILES_INSTALL=false
+[[ -n "$overwrite_file" ]] || overwrite_file=/tmp/dotfiles.overwrite
 
-parse_opts hfsv "$@" || {
+if $DOTFILES_INSTALL; then
+    export DOTFILES_SETUP=false
+else
+    export DOTFILES_SETUP=true
+    trap 'rm "$overwrite_file" 2> /dev/null' EXIT INT TERM
+    # Create an empty overwrite permission (to ask), if not in a complete install
+    echo > "$overwrite_file"
+fi
+
+parse_opts hfnqv "$@" || {
     print_help
     exit 1
 }
@@ -27,8 +40,10 @@ set -- "${OPTS[@]}"
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -f|--force)
-            ALLOW_OVERWRITE=Y;;
-        -s|--silent|--quiet)
+            echo Y > "$overwrite_file";;
+        -n|--no-overwrite)
+            echo N > "$overwrite_file";;
+        -q|--quiet|--silent)
             SILENT=true;;
         -v|--verbose)
             VERBOSE=true;;
@@ -43,5 +58,4 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-DIR="${DIR:-$HOME}"
 [[ -d "$DIR" ]] || mkdir -p "$DIR"

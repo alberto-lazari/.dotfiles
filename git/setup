@@ -5,4 +5,24 @@ cd "$(dirname $BASH_SOURCE)"
 DIR=~/.config/git
 . ../lib/setup-base.sh
 
+skipped=false
+# Configure user info in local file
+for info in {name,email}; do
+    git config user.$info > /dev/null || {
+        read -p "Enter your global git user.$info (empty to skip) " answer >&2
+        if [[ -n "$answer" ]]; then
+            git config -f config.local user.$info "$answer"
+        else
+            skipped=true
+        fi
+    }
+done
+
+! $skipped ||
+    cat >&2 <<- EOF
+	Git user info setup skipped. You can configure them manually with
+	git config -f ${DIR/$HOME/~}/config.local user.name 'Your Name'
+	git config -f ${DIR/$HOME/~}/config.local user.email 'mail@domain.com'
+	EOF
+
 link_files_in . -t $DIR

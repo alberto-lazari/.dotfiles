@@ -6,5 +6,5 @@
 	process = git-lfs filter-process
 	required = true
 [include]
-    # Read local config, for user info
-    path = config.local
+	# Read local config, for user info
+	path = config.local
