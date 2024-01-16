@@ -61,11 +61,17 @@ install () {
         exec ./install
     fi
 
-    # Actual installation process
-    link_files_in base --as-dotfile
+    programs="$( \
+        # List all files, appending / to directories
+        ls -p |
+        # Filter for directories (except `lib`)
+        grep -Evw 'lib|.*[^/]$' |
+        # Strip out the leading /
+        sed 's|/$||'
+    )"
 
     # Setup all programs
-    for program in $(ls -p | grep -Evw 'base|lib|.*[^/]$' | sed 's|/||'); do
+    for program in $programs; do
         if which "$program" &> /dev/null; then
             "$program/setup"
         else

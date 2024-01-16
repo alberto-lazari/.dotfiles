@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+cd "$(dirname $BASH_SOURCE)"
+
+. ../lib/setup-base.sh
+
+link_files_in . --as-dotfile

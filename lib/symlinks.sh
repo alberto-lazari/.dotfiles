@@ -44,7 +44,7 @@ link_file () {
     fi
     local target_file="${target_dir:-$HOME}/$link_name"
 
-    if [[ -f "$target_file" ]]; then
+    if [[ -f "$target_file" || -L "$target_file" ]]; then
         # Check permissions to overwrite the existing file
         while [[ -z "$ALLOW_OVERWRITE" || "$ALLOW_OVERWRITE" != [yYnN] ]]; do
             export ALLOW_OVERWRITE
