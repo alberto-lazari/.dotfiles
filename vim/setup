@@ -1,10 +1,9 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
+cd "$(dirname $BASH_SOURCE)"
 
-cd $(dirname $BASH_SOURCE)
-
-DIR=~/.vim
 package=dotfiles
-
+DIR=~/.vim
 . ../lib/setup-base.sh
 
 # Undo files won't be created, unless the undo directory exists
@@ -18,7 +17,12 @@ for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
     plugin=$(basename $repo)
 
     if [[ ! -d "$DIR/pack/$package/opt/$plugin" ]]; then
-        $SILENT || echo Installing vim plugin: $plugin...
-        git clone --depth 1 $($VERBOSE || echo -q) https://github.com/$repo "$DIR/pack/$package/opt/$plugin"
+        $SILENT ||
+            echo Installing vim plugin: $plugin...
+        git clone \
+            --depth 1 \
+            $($VERBOSE || echo -q) \
+            https://github.com/$repo \
+            "$DIR/pack/$package/opt/$plugin"
     fi
 done
