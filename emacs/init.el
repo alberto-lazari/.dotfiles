@@ -90,53 +90,55 @@
 ;; Auto closing parenthesis
 (electric-pair-mode t)
 
-;; Agda mode
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+;; Agda config
+(when (= 0 (call-process-shell-command "which agda-mode &> /dev/null" nil nil))
+  ;; Load Agda mode
+  (load-file (let ((coding-system-for-read 'utf-8))
+	    (shell-command-to-string "agda-mode locate")))
 
-;; Use "," as agda leader key
-(defvar agda-leader (make-sparse-keymap)
+  ;; Use "," as agda leader key
+  (defvar agda-leader (make-sparse-keymap)
   "Keymap for \",\" shortcuts.")
-(define-key evil-normal-state-map "," agda-leader)
+  (define-key evil-normal-state-map "," agda-leader)
 
-;; Agda commands (, <key>)
-(define-key agda-leader "l" 'agda2-load)
-(define-key agda-leader "f" 'agda2-next-goal)
-(define-key agda-leader "b" 'agda2-previous-goal)
-(define-key agda-leader (kbd "SPC") 'agda2-give)
-(define-key agda-leader "r" 'agda2-refine)
-(define-key agda-leader "a" 'agda2-auto-maybe-all)
-(define-key agda-leader "c" 'agda2-make-case)
-(define-key agda-leader "v" 'agda2-compute-normalised-maybe-toplevel)
-(define-key agda-leader (kbd "\\") 'describe-char)
-(define-key agda-leader (kbd ",") 'agda2-goal-and-context)
-(define-key agda-leader (kbd ".") 'agda2-goal-and-context-and-inferred)
-(define-key agda-leader (kbd ";") 'agda2-goal-and-context-and-checked)
+  ;; Agda commands (, <key>)
+  (define-key agda-leader "l" 'agda2-load)
+  (define-key agda-leader "f" 'agda2-next-goal)
+  (define-key agda-leader "b" 'agda2-previous-goal)
+  (define-key agda-leader (kbd "SPC") 'agda2-give)
+  (define-key agda-leader "r" 'agda2-refine)
+  (define-key agda-leader "a" 'agda2-auto-maybe-all)
+  (define-key agda-leader "c" 'agda2-make-case)
+  (define-key agda-leader "v" 'agda2-compute-normalised-maybe-toplevel)
+  (define-key agda-leader (kbd "\\") 'describe-char)
+  (define-key agda-leader (kbd ",") 'agda2-goal-and-context)
+  (define-key agda-leader (kbd ".") 'agda2-goal-and-context-and-inferred)
+  (define-key agda-leader (kbd ";") 'agda2-goal-and-context-and-checked)
 
-;; The following are the default commands, still mapped to C-c <key>
-;; agda2-compile                           "\C-c\C-x\C-c"
-;; agda2-quit                              "\C-c\C-x\C-q"
-;; agda2-restart                           "\C-c\C-x\C-r"
-;; agda2-abort                             "\C-c\C-x\C-a"
-;; agda2-remove-annotations                "\C-c\C-x\C-d"
-;; agda2-display-implicit-arguments        "\C-c\C-x\C-h"
-;; agda2-display-irrelevant-arguments      "\C-c\C-x\C-i"
-;; agda2-show-constraints                  ,(kbd "C-c C-=")
-;; agda2-solve-maybe-all                   ,(kbd "C-c C-s")
-;; agda2-show-goals                        ,(kbd "C-c C-?")
-;; agda2-elaborate-give                    ,(kbd "C-c C-m")
-;; agda2-goal-type                         "\C-c\C-t"
-;; agda2-show-context                      "\C-c\C-e"
-;; agda2-helper-function-type              "\C-c\C-h"
-;; agda2-infer-type-maybe-toplevel         "\C-c\C-d"
-;; agda2-why-in-scope-maybe-toplevel       "\C-c\C-w"
-;; agda2-search-about-toplevel             ,(kbd "C-c C-z")
-;; agda2-module-contents-maybe-toplevel    ,(kbd "C-c C-o")
-;; agda2-comment-dwim-rest-of-buffer       ,(kbd "C-c C-x M-;")
-;; agda2-set-program-version               "\C-c\C-x\C-s"
+  ;; The following are the default commands, still mapped to C-c <key>
+  ;; agda2-compile                           "\C-c\C-x\C-c"
+  ;; agda2-quit                              "\C-c\C-x\C-q"
+  ;; agda2-restart                           "\C-c\C-x\C-r"
+  ;; agda2-abort                             "\C-c\C-x\C-a"
+  ;; agda2-remove-annotations                "\C-c\C-x\C-d"
+  ;; agda2-display-implicit-arguments        "\C-c\C-x\C-h"
+  ;; agda2-display-irrelevant-arguments      "\C-c\C-x\C-i"
+  ;; agda2-show-constraints                  ,(kbd "C-c C-=")
+  ;; agda2-solve-maybe-all                   ,(kbd "C-c C-s")
+  ;; agda2-show-goals                        ,(kbd "C-c C-?")
+  ;; agda2-elaborate-give                    ,(kbd "C-c C-m")
+  ;; agda2-goal-type                         "\C-c\C-t"
+  ;; agda2-show-context                      "\C-c\C-e"
+  ;; agda2-helper-function-type              "\C-c\C-h"
+  ;; agda2-infer-type-maybe-toplevel         "\C-c\C-d"
+  ;; agda2-why-in-scope-maybe-toplevel       "\C-c\C-w"
+  ;; agda2-search-about-toplevel             ,(kbd "C-c C-z")
+  ;; agda2-module-contents-maybe-toplevel    ,(kbd "C-c C-o")
+  ;; agda2-comment-dwim-rest-of-buffer       ,(kbd "C-c C-x M-;")
+  ;; agda2-set-program-version               "\C-c\C-x\C-s"
 
-(add-hook 'agda2-mode-hook
-          #'(lambda () (define-key (current-local-map) (kbd "C-u") (lookup-key (current-local-map) (kbd "C-c")))))
+  (add-hook 'agda2-mode-hook
+	    #'(lambda () (define-key (current-local-map) (kbd "C-u") (lookup-key (current-local-map) (kbd "C-c"))))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
