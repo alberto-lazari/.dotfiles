@@ -2,12 +2,13 @@
 set adjust-open "width"
 set zoom-min 10
 
-set font "MesloLGS NF 12"
+set font "Menlo 12"
 set window-title-basename "true"
 
 # Hide status bar (C-n to toggle on)
 set guioptions 0
 set statusbar-basename "true"
+set statusbar-bg "#262626"
 
 set notification-error-bg "#AC4142" #08
 set notification-error-fg "#151515" #00
@@ -28,10 +29,10 @@ set notification-bg "#90A959" #0B
 set notification-fg "#151515" #00
 
 # Recolor options (C-r)
-set recolor-lightcolor "#101010"
+set recolor-lightcolor "#161616"
 set recolor-darkcolor "#E0E0E0"
 # Don't reverse images (may not work)
-# set recolor-reverse-video "true"
+set recolor-reverse-video "true"
 set recolor-keephue "true"
 
 set render-loading "false"
