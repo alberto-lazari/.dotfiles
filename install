@@ -90,5 +90,8 @@ for program in $programs; do
 done
 
 [[ -z ${skipped[@]} ]] || $DOTFILES_SILENT || {
-    echo [-] Some programs were not found, setup skipped for: $(echo ${skipped[@]} | sed 's/ /, /g')
+    echo [-] Some programs were not found, setup skipped for:
+    for program in "${skipped[@]}"; do
+        echo " |  > $program"
+    done
 }
