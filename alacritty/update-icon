@@ -1,21 +1,27 @@
-#!/bin/bash -e
+#!/bin/bash
 # From https://github.com/hmarr/dotfiles/blob/main/bin/update-alacritty-icon.sh
-
-icon=/Applications/Alacritty.app/Contents/Resources/alacritty.icns
-if [[ ! -f "$icon" ]]; then
-  echo "Can't find existing icon, make sure Alacritty is installed" >&2
-  exit 1
-fi
-
-if [[ ! -f "$icon.bak" ]]; then
-    echo Backing up existing Alacritty icon
-    hash="$(shasum "$icon" | head -c 10)"
-    mv "$icon" "$icon.bak"
-fi
+set -e
 
 # Variant of the original icon, without the orange shadow, adapted for macOS
 icon_url='https://user-images.githubusercontent.com/517469/188788759-ce02e970-c349-44ef-9f53-c9af2dbb2178.png'
+icon=/Applications/Alacritty.app/Contents/Resources/alacritty.icns
+shasum=e40f531692179a116815584ee967063a0cf803cd
 
+[[ -f "$icon" ]] || {
+  echo "Can't find existing icon, make sure Alacritty is installed" >&2
+  exit 1
+}
+
+current_hash=$(shasum /Applications/Alacritty.app/Contents/Resources/alacritty.icns | sed 's/ .*//g')
+# Skip if the icon is already updated
+[[ "$current_hash" != $shasum ]] || exit 0
+
+[[ -f "$icon.bak" ]] || {
+    echo Backing up existing Alacritty icon
+    mv "$icon" "$icon.bak"
+}
+
+echo Updating Alacritty icon
 curl -sL "$icon_url" > "$icon"
 
 touch /Applications/Alacritty.app
