@@ -14,12 +14,9 @@ parse_opts () {
     ARGS=()
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --*)
-                OPTS+=("$1")
-                ;;
-            -*)
-                # Reset index every time, since getopts get called multiple times
-                OPTIND=1
+            --*) OPTS+=("$1") ;;
+            # Reset index every time, since getopts get called multiple times
+            -*) OPTIND=1
                 local option
 
                 # Loop on pairs of (options, argument)
@@ -35,6 +32,7 @@ parse_opts () {
                     esac
 
                     # If OPTARG is unset no argument was required by the option
+                    # The variable could be set, but empty, that's the reason for the substitution
                     if [[ -z "${OPTARG+set}" ]]; then
                         OPTS+=(-$option)
                         local arg=false
@@ -47,9 +45,7 @@ parse_opts () {
                 # Double shift only if an argument was provided
                 ! $arg || shift
                 ;;
-            *)
-                ARGS+=("$1")
-                ;;
+            *)  ARGS+=("$1") ;;
         esac
 
         shift
