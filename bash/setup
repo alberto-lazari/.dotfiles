@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-cd "$(dirname $BASH_SOURCE)"
+cd "$(dirname "$BASH_SOURCE")"
 
 SETUP_DIR="$HOME"
 . ../lib/setup.sh

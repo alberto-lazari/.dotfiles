@@ -2,7 +2,6 @@
 set -e
 cd "$(dirname "$BASH_SOURCE")"
 
-SETUP_DIR=~/.config/git
 . ../lib/setup.sh
 
 skipped=false

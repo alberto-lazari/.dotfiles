@@ -1,6 +1,10 @@
-# Source this from a `setup` script
-# instantiate SETUP_DIR variable with the config directory to put the files in
-# it will be automatically created, if non-existent
+# Library for custom `setup` scripts
+# - Automatically processes options and includes `symliks` library
+# - Creates SETUP_DIR folder, if it doesn't exist
+# usage: include the following lines on top of your `setup` script
+# cd "$(dirname "$BASH_SOURCE")"    # Set the working directory to the script directory
+# SETUP_DIR=~/.emacs.d              # Set the SETUP_DIR variable (optional, default: ~/.config/PROGRAM)
+# . ../lib/setup.sh                 # Source this library
 
 dotfiles_lib_dir="$(realpath "$(dirname "$BASH_SOURCE")")"
 . "$dotfiles_lib_dir/options.sh"
@@ -19,7 +23,7 @@ print_help () {
 	EOF
 }
 
-[[ -n "$SETUP_DIR" ]] || export SETUP_DIR="$HOME"
+[[ -n "$SETUP_DIR" ]] || export SETUP_DIR="$HOME/.config/$(basename "$(realpath "$PWD")")"
 [[ -n "$DOTFILES_SILENT" ]] || export DOTFILES_SILENT=false
 [[ -n "$DOTFILES_VERBOSE" ]] || export DOTFILES_VERBOSE=false
 [[ -n "$DOTFILES_INSTALL" ]] || export DOTFILES_INSTALL=false

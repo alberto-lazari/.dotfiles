@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-cd "$(dirname $BASH_SOURCE)"
+cd "$(dirname "$BASH_SOURCE")"
 
 package=dotfiles
 SETUP_DIR=~/.vim
