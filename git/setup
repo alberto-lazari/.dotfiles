@@ -11,7 +11,7 @@ for info in {name,email}; do
     git config user.$info > /dev/null || {
         read -p "Enter your global git user.$info (empty to skip) " answer >&2
         if [[ -n "$answer" ]]; then
-            git config -f config.local user.$info "$answer"
+            git config -f $SETUP_DIR/config.local user.$info "$answer"
         else
             skipped=true
         fi
