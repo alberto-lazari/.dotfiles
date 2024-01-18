@@ -6,10 +6,10 @@ cd "$(dirname "$BASH_SOURCE")"
 . lib/options.sh
 
 # Default options
+[[ -n "$DOTFILES_FORCE_SETUP" ]] || export DOTFILES_FORCE_SETUP=false
+[[ -n "$DOTFILES_SILENT" ]] || export DOTFILES_SILENT=false
+[[ -n "$DOTFILES_VERBOSE" ]] || export DOTFILES_VERBOSE=false
 export DOTFILES_INSTALL=true
-export DOTFILES_FORCE_SETUP=false
-export DOTFILES_SILENT=false
-export DOTFILES_VERBOSE=false
 update=false
 overwrite_file=.overwrite
 
