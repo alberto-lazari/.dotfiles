@@ -7,13 +7,14 @@
 
 print_help () {
     cat >&2 <<- EOF
-	usage: setup [-dhfqv]
+	usage: setup [-adhqv]
 	options:
-	-d, --no-overwrite        don't overwrite existing dotfiles
-	-f, --force, --overwrite  force existing dotfiles overwrite
-	-q, --quiet, --silent     don't print log messages
-	-v, --verbose             print detailed log messages
-	-h, --help                print this message
+	  -a, --overwrite-all       overwrite all existing dotfiles
+	  -d, --no-overwrite        don't overwrite existing dotfiles
+	  -q, --quiet, --silent     don't print log messages
+	  -u, --update              update repository before install
+	  -v, --verbose             print detailed log messages
+	  -h, --help                print this message
 	EOF
 }
 
@@ -32,22 +33,22 @@ else
     echo > "$overwrite_file"
 fi
 
-parse_opts dhfqv "$@" || {
+parse_opts adhqv "$@" || {
     print_help
     exit 1
 }
 set -- "${OPTS[@]}"
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        -d|--no-overwrite)
-            echo D > "$overwrite_file";;
-        -f|--force)
-            echo A > "$overwrite_file";;
-        -q|--quiet|--silent)
-            DOTFILES_SILENT=true;;
-        -v|--verbose)
-            DOTFILES_VERBOSE=true;;
-        -h|--help)
+        -a | --overwrite-all)
+            echo A > "$overwrite_file" ;;
+        -d | --no-overwrite)
+            echo D > "$overwrite_file" ;;
+        -q | --quiet | --silent)
+            DOTFILES_SILENT=true ;;
+        -v | --verbose)
+            DOTFILES_VERBOSE=true ;;
+        -h | --help)
             print_help
             exit 0
             ;;

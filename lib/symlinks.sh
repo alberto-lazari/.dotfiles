@@ -30,8 +30,7 @@ link_file () {
 
     # Read the file to link
     if [[ -n "${ARGS[0]}" ]]; then
-        local file="$(readlink -f "${ARGS[0]}")"
-        local actual_file="$file"
+        local file="$(realpath "${ARGS[0]}")"
     else
         echo lib/symlinks.sh: \'link_file\' function: bad usage >&2
         return 1
@@ -46,6 +45,13 @@ link_file () {
     local target_file="${target_dir:-$HOME}/$link_name"
     local target_file_name="${target_file/$HOME/~}"
 
+    # Check that the file is not already linked
+    [[ "$(realpath "$file")" != "$(realpath -q "$target_file")" ]] || {
+        ! $DOTFILES_VERBOSE || 
+            echo [=] Existing link skipped: $target_file_name
+        return 0
+    }
+
     if [[ -f "$target_file" || -L "$target_file" ]]; then
         [[ -n "$DOTFILES_SETUP" ]] || {
             # Not called from a setup, file has to be initialized
@@ -56,7 +62,7 @@ link_file () {
         # Check permissions to overwrite the existing file
         shopt -s nocasematch
         until [[ -n "$overwrite" && "$overwrite" = [ynad] ]]; do
-            read -p "Existing file found. Overwrite \`$target_file_name\`? (y/N/a/d/?) " overwrite >&2
+            read -p "[!] Existing file found. Overwrite \`$target_file_name\`? (y/N/a/d/?) " overwrite >&2
 
             case "$overwrite" in
                 '') overwrite=N ;;
@@ -83,13 +89,13 @@ link_file () {
         case $overwrite in
             [ya])
                 $DOTFILES_SILENT || [[ $overwrite = y ]] ||
-                    echo Replacing file: $target_file_name
+                    echo [!] Replacing file: $target_file_name
                 rm "$target_file"
-                ln -s "$actual_file" "$target_file"
+                ln -s "$file" "$target_file"
                 ;;
             [nd])
                 ! $DOTFILES_VERBOSE || [[ $overwrite = n ]] ||
-                    echo Skipping file: $target_file_name
+                    echo [-] Skipping file: $target_file_name
                 ;;
             *)  echo lib/symlinks.sh: programming error >&2
                 return 2
@@ -97,8 +103,9 @@ link_file () {
         esac
         shopt -u nocasematch
     else
-        $DOTFILES_SILENT || echo Creating link: $target_file_name
-        ln -s "$actual_file" "$target_file"
+        $DOTFILES_SILENT ||
+            echo [+] Creating link: $target_file_name
+        ln -s "$file" "$target_file"
     fi
 }
 
