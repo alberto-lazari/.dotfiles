@@ -19,7 +19,8 @@ print_help () {
 	options:
 	  -a, --overwrite-all       overwrite all existing dotfiles
 	  -d, --no-overwrite        don't overwrite existing dotfiles
-	  -f, --force-setup         run setup for all programs, even if they are not found
+	  -f, --force-setup         run setup for all programs, even
+	                            if they are not found
 	  -q, --quiet, --silent     don't print log messages
 	  -u, --update              update repository before install
 	  -v, --verbose             print detailed log messages
