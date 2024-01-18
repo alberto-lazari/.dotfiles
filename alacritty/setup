@@ -3,7 +3,7 @@ set -e
 cd "$(dirname "$BASH_SOURCE")"
 
 SETUP_DIR=~/.config/alacritty
-. ../lib/setup-base.sh
+. ../lib/setup.sh
 
 link_files_in . -t $SETUP_DIR
 

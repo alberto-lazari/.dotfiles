@@ -4,7 +4,7 @@ cd "$(dirname $BASH_SOURCE)"
 
 package=dotfiles
 SETUP_DIR=~/.vim
-. ../lib/setup-base.sh
+. ../lib/setup.sh
 
 # Undo files won't be created, unless the undo directory exists
 [[ -d $SETUP_DIR/undodir ]] || mkdir -p $SETUP_DIR/undodir

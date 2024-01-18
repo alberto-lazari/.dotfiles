@@ -13,7 +13,7 @@ export DOTFILES_INSTALL=true
 update=false
 overwrite_file=.overwrite
 
-print_help() {
+print_help () {
     cat >&2 <<- EOF
 	usage: install [-adfhquv]
 	options:
@@ -25,6 +25,27 @@ print_help() {
 	  -v, --verbose             print detailed log messages
 	  -h, --help                print this message
 	EOF
+}
+
+# usage: setup PROGRAM
+setup () {
+    if [[ -n "$1" ]]; then
+        local program="$1"
+    else
+        echo install: \`setup\` function: bad usage >&2
+        return 1
+    fi
+
+    # Use specific `setup` script, if present
+    [[ ! -f "$program/setup" ]] || {
+        "$program/setup"
+        return
+    }
+
+    local setup_dir="$HOME/.config/$program"
+    [[ -d "$setup_dir" ]] || mkdir -p "$setup_dir"
+
+    link_files_in "$program" -t "$setup_dir"
 }
 
 # Create an empty overwrite permission (to ask)
@@ -83,7 +104,7 @@ programs="$( \
 skipped=()
 for program in $programs; do
     if $DOTFILES_FORCE_SETUP || which "$program" &> /dev/null; then
-        "$program/setup"
+        setup $program
     else
         skipped+=($program)
     fi

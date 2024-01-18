@@ -2,6 +2,7 @@
 set -e
 cd "$(dirname $BASH_SOURCE)"
 
-. ../lib/setup-base.sh
+SETUP_DIR="$HOME"
+. ../lib/setup.sh
 
 link_files_in . --as-dotfile

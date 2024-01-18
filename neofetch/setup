@@ -1,8 +1,0 @@
-#!/bin/bash
-set -e
-cd "$(dirname $BASH_SOURCE)"
-
-SETUP_DIR=~/.config/neofetch
-. ../lib/setup-base.sh
-
-link_files_in . -t $SETUP_DIR

@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
-cd "$(dirname $BASH_SOURCE)"
+cd "$(dirname "$BASH_SOURCE")"
 
 SETUP_DIR=~/.config/git
-. ../lib/setup-base.sh
+. ../lib/setup.sh
 
 skipped=false
 # Configure user info in local file
