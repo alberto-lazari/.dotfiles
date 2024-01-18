@@ -1,0 +1,5 @@
+# Overwrite permission file
+/.overwrite
+
+# Local git user info
+/git/config.local

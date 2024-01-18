@@ -2,8 +2,9 @@
 # instantiate SETUP_DIR variable with the config directory to put the files in
 # it will be automatically created, if non-existent
 
-. "$(dirname $BASH_SOURCE)/options.sh"
-. "$(dirname $BASH_SOURCE)/symlinks.sh"
+dotfiles_lib_dir="$(realpath "$(dirname "$BASH_SOURCE")")"
+. "$dotfiles_lib_dir/options.sh"
+. "$dotfiles_lib_dir/symlinks.sh"
 
 print_help () {
     cat >&2 <<- EOF
@@ -22,8 +23,9 @@ print_help () {
 [[ -n "$DOTFILES_SILENT" ]] || export DOTFILES_SILENT=false
 [[ -n "$DOTFILES_VERBOSE" ]] || export DOTFILES_VERBOSE=false
 [[ -n "$DOTFILES_INSTALL" ]] || export DOTFILES_INSTALL=false
-[[ -n "$overwrite_file" ]] || overwrite_file=/tmp/dotfiles.overwrite
+[[ -n "$overwrite_file" ]] || overwrite_file="$dotfiles_lib_dir/../.overwrite"
 
+# Check if the setup was called from a full install
 if $DOTFILES_INSTALL; then
     export DOTFILES_SETUP=false
 else

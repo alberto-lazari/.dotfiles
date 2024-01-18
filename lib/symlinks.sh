@@ -5,12 +5,14 @@
 # -t                  directory to put the link in (default: ~)
 # LINK_NAME           custom name for the link, ignoring -d (default: FILE)
 link_file () {
+    local dotfiles_lib_dir="$(realpath "$(dirname "$BASH_SOURCE")")"
+
     [[ -n $DOTFILES_SILENT ]] || local DOTFILES_SILENT=false
     [[ -n $DOTFILES_VERBOSE ]] || local DOTFILES_VERBOSE=false
-    [[ -n "$overwrite_file" ]] || local overwrite_file=/tmp/dotfiles.overwrite
+    [[ -n "$overwrite_file" ]] || local overwrite_file="$dotfiles_lib_dir/../.overwrite"
     local dotfile=false
 
-    . $(dirname $BASH_SOURCE)/options.sh
+    . "$dotfiles_lib_dir/options.sh"
 
     parse_opts dt: "$@"
     set -- ${OPTS[@]-}
@@ -88,13 +90,13 @@ link_file () {
 
         case $overwrite in
             [ya])
-                $DOTFILES_SILENT || [[ $overwrite = y ]] ||
+                $DOTFILES_SILENT ||
                     echo [!] Replacing file: $target_file_name
                 rm "$target_file"
                 ln -s "$file" "$target_file"
                 ;;
             [nd])
-                ! $DOTFILES_VERBOSE || [[ $overwrite = n ]] ||
+                ! $DOTFILES_VERBOSE ||
                     echo [-] Skipping file: $target_file_name
                 ;;
             *)  echo lib/symlinks.sh: programming error >&2

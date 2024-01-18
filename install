@@ -11,7 +11,7 @@ export DOTFILES_FORCE_SETUP=false
 export DOTFILES_SILENT=false
 export DOTFILES_VERBOSE=false
 update=false
-overwrite_file=/tmp/dotfiles.overwrite
+overwrite_file=.overwrite
 
 print_help() {
     cat >&2 <<- EOF
