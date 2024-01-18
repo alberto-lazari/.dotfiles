@@ -14,10 +14,10 @@ overwrite_file=/tmp/dotfiles.overwrite
 
 print_help() {
     cat >&2 <<- EOF
-	usage: install [-hfnquv]
+	usage: install [-dhfquv]
 	options:
+	-d, --no-overwrite        don't overwrite existing dotfiles
 	-f, --force, --overwrite  force existing dotfiles overwrite
-	-n, --no-overwrite        don't overwrite existing dotfiles
 	-q, --quiet, --silent     don't print log messages
 	-u, --update              update repository before install
 	-v, --verbose             print detailed log messages
@@ -29,17 +29,17 @@ print_help() {
 trap 'rm "$overwrite_file" 2> /dev/null' EXIT INT TERM
 echo > "$overwrite_file"
 
-parse_opts hfnquv "$@" || {
+parse_opts dhfquv "$@" || {
     print_help
     exit 1
 }
 set -- "${OPTS[@]}"
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        -d|--no-overwrite)
+            echo D > "$overwrite_file";;
         -f|--force|--overwrite)
-            echo Y > "$overwrite_file";;
-        -n|--no-overwrite)
-            echo N > "$overwrite_file";;
+            echo A > "$overwrite_file";;
         -q|--quiet|--silent)
             DOTFILES_SILENT=true;;
         -u|--update)

@@ -44,6 +44,7 @@ link_file () {
         local link_name="$($dotfile && echo .)$(basename "$file")"
     fi
     local target_file="${target_dir:-$HOME}/$link_name"
+    local target_file_name="${target_file/$HOME/~}"
 
     if [[ -f "$target_file" || -L "$target_file" ]]; then
         [[ -n "$DOTFILES_SETUP" ]] || {
@@ -53,33 +54,50 @@ link_file () {
 
         local overwrite=$(cat "$overwrite_file")
         # Check permissions to overwrite the existing file
-        while [[ -z "$overwrite" || "$overwrite" != [yYnN] ]]; do
-            read -p 'Warning: existing dotfiles found. Overwrite them? (y/N) ' overwrite
+        shopt -s nocasematch
+        until [[ -n "$overwrite" && "$overwrite" = [ynad] ]]; do
+            read -p "Existing file found. Overwrite \`$target_file_name\`? (y/N/a/d/?) " overwrite >&2
 
-            [[ -n "$overwrite" ]] || overwrite=N
+            case "$overwrite" in
+                '') overwrite=N ;;
+                [ad])
+                    # Keep trace of choice for all files
+                    echo $overwrite > "$overwrite_file"
+                    ;;
+                \?) cat >&2 <<- EOF
+					y - overwrite this file
+					n - do not overwrite this file (default)
+					a - overwrite all existing files
+					d - do not overwrite any file
+					? - print help
 
-            if [[ "$overwrite" = [yYnN] ]]; then
-                echo $overwrite > "$overwrite_file"
-            else
-                echo "You need to answer Y(es) or N(o) (default N)\n" >&2
-            fi
+					EOF
+                    ;;
+                [yn])
+                    # Do nothing, just a valid answer
+                    ;;
+                *)  printf "You need to answer Y, N, A, D or \`?\` for help (default N)\n\n" >&2 ;;
+            esac
         done
 
         case $overwrite in
-            [yY])
-                $DOTFILES_SILENT || echo Replacing file: ${target_file/$HOME/\~}
+            [ya])
+                $DOTFILES_SILENT || [[ $overwrite = y ]] ||
+                    echo Replacing file: $target_file_name
                 rm "$target_file"
                 ln -s "$actual_file" "$target_file"
                 ;;
-            [nN])
-                ! $DOTFILES_VERBOSE || echo Skipping file: ${target_file/$HOME/\~}
+            [nd])
+                ! $DOTFILES_VERBOSE || [[ $overwrite = n ]] ||
+                    echo Skipping file: $target_file_name
                 ;;
             *)  echo lib/symlinks.sh: programming error >&2
                 return 2
                 ;;
         esac
+        shopt -u nocasematch
     else
-        $DOTFILES_SILENT || echo Creating link: ${target_file/$HOME/\~}
+        $DOTFILES_SILENT || echo Creating link: $target_file_name
         ln -s "$actual_file" "$target_file"
     fi
 }
@@ -117,7 +135,7 @@ link_files_in () {
     done
 
     if [[ -n "${ARGS[0]}" ]]; then
-        local dir="$(readlink -f "${ARGS[0]}")"
+        local dir="$(realpath "${ARGS[0]}")"
     else
         echo lib/symlinks.sh: \'link_files_in\' function: bad usage >&2
         return 1

@@ -7,10 +7,10 @@
 
 print_help () {
     cat >&2 <<- EOF
-	usage: setup [-hfnqv]
+	usage: setup [-dhfqv]
 	options:
+	-d, --no-overwrite        don't overwrite existing dotfiles
 	-f, --force, --overwrite  force existing dotfiles overwrite
-	-n, --no-overwrite        don't overwrite existing dotfiles
 	-q, --quiet, --silent     don't print log messages
 	-v, --verbose             print detailed log messages
 	-h, --help                print this message
@@ -32,17 +32,17 @@ else
     echo > "$overwrite_file"
 fi
 
-parse_opts hfnqv "$@" || {
+parse_opts dhfqv "$@" || {
     print_help
     exit 1
 }
 set -- "${OPTS[@]}"
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        -d|--no-overwrite)
+            echo D > "$overwrite_file";;
         -f|--force)
-            echo Y > "$overwrite_file";;
-        -n|--no-overwrite)
-            echo N > "$overwrite_file";;
+            echo A > "$overwrite_file";;
         -q|--quiet|--silent)
             DOTFILES_SILENT=true;;
         -v|--verbose)
