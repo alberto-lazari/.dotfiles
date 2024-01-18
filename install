@@ -7,6 +7,7 @@ cd "$(dirname "$BASH_SOURCE")"
 
 # Default options
 export DOTFILES_INSTALL=true
+export DOTFILES_FORCE_SETUP=false
 export DOTFILES_SILENT=false
 export DOTFILES_VERBOSE=false
 update=false
@@ -14,10 +15,11 @@ overwrite_file=/tmp/dotfiles.overwrite
 
 print_help() {
     cat >&2 <<- EOF
-	usage: install [-adhquv]
+	usage: install [-adfhquv]
 	options:
 	  -a, --overwrite-all       overwrite all existing dotfiles
 	  -d, --no-overwrite        don't overwrite existing dotfiles
+	  -f, --force-setup         run setup for all programs, even if they are not found
 	  -q, --quiet, --silent     don't print log messages
 	  -u, --update              update repository before install
 	  -v, --verbose             print detailed log messages
@@ -29,7 +31,7 @@ print_help() {
 trap 'rm "$overwrite_file" 2> /dev/null' EXIT INT TERM
 echo > "$overwrite_file"
 
-parse_opts adhquv "$@" || {
+parse_opts adfhquv "$@" || {
     print_help
     exit 1
 }
@@ -40,7 +42,9 @@ while [[ $# -gt 0 ]]; do
             echo A > "$overwrite_file" ;;
         -d | --no-overwrite)
             echo D > "$overwrite_file" ;;
-        -q | --quiet|--silent)
+        -f | --force-setup)
+            DOTFILES_FORCE_SETUP=true ;;
+        -q | --quiet | --silent)
             DOTFILES_SILENT=true ;;
         -u | --update)
             update=true ;;
@@ -78,13 +82,13 @@ programs="$( \
 # Setup all programs
 skipped=()
 for program in $programs; do
-    if which "$program" &> /dev/null; then
+    if $DOTFILES_FORCE_SETUP || which "$program" &> /dev/null; then
         "$program/setup"
     else
         skipped+=($program)
     fi
 done
 
-$DOTFILES_SILENT || {
+[[ -z ${skipped[@]} ]] || $DOTFILES_SILENT || {
     echo [-] Some programs were not found, setup skipped for: $(echo ${skipped[@]} | sed 's/ /, /g')
 }

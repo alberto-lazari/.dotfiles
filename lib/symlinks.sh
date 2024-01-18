@@ -16,7 +16,7 @@ link_file () {
     set -- ${OPTS[@]-}
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            -d|--as-dotfile)
+            -d | --as-dotfile)
                 dotfile=true;;
             -t) local target_dir="$2"
                 shift
@@ -126,7 +126,7 @@ link_files_in () {
     set -- ${OPTS[@]}
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            -d|--as-dotfile)
+            -d | --as-dotfile)
                 dotfile=true;;
             -e) local exclude="$2"
                 shift
