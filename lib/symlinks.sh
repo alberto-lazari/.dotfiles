@@ -150,8 +150,8 @@ link_files_in () {
         return 1
     fi
 
-    # Exclude sub-directories, setup scripts and explicitly excluded files
-    local exclude=".*/|setup${exclude+|$exclude}"
+    # Exclude sub-directories, setup scripts, readmes and explicitly excluded files
+    local exclude=".*/|setup|readme\.md${exclude+|$exclude}"
     local file
 
     # Loop on every file in DIRECTORY, except the excluded ones
