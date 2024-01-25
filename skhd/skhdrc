@@ -35,8 +35,8 @@ shift + alt - s : yabai -m window --toggle split
 # -- Modifying Window Size --
 
 # Maximize a window
-shift + alt - m : yabai -m window --toggle zoom-fullscreen
-shift + alt + ctrl - m : yabai -m window --toggle native-fullscreen
+alt - f : yabai -m window --toggle zoom-fullscreen
+shift + alt - f : yabai -m window --toggle native-fullscreen
 
 # Balance out tree of windows (resize to occupy same area)
 shift + alt - e : yabai -m space --balance
