@@ -37,7 +37,9 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 
 # Case-insensitive completion
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+# Correct casing and immediately show completions
+setopt no_list_ambiguous
 
 # Enable history substring search with c-p, c-n
 bindkey '^P' history-beginning-search-backward
