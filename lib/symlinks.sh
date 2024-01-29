@@ -64,7 +64,7 @@ link_file () {
         # Check permissions to overwrite the existing file
         shopt -s nocasematch
         until [[ -n "$overwrite" && "$overwrite" = [ynad] ]]; do
-            read -p "[!] Existing file found. Overwrite \`$target_file_name\`? (y/N/a/d/?) " overwrite >&2
+            read -p "[!] Existing file found. Overwrite \`$target_file_name\`? [y/N/a/d/?] " overwrite >&2
 
             case "$overwrite" in
                 '') overwrite=N ;;
@@ -84,7 +84,7 @@ link_file () {
                 [yn])
                     # Do nothing, just a valid answer
                     ;;
-                *)  printf "You need to answer Y, N, A, D or \`?\` for help (default N)\n\n" >&2 ;;
+                *)  printf 'You need to answer Y, N, A, D or `?` for help (default N)\n\n' >&2 ;;
             esac
         done
 
@@ -96,7 +96,7 @@ link_file () {
                 ln -s "$file" "$target_file"
                 ;;
             [nd])
-                ! $DOTFILES_VERBOSE ||
+                $DOTFILES_SILENT ||
                     echo [-] Skipping file: $target_file_name
                 ;;
             *)  echo lib/symlinks.sh: programming error >&2
