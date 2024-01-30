@@ -40,6 +40,8 @@ setopt HIST_FIND_NO_DUPS
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 # Correct casing and immediately show completions
 setopt no_list_ambiguous
+# Autocomplete cwd directories and aurtocd
+setopt auto_cd
 
 # Enable history substring search with c-p, c-n
 bindkey '^P' history-beginning-search-backward
