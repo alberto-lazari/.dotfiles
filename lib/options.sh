@@ -1,3 +1,4 @@
+#!/usr/bin/env false
 # Returns the expanded options, with their arguments, and positional arguments respectively in the OPTS and ARGS array
 # usage: parse_opts optstring [params ...]
 #

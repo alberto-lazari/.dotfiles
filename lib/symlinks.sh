@@ -1,3 +1,4 @@
+#!/usr/bin/env false
 # Create symlink of the file
 # usage: link_file FILE [-d] [-t TARGET_DIRECTORY] [LINK_NAME]
 # options:

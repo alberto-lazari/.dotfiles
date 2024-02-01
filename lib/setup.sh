@@ -1,3 +1,4 @@
+#!/usr/bin/env false
 # Library for custom `setup` scripts
 # - Automatically processes options and includes `symliks` library
 # - Creates SETUP_DIR folder, if it doesn't exist
