@@ -1,3 +1,9 @@
+[font.normal]
+family = "MesloLGS Nerd Font"
+
+[font]
+size = 9.0
+
 [[hints.enabled]]
 command = "xdg-open"
 post_processing = true
