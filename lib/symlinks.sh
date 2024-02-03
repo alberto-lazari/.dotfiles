@@ -46,7 +46,7 @@ link_file () {
         local link_name="$($dotfile && echo .)$(basename "$file")"
     fi
     local target_file="${target_dir:-$HOME}/$link_name"
-    local target_file_name="${target_file/$HOME/~}"
+    local target_file_name="${target_file/$HOME/'~'}"
 
     # Check that the file is not already linked
     [[ "$(realpath "$file")" != "$(realpath -q "$target_file")" ]] || {
