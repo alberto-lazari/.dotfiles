@@ -85,7 +85,7 @@ link_file () {
                 [yn])
                     # Do nothing, just a valid answer
                     ;;
-                *)  printf 'You need to answer Y, N, A, D or `?` for help (default N)\n\n' >&2 ;;
+                *)  echo $'You need to answer Y, N, A, D or `?` for help (default N)\n' >&2 ;;
             esac
         done
 
