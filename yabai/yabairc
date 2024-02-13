@@ -1,8 +1,3 @@
-# Requires SIP partially disabled
-# sudo yabai --load-sa
-# launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist &> /dev/null &
-# yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-
 # Default layout (can be bsp, stack or float)
 yabai -m config layout                       bsp
 # New window spawns to the right if vertical split, or bottom if horizontal split
@@ -25,8 +20,8 @@ yabai -m config normal_window_opacity        0.95
 # -- mouse settings --
 
 # Center mouse on window with focus
-yabai -m config mouse_follows_focus          off
-yabai -m config focus_follows_mouse          autoraise
+yabai -m config mouse_follows_focus          on
+# yabai -m config focus_follows_mouse          autoraise
 
 # Modifier for clicking and dragging with mouse
 yabai -m config mouse_modifier               alt
