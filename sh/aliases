@@ -19,6 +19,7 @@ alias push='git push'
 alias branch='git branch'
 alias rebase='git rebase'
 alias merge='git merge'
+alias restore='git restore'
 alias reset='git reset'
 alias stash='git stash'
 alias pop='git stash pop'
@@ -32,12 +33,11 @@ cf () { git checkout "feature/$1"; }
 alias c='git commit -am'
 alias commit='git commit -m'
 alias rmbr='git branch -d'
-alias publish='git push -u origin $(git branch --show-current)'
-alias restore='git restore'
+alias publish='git push -u origin "$(git branch --show-current)"'
 alias unstage='git restore --staged'
-alias cleanbr='git branch -D $(git branch | grep -v \*)'
+alias cleanbr='git branch -D "$(git branch | grep -v \*)"'
 submod-add () {
-    if [[ -z $1 ]]; then
+    if [[ -z "$1" ]]; then
         echo 'error: need to specify a submodule dir' >&2
         return 1
     fi
