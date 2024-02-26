@@ -7,4 +7,8 @@ else
     [[ ! -f /usr/local/bin/brew ]] || eval "$(/usr/local/bin/brew shellenv)"
 fi
 
+# Automatically configure display output on X.org
+! which xrandr &> /dev/null ||
+    xrandr --output HDMI-1 --auto
+
 [[ ! -f ~/.config/sh/profile.local ]] || . ~/.config/sh/profile.local
