@@ -2,6 +2,8 @@
 alias ls="$(if which gls &> /dev/null; then echo gls; else echo ls; fi) -h --group-directories-first --color=auto --quoting-style=literal"
 # Don't use long options if they throw errors
 ls &> /dev/null || alias ls='ls -h --color=auto'
+alias l='ls -1'
+alias ll='ls -Al'
 alias la='ls -A'
 
 alias tree='tree -C'
