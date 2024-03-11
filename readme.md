@@ -12,7 +12,7 @@ git clone https://github.com/albertolazari/.dotfiles ~/.dotfiles
 
 Then run the [`install`](install) script that automatically creates the symlinks and sets up installed programs
 
-`-h or --help` for usage and available options
+`-h` or `--help` for usage and available options
 
 ## Program setups
 Each file is placed into its own program directory, ready to be symlinked in the actual `~/.config` directory
