@@ -56,8 +56,8 @@ link_file () {
     }
 
     if [[ -f "$target_file" || -L "$target_file" ]]; then
-        [[ -n "$DOTFILES_SETUP" ]] || {
-            # Not called from a setup, file has to be initialized
+        [[ -n "$DOTFILES_INSTALL $DOTFILES_SETUP" ]] || {
+            # Not called from an install or setup, file has to be initialized
             echo > "$overwrite_file"
         }
 
