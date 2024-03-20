@@ -94,6 +94,11 @@ ctrl + alt - q : yabai --stop-service
 ctrl + alt - s : yabai --start-service
 ctrl + alt - r : yabai --restart-service
 
+# Tooggle autoraise
+alt - a : [[ $(yabai -m config focus_follows_mouse) = disabled ]] && \
+            yabai -m config focus_follows_mouse autoraise || \
+            yabai -m config focus_follows_mouse off
+
 
 # Open new terminal instance
 alt - return : open -na alacritty
