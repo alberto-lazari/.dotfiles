@@ -56,7 +56,7 @@ set hidden
 let g:netrw_banner = 0
 
 " Indent with 2 spaces on specific file types
-autocmd FileType md,markdown,typst,html,css,ocaml setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd FileType md,markdown,typst,html,css,ocaml,sh,bash setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 
 " Spellcheck specific file types
 autocmd FileType text,latex,tex,md,markdown,typst setlocal spell
