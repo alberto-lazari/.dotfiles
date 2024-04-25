@@ -10,7 +10,58 @@ alias tree='tree -C'
 t () { tree -L 2 "$@"; }
 alias chx='chmod +x'
 ! which bpytop &> /dev/null || alias top='bpytop'
-md () { pandoc "$1" -V geometry:margin=.5in -V fontsize=12pt -o "${1%.*}.pdf"; }
+pdfshrink () {
+    local usage=$(cat <<- EOF
+		usage: pdfshrink [-l LEVEL] DOCUMENT.pdf
+		options:
+		  -l    compression level in range 0..4 (default = 2)
+		EOF
+    )
+
+    [[ -n "$1" ]] || {
+        echo $usage >&2
+        return 1
+    }
+
+    while (( $# > 0 )); do
+    case "$1" in
+        -l) shift
+            local level="$(( $1 + 1 ))"
+            ;;
+        *.pdf | *.PDF)
+            local file="$1"
+            local filename="${1/%.(pdf|PDF)}"
+            ;;
+        *)  echo $usage >&2
+            return 1
+            ;;
+    esac
+    shift
+
+    done
+
+    which gs &> /dev/null || {
+        echo error: ghostscript not found >&2
+        return 1
+    }
+
+    levels=(
+        default
+        prepress
+        printer
+        ebook
+        screen
+    )
+
+    gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pdfwrite \
+        -dEmbedAllFonts=true -dSubsetFonts=true \
+        -dColorImageDownsampleType=/Bicubic -dColorImageResolution=144 \
+        -dGrayImageDownsampleType=/Bicubic -dGrayImageResolution=144 \
+        -dMonoImageDownsampleType=/Bicubic -dMonoImageResolution=144 \
+        -dPDFSETTINGS=/${levels[${level-3}]} \
+        -sOutputFile="$filename-compressed.pdf" \
+        "$file"
+}
 
 # Git
 alias s='git status --short'
