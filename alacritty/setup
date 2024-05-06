@@ -8,10 +8,10 @@ link_files_in . -t $SETUP_DIR
 
 # Load OS-specific configurations
 if [[ $(uname) = Darwin ]]; then
-    link_file os-specific/macos.toml -t $SETUP_DIR os-specific.toml
+  link_file os-specific/macos.toml -t $SETUP_DIR os-specific.toml
 
-    # Use macOS-adapted icon, since the official one sucks
-    ./update-icon
+  # Use macOS-adapted icon, since the official one sucks
+  ./update-icon
 else
-    link_file os-specific/default.toml -t $SETUP_DIR os-specific.toml
+  link_file os-specific/default.toml -t $SETUP_DIR os-specific.toml
 fi

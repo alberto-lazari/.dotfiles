@@ -14,7 +14,7 @@ update=false
 overwrite_file=.overwrite
 
 print_help () {
-    cat >&2 <<- EOF
+  cat >&2 <<- EOF
 	usage: install [-adfhquv]
 	options:
 	  -a, --overwrite-all       overwrite all existing dotfiles
@@ -30,23 +30,23 @@ print_help () {
 
 # usage: setup PROGRAM
 setup () {
-    if [[ -n "$1" ]]; then
-        local program="$1"
-    else
-        echo install: \`setup\` function: bad usage >&2
-        return 1
-    fi
+  if [[ -n "$1" ]]; then
+    local program="$1"
+  else
+    echo install: \`setup\` function: bad usage >&2
+    return 1
+  fi
 
-    # Use specific `setup` script, if present
-    [[ ! -f "$program/setup" ]] || {
-        "$program/setup"
-        return
-    }
+  # Use specific `setup` script, if present
+  [[ ! -f "$program/setup" ]] || {
+    "$program/setup"
+    return
+  }
 
-    local setup_dir="$HOME/.config/$program"
-    [[ -d "$setup_dir" ]] || mkdir -p "$setup_dir"
+  local setup_dir="$HOME/.config/$program"
+  [[ -d "$setup_dir" ]] || mkdir -p "$setup_dir"
 
-    link_files_in "$program" -t "$setup_dir"
+  link_files_in "$program" -t "$setup_dir"
 }
 
 # Create an empty overwrite permission (to ask)
@@ -54,66 +54,66 @@ trap 'rm "$overwrite_file" 2> /dev/null' EXIT INT TERM
 echo > "$overwrite_file"
 
 parse_opts adfhquv "$@" || {
-    print_help
-    exit 1
+  print_help
+  exit 1
 }
 set -- "${OPTS[@]}"
 while [[ $# -gt 0 ]]; do
-    case "$1" in
-        -a | --overwrite-all)
-            echo A > "$overwrite_file" ;;
-        -d | --no-overwrite)
-            echo D > "$overwrite_file" ;;
-        -f | --force-setup)
-            DOTFILES_FORCE_SETUP=true ;;
-        -q | --quiet | --silent)
-            DOTFILES_SILENT=true ;;
-        -u | --update)
-            update=true ;;
-        -v | --verbose)
-            DOTFILES_VERBOSE=true ;;
-        -h | --help)
-            print_help
-            exit 0
-            ;;
-        *)  print_help
-            exit 1
-            ;;
-    esac
-    shift
+  case "$1" in
+    -a | --overwrite-all)
+      echo A > "$overwrite_file" ;;
+    -d | --no-overwrite)
+      echo D > "$overwrite_file" ;;
+    -f | --force-setup)
+      DOTFILES_FORCE_SETUP=true ;;
+    -q | --quiet | --silent)
+      DOTFILES_SILENT=true ;;
+    -u | --update)
+      update=true ;;
+    -v | --verbose)
+      DOTFILES_VERBOSE=true ;;
+    -h | --help)
+      print_help
+      exit 0
+      ;;
+    *) print_help
+      exit 1
+      ;;
+  esac
+  shift
 done
 
 # Update repo
 if $update; then
-    $DOTFILES_SILENT || echo Updating repository...
-    git pull $($DOTFILES_SILENT && echo -q) origin main
+  $DOTFILES_SILENT || echo Updating repository...
+  git pull $($DOTFILES_SILENT && echo -q) origin main
 
-    # Install using the updated script
-    exec ./install
+  # Install using the updated script
+  exec ./install
 fi
 
 programs="$( \
-    # List all files, appending `/` to directories
-    ls -p |
-    # Filter for directories (except `lib`)
-    grep -Ev '^lib/$|.*[^/]$' |
-    # Strip out the leading `/`
-    sed 's|/$||'
+  # List all files, appending `/` to directories
+  ls -p |
+  # Filter for directories (except `lib`)
+  grep -Ev '^lib/$|.*[^/]$' |
+  # Strip out the leading `/`
+  sed 's|/$||'
 )"
 
 # Setup all programs
 skipped=()
 for program in $programs; do
-    if $DOTFILES_FORCE_SETUP || which "$program" &> /dev/null; then
-        setup $program
-    else
-        skipped+=($program)
-    fi
+  if $DOTFILES_FORCE_SETUP || which "$program" &> /dev/null; then
+    setup $program
+  else
+    skipped+=($program)
+  fi
 done
 
 [[ -z ${skipped[@]} ]] || $DOTFILES_SILENT || {
-    echo [-] Some programs were not found, setup skipped for:
-    for program in "${skipped[@]}"; do
-        echo " |  > $program"
-    done
+  echo [-] Some programs were not found, setup skipped for:
+  for program in "${skipped[@]}"; do
+    echo " |  > $program"
+  done
 }

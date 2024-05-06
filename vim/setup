@@ -14,15 +14,15 @@ link_files_in . -t $SETUP_DIR
 
 # Read plugins, ignoring comments starting with " or #
 for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
-    plugin=$(basename $repo)
+  plugin=$(basename $repo)
 
-    if [[ ! -d "$SETUP_DIR/pack/$package/opt/$plugin" ]]; then
-        $DOTFILES_SILENT ||
-            echo Installing vim plugin: $plugin...
-        git clone \
-            --depth 1 \
-            $($DOTFILES_VERBOSE || echo -q) \
-            https://github.com/$repo \
-            "$SETUP_DIR/pack/$package/opt/$plugin"
-    fi
+  if [[ ! -d "$SETUP_DIR/pack/$package/opt/$plugin" ]]; then
+    $DOTFILES_SILENT ||
+      echo Installing vim plugin: $plugin...
+    git clone \
+      --depth 1 \
+      $($DOTFILES_VERBOSE || echo -q) \
+      https://github.com/$repo \
+      "$SETUP_DIR/pack/$package/opt/$plugin"
+  fi
 done

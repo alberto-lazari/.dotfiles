@@ -5,31 +5,31 @@ cd "$(dirname "$BASH_SOURCE")"
 . ../lib/setup.sh
 
 link_files_in . -t "$SETUP_DIR" \
-    --as-dotfile \
-    -e 'zshenv|plugins.zsh'
+  --as-dotfile \
+  -e 'zshenv|plugins.zsh'
 link_file zshenv --as-dotfile
 link_file plugins.zsh -t "$SETUP_DIR"
 
 if [[ ! -d "$SETUP_DIR/themes/powerlevel10k" ]]; then
-    $DOTFILES_SILENT ||
-        echo Installing zsh Powerlevel10k theme...
-    git clone \
-        --depth 1 \
-        $($DOTFILES_VERBOSE || echo -q) \
-        https://github.com/romkatv/powerlevel10k \
-        "$SETUP_DIR/themes/powerlevel10k"
+  $DOTFILES_SILENT ||
+    echo Installing zsh Powerlevel10k theme...
+  git clone \
+    --depth 1 \
+    $($DOTFILES_VERBOSE || echo -q) \
+    https://github.com/romkatv/powerlevel10k \
+    "$SETUP_DIR/themes/powerlevel10k"
 fi
 
 # Install custom plugins
 for repo in $(grep -Ev '^#|^$' < plugins.zsh); do
-    plugin=$(basename $repo)
-    if [[ ! -d "$SETUP_DIR/plugins/$plugin" ]]; then
-        $DOTFILES_SILENT ||
-            echo Installing zsh plugin: $plugin...
-        git clone \
-            --depth 1 \
-            $($DOTFILES_VERBOSE || echo -q) \
-            https://github.com/$repo \
-            "$SETUP_DIR/plugins/$plugin"
-    fi
+  plugin=$(basename $repo)
+  if [[ ! -d "$SETUP_DIR/plugins/$plugin" ]]; then
+    $DOTFILES_SILENT ||
+      echo Installing zsh plugin: $plugin...
+    git clone \
+      --depth 1 \
+      $($DOTFILES_VERBOSE || echo -q) \
+      https://github.com/$repo \
+      "$SETUP_DIR/plugins/$plugin"
+  fi
 done
