@@ -1,4 +1,5 @@
 #!/usr/bin/env false
+
 # Returns the expanded options, with their arguments, and positional arguments respectively in the OPTS and ARGS array
 # usage: parse_opts optstring [params ...]
 #
@@ -8,7 +9,9 @@
 # Putting `:` after an option, in the optstring, means that it requires an argument
 # Supports long options (--help), but without arguments
 parse_opts () {
-  local optstring="$1"
+  local optstring
+
+  optstring="$1"
   shift
 
   OPTS=()
@@ -19,6 +22,7 @@ parse_opts () {
       # Reset index every time, since getopts get called multiple times
       -*) OPTIND=1
         local option
+        local arg
 
         # Loop on pairs of (options, argument)
         # If the next parameter is another option make it empty, as if no argument was provided
@@ -36,10 +40,10 @@ parse_opts () {
           # The variable could be set, but empty, that's the reason for the substitution
           if [[ -z "${OPTARG+set}" ]]; then
             OPTS+=(-$option)
-            local arg=false
+            arg=false
           else
             OPTS+=(-$option "$OPTARG")
-            local arg=true
+            arg=true
           fi
         done
 
