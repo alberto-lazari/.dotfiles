@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+cd "$(dirname "$BASH_SOURCE")"
+
+SETUP_DIR=~/.config/helix
+. ../lib/setup.sh
+
+link_files_in . -t $SETUP_DIR

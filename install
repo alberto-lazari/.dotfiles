@@ -111,7 +111,7 @@ for program in $programs; do
   fi
 done
 
-[[ -z ${skipped[@]} ]] || $DOTFILES_SILENT || {
+[[ -z "${skipped[@]}" ]] || $DOTFILES_SILENT || {
   echo [-] Some programs were not found, setup skipped for:
   for program in "${skipped[@]}"; do
     echo " |  > $program"

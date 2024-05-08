@@ -134,7 +134,6 @@ link_files_in () {
   local exclude
   local target_dir
   local dir
-  local exclude
   local file
 
   [[ -n $DOTFILES_SILENT ]] || local DOTFILES_SILENT=false
@@ -170,11 +169,10 @@ link_files_in () {
   fi
 
   # Exclude sub-directories, setup scripts, readmes and explicitly excluded files
-  exclude=".*/|setup|readme\.md${exclude+|$exclude}"
-  file
+  exclude=".*/|setup|readme\.md${exclude:+|$exclude}"
 
   # Loop on every file in DIRECTORY, except the excluded ones
   for file in $(ls -p "$dir" | grep -Ewv "$exclude"); do
-    link_file "$dir/$file" $($dotfile && echo -d) ${target_dir+-t "$target_dir"}
+    link_file "$dir/$file" $($dotfile && echo -d) ${target_dir:+-t "$target_dir"}
   done
 }
