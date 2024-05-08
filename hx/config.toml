@@ -1,9 +1,7 @@
-theme = "onedark"
+theme = "onedark_transparent"
 
 [editor]
-cursorline = true
 line-number = "relative"
-mouse = false
 shell = ["bash", "-c"]
 bufferline = "multiple"
 color-modes = true

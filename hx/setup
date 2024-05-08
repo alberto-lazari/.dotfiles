@@ -6,3 +6,6 @@ SETUP_DIR=~/.config/helix
 . ../lib/setup.sh
 
 link_files_in . -t $SETUP_DIR
+
+[[ -d "$SETUP_DIR/themes" ]] || mkdir -p "$SETUP_DIR/themes"
+link_files_in themes -t "$SETUP_DIR/themes"

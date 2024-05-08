@@ -1,0 +1,20 @@
+inherits = "onedark"
+
+"keyword" = { fg = "purple" }
+
+"ui.background" = {}
+"ui.statusline.insert" = { fg = "light-black", bg = "yellow", modifiers = ["bold"] }
+# Remove underline
+"ui.bufferline.active" = { fg = "light-black", bg = "blue" }
+
+[palette]
+blue = "#00AFFF"
+red = "#FF5F87"
+purple = "#D75fD7"
+green = "#87D787"
+gold = "#D7875F"
+light-black = "#2E2E2E"
+gray = "#3F3F3F"
+faint-gray = "#444444"
+light-gray = "#5F5F5F"
+linenr = "#444444"
