@@ -8,6 +8,7 @@ inherits = "onedark"
 "ui.bufferline.active" = { fg = "light-black", bg = "blue" }
 
 [palette]
+white = "#BABABA"
 blue = "#00AFFF"
 red = "#FF5F87"
 purple = "#D75fD7"
