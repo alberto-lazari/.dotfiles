@@ -39,3 +39,6 @@ mbbill/undotree
 
 " Kotlin support
 udalov/kotlin-vim
+
+" Better Java syntax
+uiiaoo/java-syntax.vim
