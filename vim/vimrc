@@ -36,6 +36,7 @@ else
     set title titlestring=nvim\ -\ %t%(\ [%M]%)%a
 endif
 
+
 " Custom settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Show line numbers relative to the current one
@@ -81,6 +82,23 @@ else
     " Underline in replace mode
     let &t_EI = "\e[1 q"
 endif
+
+
+" Custom mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Easier go to start/end of line
+nnoremap gs ^
+vnoremap gs ^
+nnoremap gl $
+vnoremap gl $
+" More intuitive re-do
+nnoremap U <C-r>
+" Easier copy until end of line
+nnoremap Y y$
+" Prepend space to use the system clipboard
+nnoremap <Space> "*
+vnoremap <Space> "*
+
 
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
