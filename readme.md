@@ -5,9 +5,9 @@ My personal collection of dotfiles for macOS and Linux systems
 [This video](https://www.youtube.com/watch?v=mSXOYhfDFYo) is great for understanding the purpose of a dotfiles repo and how basic bash scripting works in general
 
 ## Installation
-Clone the repo in your home directory with
+Clone this repo in your home directory with
 ```bash
-git clone https://github.com/albertolazari/.dotfiles ~/.dotfiles
+git clone https://github.com/alberto-lazari/.dotfiles ~/.dotfiles
 ```
 
 Then run the [`install`](install) script that automatically creates the symlinks and sets up installed programs
