@@ -89,8 +89,10 @@ endif
 " Easier go to start/end of line
 nnoremap gs ^
 vnoremap gs ^
+onoremap gs ^
 nnoremap gl $
 vnoremap gl $
+onoremap gl $
 " More intuitive re-do
 nnoremap U <C-r>
 " Easier copy until end of line
