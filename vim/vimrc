@@ -7,7 +7,7 @@ set backspace=2
 " Indent with 4 spaces
 set expandtab tabstop=4 softtabstop=4 shiftwidth=4
 " Show whitespaces with ':set list'
-set listchars=eol:$,tab:>·,trail:~,extends:>,precedes:<,space:·
+set listchars=eol:$,tab:-->,trail:~,extends:>,precedes:<,space:·
 " Indent filetype
 filetype plugin indent on
 " Fix indentation problems
