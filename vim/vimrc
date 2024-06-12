@@ -114,6 +114,7 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
         endif
     endfor
 
+    let g:onedark_terminal_italics = 1
     colorscheme onedark
     " Show horizontal cursor line when using colorscheme
     set cursorline
