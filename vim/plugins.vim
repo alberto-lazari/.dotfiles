@@ -42,3 +42,6 @@ udalov/kotlin-vim
 
 " Better Java syntax
 uiiaoo/java-syntax.vim
+
+" Substitutions preview
+markonm/traces.vim
