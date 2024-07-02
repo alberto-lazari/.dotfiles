@@ -1,11 +1,8 @@
 " Custom vim plugins
 " list them as 'user/repository' from GitHub
 
-" Atom One theme (`:colorscheme one` for One Light theme)
-rakr/vim-one
-
-" One Dark theme (`:colorscheme onedark` for better One Dark theme)
-joshdick/onedark.vim
+" Atom One theme
+alberto-lazari/vim-one
 
 " Status line
 vim-airline/vim-airline

@@ -4,8 +4,8 @@
 set title titlestring=vim\ -\ %t%(\ [%M]%)%a
 " Normal backspace behavior
 set backspace=2
-" Indent with 4 spaces
-set expandtab tabstop=4 softtabstop=4 shiftwidth=4
+" Indent with 2 spaces
+set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 " Show whitespaces with ':set list'
 set listchars=eol:$,tab:-->,trail:~,extends:>,precedes:<,space:·
 " Indent filetype
@@ -14,6 +14,8 @@ filetype plugin indent on
 set nosmartindent cinkeys-=0#
 " Enable syntax highlighting
 syntax on
+" Use true color
+set termguicolors
 " Show partial command while typing it
 set showcmd
 " Show statusline
@@ -22,18 +24,18 @@ set laststatus=2
 " Temp files
 set noswapfile nobackup undodir=~/.vim/undodir undofile
 if !has('nvim')
-    " Move .viminfo file
-    set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
-    "           | |    |   |   |    | |  + viminfo file path
-    "           | |    |   |   |    | + file marks 0-9,A-Z 0=NOT stored
-    "           | |    |   |   |    + disable 'hlsearch' loading viminfo
-    "           | |    |   |   + command-line history saved
-    "           | |    |   + search history saved
-    "           | |    + files marks saved
-    "           | + lines saved each register (old name for <, vi6.2)
-    "           + save/restore buffer list
+  " Move .viminfo file
+  set viminfo=%,<800,'10,/50,:1000,h,f0,n~/.vim/cache/.viminfo
+  "           | |    |   |   |     | |  + viminfo file path
+  "           | |    |   |   |     | + file marks 0-9,A-Z 0=NOT stored
+  "           | |    |   |   |     + disable 'hlsearch' loading viminfo
+  "           | |    |   |   + command-line history saved
+  "           | |    |   + search history saved
+  "           | |    + files marks saved
+  "           | + lines saved each register (old name for <, vi6.2)
+  "           + save/restore buffer list
 else
-    set title titlestring=nvim\ -\ %t%(\ [%M]%)%a
+  set title titlestring=nvim\ -\ %t%(\ [%M]%)%a
 endif
 
 
@@ -56,31 +58,31 @@ set hidden
 " Remove netrw banner
 let g:netrw_banner = 0
 
-" Indent with 2 spaces on specific file types
-autocmd FileType md,markdown,typst,html,css,ocaml,sh,bash setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+" Indent with 4 spaces on specific file types
+autocmd FileType java,kotlin,python setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 
 " Spellcheck specific file types
 autocmd FileType text,latex,tex,md,markdown,typst setlocal spell
 
 " Mouse support
-" Drains a crazy amount of battery power if enabled
-" set mouse=a
+" Drains a crazy amount of battery power if enabled (on iTerm)
+set mouse=a
 
 " Change cursor shape on different mode
 if exists('$ITERM_PROFILE')
-    " Vertical bar in insert mode
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    " Block in normal mode
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-    " Underline in replace mode
-    let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+  " Vertical bar in insert mode
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  " Block in normal mode
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+  " Underline in replace mode
+  let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 else
-    " Vertical bar in insert mode
-    let &t_SI = "\e[5 q"
-    " Block in normal mode
-    let &t_SR = "\e[4 q"
-    " Underline in replace mode
-    let &t_EI = "\e[1 q"
+  " Vertical bar in insert mode
+  let &t_SI = "\e[5 q"
+  " Block in normal mode
+  let &t_SR = "\e[4 q"
+  " Underline in replace mode
+  let &t_EI = "\e[1 q"
 endif
 
 
@@ -105,58 +107,63 @@ vnoremap <Space> "*
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if isdirectory(expand('~/.vim/pack/dotfiles'))
-    " Load opt plugins
-    for plugin in readfile(expand('~/.vim/plugins.vim'))
-        " Ignore comments
-        if plugin =~ '^[^"#]'
-            let plugin = substitute(plugin, '.*/', '', '')
-            exe 'packadd!' plugin
-        endif
-    endfor
+  " Load opt plugins
+  for plugin in readfile(expand('~/.vim/plugins.vim'))
+    " Ignore comments
+    if plugin =~ '^[^"#]'
+      let plugin = substitute(plugin, '.*/', '', '')
+      exe 'packadd!' plugin
+    endif
+  endfor
 
-    let g:onedark_terminal_italics = 1
-    colorscheme onedark
-    " Show horizontal cursor line when using colorscheme
-    set cursorline
+  colorscheme one
+  " Dark colorscheme
+  set background=dark
+  " Show horizontal cursor line when using colorscheme
+  set cursorline
 
-    " Enable buffers line
-    let g:airline#extensions#tabline#enabled = 1
-    " Show filename only in buffers line
-    let g:airline#extensions#tabline#formatter = 'unique_tail'
-    " Don't show encoding if it is default one
-    let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-    " Always show the mode part
-    call airline#parts#define_minwidth('mode', 0)
+  " Enable buffers line
+  let g:airline#extensions#tabline#enabled = 1
+  " Show filename only in buffers line
+  let g:airline#extensions#tabline#formatter = 'unique_tail'
+  " Don't show encoding if it is default one
+  let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+  " Always show the mode part
+  call airline#parts#define_minwidth('mode', 0)
 
-    " Thousand separated line numbers
-    function! LineNumber()
-        return substitute(line('.'), '\d\@<=\(\(\d\{3\}\)\+\)$', ',&', 'g') . '/' .
-        \   substitute(line('$'), '\d\@<=\(\(\d\{3\}\)\+\)$', ',&', 'g')
-    endfunction
+  " Thousand separated line numbers
+  function! LineNumber()
+    return substitute(line('.'), '\d\@<=\(\(\d\{3\}\)\+\)$', ',&', 'g') . '/' .
+    \ substitute(line('$'), '\d\@<=\(\(\d\{3\}\)\+\)$', ',&', 'g')
+  endfunction
 
-    call airline#parts#define('linenumber', {'function': 'LineNumber'})
+  call airline#parts#define('linenumber', {'function': 'LineNumber'})
 
-    let g:airline_section_z = airline#section#create(['ln ', 'linenumber', ' col ', '%v'])
+  let g:airline_section_z = airline#section#create(['ln ', 'linenumber', ' col ', '%v'])
 
-    let g:airline_mode_map = {
-    \ 'c'      : '●',
-    \ 'i'      : '●',
-    \ 'n'      : '●',
-    \ 'R'      : '●',
-    \ 'v'      : '●',
-    \ 'V'      : '⁃',
-    \ ''     : '◼',
-    \ }
+  let g:airline_mode_map = {
+  \ 'c'      : '●',
+  \ 'i'      : '●',
+  \ 'n'      : '●',
+  \ 'R'      : '●',
+  \ 'v'      : '●',
+  \ 'V'      : '⁃',
+  \ ''     : '◼',
+  \ }
 
-    " No '-- INSERT --' in status line
-    set noshowmode
+  " No '-- INSERT --' in status line
+  set noshowmode
 
-    " Custom autoclosing rules for LaTeX and Typst math mode
-    for filetype in ['tex', 'latex', 'typst']
-        call lexima#add_rule({'char': '$', 'input_after': '$', 'filetype': filetype})
-        call lexima#add_rule({'char': '$', 'at': '\%#\$', 'leave': 1, 'filetype': filetype})
-        call lexima#add_rule({'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': filetype})
-        call lexima#add_rule({'char': '<space>', 'at': '\$\%#\$', 'input_before': ' ', 'input_after': ' ', 'filetype': filetype})
-        call lexima#add_rule({'char': '<BS>', 'at': '\$ \%# \$', 'delete': 1, 'filetype': filetype})
-    endfor
+  " Custom autoclosing rules for LaTeX and Typst math mode
+  for filetype in ['tex', 'latex', 'typst']
+    call lexima#add_rule({'char': '$', 'input_after': '$', 'filetype': filetype})
+    call lexima#add_rule({'char': '$', 'at': '\%#\$', 'leave': 1, 'filetype': filetype})
+    call lexima#add_rule({'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': filetype})
+    call lexima#add_rule({'char': '<space>', 'at': '\$\%#\$', 'input_before': ' ', 'input_after': ' ', 'filetype': filetype})
+    call lexima#add_rule({'char': '<BS>', 'at': '\$ \%# \$', 'delete': 1, 'filetype': filetype})
+  endfor
+
+  " Disable highlighting for Java identifiers and dots
+  highlight link javaIdentifier NONE
+  highlight link javaDelimiter NONE
 endif
