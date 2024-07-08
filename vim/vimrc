@@ -117,8 +117,15 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
   endfor
 
   colorscheme one
-  " Dark colorscheme
   set background=dark
+  " Set light/dark theme dynamically
+  if system('which dark-mode') != ''
+    if system('dark-mode status') == "on\n"
+      set background=dark
+    else
+      set background=light
+    endif
+  endif
   " Show horizontal cursor line when using colorscheme
   set cursorline
 

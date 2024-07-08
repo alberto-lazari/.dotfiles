@@ -22,5 +22,13 @@ set -o vi
 # No ESC timeout delay for vi keybindings
 KEYTIMEOUT=1
 
+if which dark-mode &> /dev/null && [[ $(dark-mode status) = off ]]; then
+  ln -fs ~/.config/alacritty/colors/light.toml ~/.config/alacritty/colors/current.toml
+  touch ~/.config/alacritty/alacritty.toml
+else
+  ln -fs ~/.config/alacritty/colors/dark.toml ~/.config/alacritty/colors/current.toml
+  touch ~/.config/alacritty/alacritty.toml
+fi
+
 # Load custom aliases
 [[ ! -f ~/.config/sh/aliases ]] || . ~/.config/sh/aliases
