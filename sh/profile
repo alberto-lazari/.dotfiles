@@ -11,8 +11,4 @@ fi
 ! which xrandr &> /dev/null ||
     xrandr --output HDMI-1 --auto
 
-# Initialize OCaml env
-! which opam &> /dev/null ||
-    eval $(opam env)
-
 [[ ! -f ~/.config/sh/profile.local ]] || . ~/.config/sh/profile.local
