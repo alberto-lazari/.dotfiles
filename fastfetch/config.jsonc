@@ -41,6 +41,7 @@
         "format": "{3} {10} ({8})"
     },
     // "de",
+    // "wm",
     {
         "key": "WM",
         "type": "command",
@@ -48,10 +49,7 @@
         "text": "pgrep yabai &> /dev/null && echo yabai || echo Quartz Compositor"
     },
     // "wmtheme",
-    {
-        "type": "localip",
-        "format": "{1}"
-    },
+    "localip",
 
     "theme",
     "icons",
