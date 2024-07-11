@@ -41,15 +41,14 @@
         "format": "{3} {10} ({8})"
     },
     // "de",
-    // "wm",
     {
-        "key": "WM",
-        "type": "command",
-        // Detect yabai
-        "text": "pgrep yabai &> /dev/null && echo yabai || echo Quartz Compositor"
+        "type": "wm",
+        "detectPlugin": true,
+        // Print WM extension only, or the WM itself if no extension is detected
+        "format": "{?4}{4}{?}{/4}{2}{/}"
     },
     // "wmtheme",
-    "localip",
+    // "localip",
 
     "theme",
     "icons",
