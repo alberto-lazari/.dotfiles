@@ -58,7 +58,7 @@ parse_opts adfhquv "$@" || {
   exit 1
 }
 set -- "${OPTS[@]}"
-while [[ $# -gt 0 ]]; do
+while (( $# > 0 )); do
   case "$1" in
     -a | --overwrite-all)
       echo A > "$overwrite_file" ;;
@@ -85,7 +85,7 @@ done
 
 # Update repo
 if $update; then
-  $DOTFILES_SILENT || echo Updating repository...
+  $DOTFILES_SILENT || echo '[1;39m[+] Updating dotfiles...[0m'
   git pull $($DOTFILES_SILENT && echo -q) origin main
 
   # Install using the updated script
@@ -113,7 +113,9 @@ done
 
 [[ -z "${skipped[@]}" ]] || $DOTFILES_SILENT || {
   echo [-] Some programs were not found, setup skipped for:
-  for program in "${skipped[@]}"; do
-    echo " |  > $program"
+  last=$(( ${#skipped[@]} - 1 ))
+  for program in "${skipped[@]::$last}"; do
+    echo " ├── $program"
   done
+  echo " └── ${skipped[$last]}"
 }
