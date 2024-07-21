@@ -8,3 +8,7 @@
 [include]
 	# Read local config, for user info
 	path = config.local
+[commit]
+	gpgsign = true
+[gpg]
+	format = ssh
