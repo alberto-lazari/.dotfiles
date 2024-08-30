@@ -9,6 +9,6 @@ fi
 
 # Automatically configure display output on X.org
 ! which xrandr &> /dev/null ||
-    xrandr --output HDMI-1 --auto
+    xrandr --output HDMI-1 --auto 2> /dev/null
 
 [[ ! -f ~/.config/sh/profile.local ]] || . ~/.config/sh/profile.local
