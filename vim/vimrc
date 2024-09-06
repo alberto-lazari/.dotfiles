@@ -103,6 +103,10 @@ nnoremap Y y$
 nnoremap <Space> "*
 vnoremap <Space> "*
 
+" Map fzf commands
+nnoremap <Space>f :Files<Return>
+nnoremap <Space>b :Buffers<Return>
+
 
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
