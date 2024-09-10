@@ -53,6 +53,8 @@ let &showbreak='@ '
 set incsearch ignorecase smartcase
 " No ESC delay
 set timeoutlen=1000 ttimeoutlen=0
+" No timeout on custom mappings
+set notimeout ttimeout
 " Allow buffers to keep unsaved changes
 set hidden
 " Remove netrw banner
