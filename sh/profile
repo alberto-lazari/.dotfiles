@@ -34,6 +34,8 @@ ln -fs ~/.config/alacritty/colors/$system_theme.toml \
   ~/.config/alacritty/colors/current.toml
 touch ~/.config/alacritty/alacritty.toml
 
+unset system_theme
+
 # Automatically configure display output on X.org
 ! which xrandr &> /dev/null ||
   xrandr --output HDMI-1 --auto 2> /dev/null
