@@ -1,0 +1,13 @@
+# Set bat theme
+! which bat &> /dev/null ||
+  export BAT_THEME="OneHalf$( \
+    [[ $system_theme = light ]] &&
+      echo Light ||
+      echo Dark
+  )"
+
+# Set Alacritty theme dynamically
+ln -fs ~/.config/alacritty/colorscheme/$system_theme.toml \
+  ~/.config/alacritty/colors.toml
+# Trigger config reload
+touch ~/.config/alacritty/alacritty.toml

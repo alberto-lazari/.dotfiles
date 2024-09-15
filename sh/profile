@@ -19,25 +19,12 @@ else
   [[ ! -f /usr/local/bin/brew ]] || eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-system_theme=$(system-theme 2> /dev/null || echo dark)
-
-# Set bat theme
-! which bat &> /dev/null ||
-  export BAT_THEME="OneHalf$( \
-    [[ $system_theme = light ]] &&
-      echo Light ||
-      echo Dark
-  )"
-
-# Set Alacritty theme dynamically
-ln -fs ~/.config/alacritty/colors/$system_theme.toml \
-  ~/.config/alacritty/colors/current.toml
-touch ~/.config/alacritty/alacritty.toml
-
-unset system_theme
-
 # Automatically configure display output on X.org
 ! which xrandr &> /dev/null ||
   xrandr --output HDMI-1 --auto 2> /dev/null
 
+# Set dynamic themes
+system-theme --load-rc
+
+# Hook for additional local configurations
 [[ ! -f ~/.config/sh/profile.local ]] || . ~/.config/sh/profile.local

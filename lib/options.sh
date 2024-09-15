@@ -16,7 +16,7 @@ parse_opts () {
 
   OPTS=()
   ARGS=()
-  while [[ $# -gt 0 ]]; do
+  while (( $# > 0 )); do
     case "$1" in
       --*) OPTS+=("$1") ;;
       # Reset index every time, since getopts get called multiple times
@@ -26,7 +26,7 @@ parse_opts () {
 
         # Loop on pairs of (options, argument)
         # If the next parameter is another option make it empty, as if no argument was provided
-        while getopts :$optstring option "$1" "${2/-*/}"; do
+        while getopts :$optstring option "$1" "$(sed 's/^-.*//' <<< "$2")"; do
           case $option in
             :) echo $0: option -$OPTARG requires an argument >&2
               return 1

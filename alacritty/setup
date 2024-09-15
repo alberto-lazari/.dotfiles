@@ -17,5 +17,9 @@ else
 fi
 
 # Create colors directory structure
-[[ -d "$SETUP_DIR/colors" ]] || mkdir "$SETUP_DIR/colors"
-link_files_in colors -t "$SETUP_DIR/colors"
+[[ -d "$SETUP_DIR/colorscheme" ]] || mkdir "$SETUP_DIR/colorscheme"
+link_files_in colorscheme -t "$SETUP_DIR/colorscheme"
+link_file colorscheme/$(system-theme 2> /dev/null || echo dark).toml \
+  -t "$SETUP_DIR" colors.toml
+# Trigger config reload
+touch "$SETUP_DIR/alacritty.toml"

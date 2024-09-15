@@ -27,7 +27,7 @@ link_file () {
 
   parse_opts dt: "$@"
   set -- "${OPTS[@]-}"
-  while [[ $# -gt 0 ]]; do
+  while (( $# > 0 )); do
     case "$1" in
       -d | --as-dotfile)
         dotfile=true;;
