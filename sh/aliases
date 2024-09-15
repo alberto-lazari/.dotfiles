@@ -9,58 +9,61 @@ alias la='ls -A'
 alias tree='tree -C'
 t () { tree -L 2 "$@"; }
 alias chx='chmod +x'
-! which bpytop &> /dev/null || alias top='bpytop'
+! which bpytop &> /dev/null ||
+  alias top='bpytop'
+! which bat &> /dev/null ||
+  alias bat="bat --theme OneHalf$([[ $(system-theme 2> /dev/null) == light ]] && echo Light || echo Dark)"
 pdfshrink () {
-    local usage=$(cat <<- EOF
+  local usage=$(cat <<- EOF
 		usage: pdfshrink [-l LEVEL] DOCUMENT.pdf
 		options:
 		  -l    compression level in range 0..4 (default = 2)
 		EOF
-    )
+  )
 
-    [[ -n "$1" ]] || {
-        echo $usage >&2
-        return 1
-    }
+  [[ -n "$1" ]] || {
+    echo $usage >&2
+    return 1
+  }
 
-    while (( $# > 0 )); do
-    case "$1" in
-        -l) shift
-            local level="$(( $1 + 1 ))"
-            ;;
-        *.pdf | *.PDF)
-            local file="$1"
-            local filename="${1/%.(pdf|PDF)}"
-            ;;
-        *)  echo $usage >&2
-            return 1
-            ;;
-    esac
-    shift
+  while (( $# > 0 )); do
+  case "$1" in
+    -l) shift
+      local level="$(( $1 + 1 ))"
+      ;;
+    *.pdf | *.PDF)
+      local file="$1"
+      local filename="${file/%.(pdf|PDF)}"
+      ;;
+    *) echo $usage >&2
+      return 1
+      ;;
+  esac
+  shift
 
-    done
+  done
 
-    which gs &> /dev/null || {
-        echo error: ghostscript not found >&2
-        return 1
-    }
+  which gs &> /dev/null || {
+    echo error: ghostscript not found >&2
+    return 1
+  }
 
-    levels=(
-        default
-        prepress
-        printer
-        ebook
-        screen
-    )
+  levels=(
+    default
+    prepress
+    printer
+    ebook
+    screen
+  )
 
-    gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pdfwrite \
-        -dEmbedAllFonts=true -dSubsetFonts=true \
-        -dColorImageDownsampleType=/Bicubic -dColorImageResolution=144 \
-        -dGrayImageDownsampleType=/Bicubic -dGrayImageResolution=144 \
-        -dMonoImageDownsampleType=/Bicubic -dMonoImageResolution=144 \
-        -dPDFSETTINGS=/${levels[${level-3}]} \
-        -sOutputFile="$filename-compressed.pdf" \
-        "$file"
+  gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pdfwrite \
+    -dEmbedAllFonts=true -dSubsetFonts=true \
+    -dColorImageDownsampleType=/Bicubic -dColorImageResolution=144 \
+    -dGrayImageDownsampleType=/Bicubic -dGrayImageResolution=144 \
+    -dMonoImageDownsampleType=/Bicubic -dMonoImageResolution=144 \
+    -dPDFSETTINGS=/${levels[${level-3}]} \
+    -sOutputFile="$filename-compressed.pdf" \
+    "$file"
 }
 
 # Git
@@ -90,81 +93,81 @@ alias publish='git push -u origin "$(git branch --show-current)"'
 alias unstage='git restore --staged'
 alias cleanbr='git branch -D $(git branch | grep -v \*)'
 submod-add () {
-    if [[ -z "$1" ]]; then
-        echo 'error: need to specify a submodule dir' >&2
-        return 1
-    fi
-    git submodule add $(git -C $1 remote get-url origin) $1
+  if [[ -z "$1" ]]; then
+    echo 'error: need to specify a submodule dir' >&2
+    return 1
+  fi
+  git submodule add $(git -C $1 remote get-url origin) $1
 }
 github-clone () {
-    local url='git@github.com:'
-    if [[ -z $1 ]]; then
-        echo 'error: need a repo to clone (user/repo)' >&2
-        return 1
-    fi
+  local url='git@github.com:'
+  if [[ -z $1 ]]; then
+    echo 'error: need a repo to clone (user/repo)' >&2
+    return 1
+  fi
 
-    if [[ $1 = --https ]]; then
-        url='https://github.com/'
-        shift
-    fi
+  if [[ $1 = --https ]]; then
+    url='https://github.com/'
+    shift
+  fi
 
-    if [[ $1 = -* ]]; then
-        echo 'usage: github-clone [--https] user/repo[.git] [dir]'
-        return
-    fi
+  if [[ $1 = -* ]]; then
+    echo 'usage: github-clone [--https] user/repo[.git] [dir]'
+    return
+  fi
 
-    local repo=$(sed 's|^.*github\.com[:/]||' <<< $1)
-    git clone --recurse-submodules $url$repo $2
+  local repo=$(sed 's|^.*github\.com[:/]||' <<< $1)
+  git clone --recurse-submodules $url$repo $2
 }
 
 # macOS specific aliases
 if [[ "$(uname)" = Darwin ]]; then
-    # macOS inconsistencies workarounds
-    alias umount='diskutil unmount'
-    alias clear="printf '\33c\e[3J'"
+  # macOS inconsistencies workarounds
+  alias umount='diskutil unmount'
+  alias clear="printf '\33c\e[3J'"
 
-    # Run x86 binaries with Rosetta
-    alias x86='arch -x86_64'
+  # Run x86 binaries with Rosetta
+  alias x86='arch -x86_64'
 
-    # Use clamshell mode on battery power
-    clam () {
-        sudo pmset -a disablesleep 1
-        bash -c 'read -p "Close your MacBook lid, then press enter"'
-        sudo pmset -a disablesleep 0
-    }
+  # Use clamshell mode on battery power
+  clam () {
+    sudo pmset -a disablesleep 1
+    bash -c 'read -p "Close your MacBook lid, then press enter"'
+    sudo pmset -a disablesleep 0
+  }
 
-    # Homebrew
-    up () {
-        # Update Homebrew packages
-        brew update && brew upgrade |
-            tee >(cat) |
-            # Update Alacritty icon, because an update may overwrite it
-            if grep -q '[Aa]lacritty'; then ~/.config/alacritty/update-icon; fi
-    }
+  # Homebrew
+  up () {
+    # Update Homebrew packages
+    brew update && brew upgrade |
+      tee >(cat) |
+      # Update Alacritty icon, because an update may overwrite it
+      if grep -q '[Aa]lacritty'; then ~/.config/alacritty/update-icon; fi
+  }
 
-    # Applications
-    alias chrome='open -a "Google Chrome"'
-    alias firefox='open -a Firefox'
-    zathura () {
-        [[ $# -gt 0 ]] || { echo 'usage: zathura file [...]' >&2; return 1; }
-        local file
-        for file in "$@"; do
-            open -na Zathura --args "$(readlink -f "$file")"
-        done
-    }
-    finder () {
-        local arg="$1"
-        # Open current directory by default
-        [[ -n "$arg" ]] || arg="$PWD"
+  # Applications
+  alias chrome='open -a "Google Chrome"'
+  alias firefox='open -a Firefox'
+  zathura () {
+    [[ $# -gt 0 ]] || { echo 'usage: zathura file [...]' >&2; return 1; }
+    local file
+    for file in "$@"; do
+      open -na Zathura --args "$(readlink -f "$file")"
+    done
+  }
+  finder () {
+    local arg="$1"
+    # Open current directory by default
+    [[ -n "$arg" ]] || arg="$PWD"
 
-        if [[ "$arg" = *.app ]]; then
-            open -R "$arg"/$(ls -AU "$arg" | head -n 1)
-        elif [[ -d "$arg" ]]; then
-            open "$arg"
-        else
-            open -R "$arg"
-        fi
-    }
+    if [[ "$arg" = *.app ]]; then
+      open -R "$arg"/$(ls -AU "$arg" | head -n 1)
+    elif [[ -d "$arg" ]]; then
+      open "$arg"
+    else
+      open -R "$arg"
+    fi
+  }
 fi
 
 # Hook for local aliases

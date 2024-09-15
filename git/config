@@ -10,5 +10,7 @@
 	path = config.local
 [commit]
 	gpgsign = true
+[tag]
+	gpgsign = true
 [gpg]
 	format = ssh

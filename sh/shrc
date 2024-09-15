@@ -5,30 +5,10 @@ set_terminal_title () {
   echo -en "\033]0;$@\a"
 }
 
-# Language environment
-export LANG=en_US.UTF-8
-# Preferred editor for local and remote sessions
-export EDITOR=vim
-# Set terminal type
-export TERM=xterm-256color
-
-# Display colors on less and quit if content fits in one page
-export LESS=RF
-# No less history file
-export LESSHISTFILE=-
-
 # Vi keybindings
 set -o vi
 # No ESC timeout delay for vi keybindings
 KEYTIMEOUT=1
-
-if which dark-mode &> /dev/null && [[ $(dark-mode status) = off ]]; then
-  ln -fs ~/.config/alacritty/colors/light.toml ~/.config/alacritty/colors/current.toml
-  touch ~/.config/alacritty/alacritty.toml
-else
-  ln -fs ~/.config/alacritty/colors/dark.toml ~/.config/alacritty/colors/current.toml
-  touch ~/.config/alacritty/alacritty.toml
-fi
 
 # Load custom aliases
 [[ ! -f ~/.config/sh/aliases ]] || . ~/.config/sh/aliases

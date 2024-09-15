@@ -1,14 +1,41 @@
 export PATH="$HOME/bin:$PATH"
 
+# Language environment
+export LANG=en_US.UTF-8
+# Preferred editor for local and remote sessions
+export EDITOR=vim
+# Set terminal type
+export TERM=xterm-256color
+
+# Display colors on less and quit if content fits in one page
+export LESS=RF
+# No less history file
+export LESSHISTFILE=-
+
 # Multiple Homebrews on Apple Silicon
 if [[ $(uname -m) = arm64 ]]; then
-    [[ ! -f /opt/homebrew/bin/brew ]] || eval "$(/opt/homebrew/bin/brew shellenv)"
+  [[ ! -f /opt/homebrew/bin/brew ]] || eval "$(/opt/homebrew/bin/brew shellenv)"
 else
-    [[ ! -f /usr/local/bin/brew ]] || eval "$(/usr/local/bin/brew shellenv)"
+  [[ ! -f /usr/local/bin/brew ]] || eval "$(/usr/local/bin/brew shellenv)"
 fi
+
+system_theme=$(system-theme 2> /dev/null || echo dark)
+
+# Set bat theme
+! which bat &> /dev/null ||
+  export BAT_THEME="OneHalf$( \
+    [[ $system_theme = light ]] &&
+      echo Light ||
+      echo Dark
+  )"
+
+# Set Alacritty theme dynamically
+ln -fs ~/.config/alacritty/colors/$system_theme.toml \
+  ~/.config/alacritty/colors/current.toml
+touch ~/.config/alacritty/alacritty.toml
 
 # Automatically configure display output on X.org
 ! which xrandr &> /dev/null ||
-    xrandr --output HDMI-1 --auto 2> /dev/null
+  xrandr --output HDMI-1 --auto 2> /dev/null
 
 [[ ! -f ~/.config/sh/profile.local ]] || . ~/.config/sh/profile.local
