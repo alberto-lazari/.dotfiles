@@ -25,7 +25,7 @@ set laststatus=2
 set noswapfile nobackup undodir=~/.vim/undodir undofile
 if !has('nvim')
   " Move .viminfo file
-  set viminfo=%,<800,'10,/50,:1000,h,f0,n~/.vim/cache/.viminfo
+  set viminfo=%,<800,'10,/50,:1000,h,f0,n~/.vim/cache/viminfo
   "           | |    |   |   |     | |  + viminfo file path
   "           | |    |   |   |     | + file marks 0-9,A-Z 0=NOT stored
   "           | |    |   |   |     + disable 'hlsearch' loading viminfo
@@ -59,10 +59,11 @@ set notimeout ttimeout
 set hidden
 " Remove netrw banner
 let g:netrw_banner = 0
+" Split buffers on next child
+set splitright splitbelow
 
 " Indent with 4 spaces on specific file types
 autocmd FileType java,kotlin,python setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
-
 " Spellcheck specific file types
 autocmd FileType text,latex,tex,md,markdown,typst setlocal spell
 
@@ -110,8 +111,12 @@ nnoremap <Space>u :UndotreeToggle<Return>
 vnoremap <Space>u :UndotreeToggle<Return>
 
 " Map fzf commands
-nnoremap <Space>f :Files<Return>
+nnoremap <Space>e :Files<Return>
+nnoremap <Space>E :Files!<Return>
 nnoremap <Space>b :Buffers<Return>
+nnoremap <Space>B :Buffers!<Return>
+nnoremap <Space>/ :RG<Return>
+nnoremap <Space>? :RG!<Return>
 
 
 " Plugins
@@ -179,4 +184,12 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
   " Disable highlighting for Java identifiers and dots
   highlight link javaIdentifier NONE
   highlight link javaDelimiter NONE
+
+  " Enable fzf history
+  let g:fzf_history_dir = '~/.vim/cache/fzf-history'
+  " Change fzf key bindings
+  let g:fzf_action = {
+    \ 'ctrl-t': 'tab split',
+    \ 'ctrl-s': 'split',
+    \ 'ctrl-v': 'vsplit' }
 endif
