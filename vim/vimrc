@@ -66,6 +66,11 @@ set splitright splitbelow
 autocmd FileType java,kotlin,python setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 " Spellcheck specific file types
 autocmd FileType text,latex,tex,md,markdown,typst setlocal spell
+" Highlight all scripts with bash syntax
+autocmd FileType sh setlocal filetype=bash
+
+" Trigger FileType autocmds on a vimrc source
+filetype detect
 
 " Mouse support
 " Drains a crazy amount of battery power if enabled (on iTerm)
