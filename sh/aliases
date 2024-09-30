@@ -13,6 +13,11 @@ alias chx='chmod +x'
   alias top='bpytop'
 ! which bat &> /dev/null ||
   alias bat="bat --theme OneHalf$([[ $(system-theme 2> /dev/null) == light ]] && echo Light || echo Dark)"
+system_theme () {
+  \system-theme "$1" && eval "$(\system-theme -s)"
+}
+! which system-theme &> /dev/null ||
+  alias system-theme='system_theme'
 pdfshrink () {
   local usage=$(cat <<- EOF
 		usage: pdfshrink [-l LEVEL] DOCUMENT.pdf
