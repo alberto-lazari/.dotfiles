@@ -16,7 +16,7 @@
     "uptime",
     {
         "type": "cpu",
-        "format": "{1} @ {7} GHz"
+        "format": "{1} @ {7}"
     },
     // "gpu",
     "memory",
