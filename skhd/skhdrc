@@ -98,6 +98,10 @@ ctrl + alt - r : yabai --restart-service
 alt - a : [[ $(yabai -m config focus_follows_mouse) = disabled ]] && \
             yabai -m config focus_follows_mouse autoraise || \
             yabai -m config focus_follows_mouse off
+# Tooggle window opacity
+alt - o : [[ $(yabai -m config window_opacity) = on ]] && \
+            yabai -m config window_opacity off || \
+            yabai -m config window_opacity on
 
 
 # Open new terminal instance

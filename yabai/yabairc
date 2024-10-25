@@ -27,3 +27,24 @@ yabai -m rule --add app="^QuickTime Player$"   manage=off
 
 # Display borders
 borders &
+
+# Exit if SIP is not disabled
+echo checking sip
+csrutil status | grep -q disabled || exit 0
+echo doing sip things
+
+
+### No-SIP config
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+yabai -m config                               \
+  window_shadow                float          \
+                                              \
+  window_animation_easing      ease_out_expo  \
+  window_animation_duration    0.2            \
+                                              \
+  window_opacity               on             \
+  active_window_opacity        1.0            \
+  normal_window_opacity        0.9            \
+  window_opacity_duration      0.1
