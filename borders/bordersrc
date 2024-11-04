@@ -5,11 +5,12 @@ options=(
   style=round
   width=5.0
   hidpi=on
+  inactive_color=0x000000
+  # inactive_color=0xaa4c566a
   # Blue
   active_color=0xff37b3ff
   # White
   # active_color=0xffffffff
-  inactive_color=0xdd4c566a
   # background_color=0x01000000
   # blur_radius=20.0
 )
