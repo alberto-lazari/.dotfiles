@@ -32,7 +32,7 @@ set notification-fg "#151515" #00
 set recolor-lightcolor "#161616"
 set recolor-darkcolor "#E0E0E0"
 # Don't reverse images (may not work)
-set recolor-reverse-video "true"
+set recolor-reverse-video "false"
 set recolor-keephue "true"
 
 set render-loading "false"
