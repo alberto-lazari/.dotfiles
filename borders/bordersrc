@@ -3,10 +3,10 @@
 options=(
   # ax_focus=true
   style=round
-  width=5.0
+  width=4.0
   hidpi=on
-  inactive_color=0x000000
-  # inactive_color=0xaa4c566a
+  # inactive_color=0x000000
+  inactive_color=0xaa4c566a
   # Blue
   active_color=0xff37b3ff
   # White
