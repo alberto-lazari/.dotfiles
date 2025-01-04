@@ -7,10 +7,13 @@ SETUP_DIR=~/.vim
 . ../lib/setup.sh
 
 # Undo files won't be created, unless the undo directory exists
-[[ -d $SETUP_DIR/undodir ]] || mkdir -p $SETUP_DIR/undodir
+[[ -d "$SETUP_DIR/undodir" ]] || mkdir -p "$SETUP_DIR/undodir"
 # Same for .viminfo
-[[ -d $SETUP_DIR/cache ]] || mkdir -p $SETUP_DIR/cache
-link_files_in . -t $SETUP_DIR
+[[ -d "$SETUP_DIR/cache" ]] || mkdir -p "$SETUP_DIR/cache"
+# Create spell directory to avoid prompt
+[[ -d "$SETUP_DIR/spell" ]] || mkdir -p "$SETUP_DIR/spell"
+
+link_files_in . -t "$SETUP_DIR"
 
 # Read plugins, ignoring comments starting with " or #
 for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
@@ -22,7 +25,7 @@ for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
     git clone \
       --depth 1 \
       $($DOTFILES_VERBOSE || echo -q) \
-      https://github.com/$repo \
+      "https://github.com/$repo" \
       "$SETUP_DIR/pack/$package/opt/$plugin"
   fi
 done

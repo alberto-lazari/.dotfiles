@@ -68,6 +68,8 @@ autocmd FileType java,kotlin,python
 " Spellcheck specific file types (and force 2 spaces tabs)
 autocmd FileType text,latex,tex,md,markdown,typst
 \ setlocal spell expandtab tabstop=2 softtabstop=2 shiftwidth=2
+" Use English + Italian for spelling
+set spelllang=en,it
 " Highlight all scripts with bash syntax
 autocmd FileType sh setlocal filetype=bash
 
