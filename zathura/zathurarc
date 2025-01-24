@@ -46,3 +46,8 @@ map [fullscreen] F toggle_fullscreen
 unmap q
 unmap <C-q>
 unmap [fullscreen] q
+
+map j navigate next
+map k navigate previous
+map J scroll down
+map K scroll up
