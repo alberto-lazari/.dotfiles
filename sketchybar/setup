@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+cd "$(dirname "$BASH_SOURCE")"
+
+. ../lib/setup.sh
+
+link_files_in . -t "$SETUP_DIR"
+
+# Link plugins
+[[ -d "$SETUP_DIR/plugins" ]] || mkdir "$SETUP_DIR/plugins"
+link_files_in plugins -t "$SETUP_DIR/plugins"

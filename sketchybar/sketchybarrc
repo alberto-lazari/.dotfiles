@@ -1,0 +1,76 @@
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+bar_options=(
+  position=top
+  height=20
+  blur_radius=40
+  color=0x40000000
+  padding_left=10
+  padding_right=10
+)
+
+font='MesloLGS NF'
+default=(
+  icon.font="$font:Bold:13.5"
+  label.font="$font:Bold:12.5"
+  icon.color=0xffffffff
+  label.color=0xffffffff
+  label.shadow.drawing=on
+  label.shadow.distance=1
+  padding_left=4
+  padding_right=4
+  icon.padding_left=4
+  icon.padding_right=4
+  label.padding_left=4
+  label.padding_right=4
+)
+
+sketchybar --bar "${bar_options[@]}" \
+           --default "${default[@]}"
+
+
+events=(
+  --add event window_focus
+  --add event title_change
+)
+
+plugins=(
+  --add item window_title center
+  --set window_title
+        icon.drawing=off
+        script="$PLUGIN_DIR/window_title.sh"
+  --subscribe window_title
+              window_focus
+              front_app_switched
+              title_change
+
+  --add item clock right
+  --set clock update_freq=10
+              icon.drawing=off
+              script="$PLUGIN_DIR/clock.sh"
+)
+
+spaces_options=()
+for space in {1..6}; do
+  spaces_options+=(
+    --add space space."$space" left
+    --set space."$space"
+          space="$space"
+          label="$space"
+          icon.drawing=off
+          background.color=0x5affffff
+          background.drawing=off
+          background.padding_left=5
+          background.corner_radius=4
+          background.height=15
+          script="$PLUGIN_DIR/space.sh"
+          click_script="yabai -m space --focus $sid"
+  )
+done
+
+sketchybar -m "${events[@]}" \
+              "${plugins[@]}" \
+              "${spaces_options[@]}"
+
+# Force all scripts to run the first time
+sketchybar --update

@@ -1,50 +1,80 @@
-# Default layout (can be bsp, stack or float)
-yabai -m config layout                       bsp
-# New window spawns to the right if vertical split, or bottom if horizontal split
-yabai -m config window_placement             second_child
+layout_options=(
+  # Default layout (can be bsp, stack or float)
+  layout                    bsp
 
-# Padding
-for edge in {top,bottom,left,right}; do
-    yabai -m config ${edge}_padding          15
-done
-yabai -m config window_gap                   15
+  # New window spawns to the right if vertical split, or bottom if horizontal split
+  window_placement          second_child
+)
 
-# Center mouse on window with focus
-yabai -m config mouse_follows_focus          off
-yabai -m config focus_follows_mouse          autoraise
+padding=15
+padding_options=(
+  external_bar              all:20:0
+  top_padding               $padding
+  bottom_padding            $padding
+  left_padding              $padding
+  right_padding             $padding
+  window_gap                $padding
+)
 
-# When window is dropped in center of another window, swap them (on edges it will split it)
-yabai -m mouse_drop_action                   swap
-yabai -m config insert_feedback_color        0xbaffffff
+mouse_options=(
+  # Don't center mouse on focused window
+  mouse_follows_focus       off
 
+  # Raise window on mouse hover
+  focus_follows_mouse       autoraise
+
+  # Mouse drag visual guideline
+  insert_feedback_color     0xbaffffff
+
+  # When window is dropped in center of another window, swap them (on edges it will split it)
+  mouse_drop_action         swap
+)
+
+yabai -m config \
+  "${layout_options[@]}" \
+  "${padding_options[@]}" \
+  "${mouse_options[@]}"
 
 # Disable specific apps
-yabai -m rule --add app="^System Settings$"    manage=off
-yabai -m rule --add app="^System Information$" manage=off
-yabai -m rule --add app="^Calculator$"         manage=off
-yabai -m rule --add app="^Karabiner-Elements$" manage=off
-yabai -m rule --add app="^QuickTime Player$"   manage=off
+unmanaged_apps=(
+  'System Settings'
+  'System Information'
+  'Calculator'
+  'Karabiner-Elements'
+  'QuickTime Player'
+)
+for app in "${unmanaged_apps[@]}"; do
+  yabai -m rule --add app="^$app$" manage=off
+done
 
 # Display borders
 borders &
 
-# Exit if SIP is not disabled
-echo checking sip
+# Display bar
+sketchybar &
+
+# Forward title change event to sketchybar
+yabai -m signal --add event=window_focused action='sketchybar --trigger window_focus &> /dev/null'
+yabai -m signal --add event=window_title_changed action='sketchybar --trigger title_change &> /dev/null'
+
+
+# Stop here if SIP is not disabled
 csrutil status | grep -q disabled || exit 0
-echo doing sip things
 
-
-### No-SIP config
-yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+# Load scripting addition
+yabai -m signal --add event=dock_did_restart action='sudo yabai --load-sa'
 sudo yabai --load-sa
 
-yabai -m config                               \
-  window_shadow                float          \
-                                              \
-  window_animation_easing      ease_out_expo  \
-  window_animation_duration    0.2            \
-                                              \
-  window_opacity               on             \
-  active_window_opacity        1.0            \
-  normal_window_opacity        0.9            \
+sip_options=(
+  # Use shadows on floating windows only
+  window_shadow                float
+
+  window_animation_easing      ease_out_expo
+  window_animation_duration    0.2
+
+  window_opacity               on
+  active_window_opacity        1.0
+  normal_window_opacity        0.9
   window_opacity_duration      0.1
+)
+yabai -m config "${sip_options[@]}"
