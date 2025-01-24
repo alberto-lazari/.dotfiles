@@ -8,11 +8,11 @@ options=(
   # inactive_color=0x000000
   inactive_color=0xaa4c566a
   # Blue
-  active_color=0xff37b3ff
+  # active_color=0xff37b3ff
   # Purple
-  # active_color=0xffd568ef
+  # active_color=0xffc578ff
   # White
-  # active_color=0xffbbbbbb
+  active_color=0xffbbbbbb
   # background_color=0x01000000
   # blur_radius=20.0
 )
