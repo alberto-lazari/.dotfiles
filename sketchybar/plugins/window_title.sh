@@ -22,4 +22,4 @@ limit=125
 (( "${#label}" < $limit )) ||
    label="$(echo $label | cut -c 1-$limit)…"
 
-sketchybar --set "$NAME" label="$label"
+sketchybar --animate circ 5 --set "$NAME" label="$label"

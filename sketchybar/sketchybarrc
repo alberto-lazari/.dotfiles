@@ -35,11 +35,11 @@ events=(
 )
 
 plugins=(
-  --add item window_title center
-  --set window_title
+  --add item title center
+  --set title
         icon.drawing=off
         script="$PLUGIN_DIR/window_title.sh"
-  --subscribe window_title
+  --subscribe title
               window_focus
               front_app_switched
               title_change
