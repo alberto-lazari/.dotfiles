@@ -38,10 +38,9 @@ set recolor-keephue "true"
 set render-loading "false"
 set selection-notification "false"
 
-# Fullscreen with f
-unmap f
-map f toggle_fullscreen
-map [fullscreen] f toggle_fullscreen
+# Fullscreen with F
+map F toggle_fullscreen
+map [fullscreen] F toggle_fullscreen
 
 # Quit only with :q
 unmap q
