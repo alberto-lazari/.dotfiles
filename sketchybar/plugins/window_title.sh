@@ -1,8 +1,8 @@
 #!/bin/bash
 
 window_info="$(yabai -m query --windows --window)"
-window_title="$(jq -r '.title' <<< "$window_info")"
-: ${INFO:=$(jq -r '.app' <<< "$window_info")}
+window_title="$(jq -r .title <<< "$window_info")"
+: ${INFO:=$(jq -r .app <<< "$window_info")}
 
 case "$INFO" in
   # Display current job in terminal
