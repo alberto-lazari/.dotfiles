@@ -24,7 +24,8 @@ fi
   xrandr --output HDMI-1 --auto 2> /dev/null
 
 # Set dynamic themes
-eval "$(system-theme --gen-rc)"
+! which system-theme &> /dev/null ||
+  eval "$(system-theme --gen-rc)"
 
 # Hook for additional local configurations
 [[ ! -f ~/.config/sh/profile.local ]] || . ~/.config/sh/profile.local
