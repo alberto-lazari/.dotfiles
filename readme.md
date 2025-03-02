@@ -23,7 +23,7 @@ before installing the actual dotfiles.
 You can execute it from an elevated PowerShell window,
 by running
 ```powershell
-iex (iwr -UseBasicParsing -Uri "https://raw.githubusercontent.com/alberto-lazari/.dotfiles/refs/heads/master/windows-setup.ps1")
+iex (iwr -UseBasicParsing -Uri "https://raw.githubusercontent.com/alberto-lazari/.dotfiles/refs/heads/main/windows-setup.ps1")
 ```
 
 ## Program setups
