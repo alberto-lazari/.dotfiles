@@ -18,6 +18,9 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Value 0
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Value 0
 
+# Run debloater
+iex (iwr -UseBasicParsing -Uri "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/refs/heads/master/Windows10Debloater.ps1")
+
 if (-not (Get-Command winget -ErrorAction SilentlyContinue))
 {
     Get-AppxPackage Microsoft.DesktopAppInstaller | Remove-AppxPackage
