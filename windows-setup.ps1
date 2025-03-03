@@ -46,7 +46,7 @@ line="$WIN_HOME /home/$(whoami) none bind"
 grep -q "^$line$" /etc/fstab || echo $'\n'$line >> /etc/fstab
 
 # Set Windows home as shell home
-line="HOME=\"$WIN_HOME\""
+line="HOME=$WIN_HOME"
 grep -q "^$line$" /msys2.ini || echo $line >> /msys2.ini
 
 # Inherit Windows PATH
