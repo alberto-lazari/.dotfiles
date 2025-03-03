@@ -34,27 +34,33 @@ winget install mozilla.firefox
 
 # Install MSYS2 for GNU support
 winget install msys2.msys2
-function Bash($Command)
-{
-    & "C:/msys64/usr/bin/bash.exe" -c "export PATH=/usr/bin; $Command"
-}
 
-$WinHome = "/$($HOME -replace 'C:', 'c' -replace '\\', '/')"
+$BashCommands = @'
+set -e
+export PATH=/usr/bin
+
+WIN_HOME="/$(echo $(echo 'echo %HOME%' | cmd | grep '^[A-Z]:\\[^>]*$') | sed 's|^\([A-Z]\):|\l\1|' | sed 's|\\|/|g')"
 
 # Make MSYS2 home target Windows home
-$Line = "$WinHome /home/$((whoami).Split('\')[-1]) none bind"
-Bash "grep -q \`"$Line\`" /etc/fstab || echo $Line >> /etc/fstab"
+line="$WIN_HOME /home/$(whoami) none bind"
+grep -q "^$line$" /etc/fstab || echo $'\n'$line >> /etc/fstab
 
 # Set Windows home as shell home
-$Line = "HOME=$WinHome"
-Bash "grep -q \`"$Line\`" /msys2.ini || echo $Line >> /msys2.ini"
+line="HOME=\"$WIN_HOME\""
+grep -q "^$line$" /msys2.ini || echo $line >> /msys2.ini
+
+# Inherit Windows PATH
+sed -i 's/^#\(MSYS2_PATH_TYPE=inherit\)/\1/' /msys2.ini
 
 # Install packages on pacman
-Bash "pacman -Syu --noconfirm"
-Bash "pacman -S --noconfirm --needed zsh git vim"
+pacman -Syu --noconfirm
+pacman -S --noconfirm --needed zsh git vim
 
 # Install dotfiles
-Bash "git clone https://github.com/alberto-lazari/.dotfiles ~/.dotfiles && ~/.dotfiles/install"
+git clone https://github.com/alberto-lazari/.dotfiles ~/.dotfiles && ~/.dotfiles/install
+'@
+
+echo "$BashCommands" | & "C:/msys64/usr/bin/bash.exe"
 
 # Run debloater
 curl.exe "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/refs/heads/master/Windows10Debloater.ps1" | sudo powershell
