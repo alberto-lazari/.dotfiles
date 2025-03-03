@@ -57,7 +57,9 @@ pacman -Syu --noconfirm
 pacman -S --noconfirm --needed zsh git vim
 
 # Install dotfiles
-git clone https://github.com/alberto-lazari/.dotfiles ~/.dotfiles && ~/.dotfiles/install
+[[ -d ~/.dotfiles ]] ||
+    git clone https://github.com/alberto-lazari/.dotfiles ~/.dotfiles
+~/.dotfiles/install
 '@
 
 echo "$BashCommands" | & "C:/msys64/usr/bin/bash.exe"
