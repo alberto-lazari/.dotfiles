@@ -37,16 +37,15 @@ winget install msys2.msys2
 
 $BashCommands = @'
 set -e
-export PATH=/usr/bin
-
-WIN_HOME="/$(echo $(echo 'echo %HOME%' | cmd | grep '^[A-Z]:\\[^>]*$') | sed 's|^\([A-Z]\):|\l\1|' | sed 's|\\|/|g')"
+export PATH="/usr/bin:$PATH"
+export HOME="/$(echo $(echo 'echo %HOME%' | cmd | grep '^[A-Z]:\\[^>]*$') | sed 's|^\([A-Z]\):|\l\1|' | sed 's|\\|/|g')"
 
 # Make MSYS2 home target Windows home
-line="$WIN_HOME /home/$(whoami) none bind"
+line="$HOME /home/$(whoami) none bind"
 grep -q "^$line$" /etc/fstab || echo $'\n'$line >> /etc/fstab
 
 # Set Windows home as shell home
-line="HOME=$WIN_HOME"
+line="HOME=$HOME"
 grep -q "^$line$" /msys2.ini || echo $line >> /msys2.ini
 
 # Inherit Windows PATH
@@ -56,13 +55,13 @@ sed -i 's/^#\(MSYS2_PATH_TYPE=inherit\)/\1/' /msys2.ini
 pacman -Syu --noconfirm
 pacman -S --noconfirm --needed zsh git vim
 
-# Install dotfiles
-[[ -d ~/.dotfiles ]] ||
-    git clone https://github.com/alberto-lazari/.dotfiles ~/.dotfiles
-~/.dotfiles/install
+# Clone dotfiles repo
+[[ -d ~/.dotfiles ]] || git clone https://github.com/alberto-lazari/.dotfiles ~/.dotfiles
 '@
-
 echo "$BashCommands" | & "C:/msys64/usr/bin/bash.exe"
+
+# Install dotfiles
+& "C:/msys64/usr/bin/bash.exe" -c 'export PATH="/usr/bin:$PATH"; ~/.dotfiles/install'
 
 # Run debloater
 curl.exe "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/refs/heads/master/Windows10Debloater.ps1" | sudo powershell

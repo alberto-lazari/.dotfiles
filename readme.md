@@ -17,7 +17,7 @@ Then run the [`install`](install) script that automatically creates the symlinks
 ### Windows
 On Windows some preliminary steps are required to even have a shell...
 
-The [setup](windows-setup.ps1) installs the basic tools I need on a computer,
+The [setup](windows-setup.ps1) installs the basic tools I need on a system,
 before installing the actual dotfiles.
 
 Run it with
