@@ -53,7 +53,7 @@ sed -i 's/^#\(MSYS2_PATH_TYPE=inherit\)/\1/' /msys2.ini
 
 # Install packages on pacman
 pacman -Syu --noconfirm
-pacman -S --noconfirm --needed zsh git vim
+pacman -S --noconfirm --needed zsh git vim mingw-w64-x86_64-ttf-meslo-nerd
 
 # Clone dotfiles repo
 [[ -d ~/.dotfiles ]] || git clone https://github.com/alberto-lazari/.dotfiles ~/.dotfiles
@@ -62,6 +62,18 @@ echo "$BashCommands" | & "C:/msys64/usr/bin/bash.exe"
 
 # Install dotfiles
 & "C:/msys64/usr/bin/bash.exe" -c 'export PATH="/usr/bin:$PATH"; ~/.dotfiles/install'
+
+# Install font
+sudo cp C:\msys64\mingw64\share\fonts\TTF\MesloLGSNerdFont-Regular.ttf C:\Windows\Fonts
+sudo reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "MesloLGS Nerd Font" /t REG_SZ /d MesloLGSNerdFont-Regular.ttf /f
+
+# Add MSYS path to Windows
+$MsysPath = "C:\msys64\usr\local\bin;C:\msys64\usr\bin;C:\msys64\bin"
+$OldPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
+if (-not $OldPath.Contains($MsysPath))
+{
+    [System.Environment]::SetEnvironmentVariable("Path", "$OldPath;$MsysPath", "User")
+}
 
 # Run debloater
 curl.exe "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/refs/heads/master/Windows10Debloater.ps1" | sudo powershell
