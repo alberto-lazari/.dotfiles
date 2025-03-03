@@ -1,15 +1,7 @@
+### Windows preliminary setup
+
 # Exit on error
 $ErrorActionPreference = "Stop"
-
-$IsAdmin = (
-    [Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()
-).IsInRole([Security.Principal.WindowsBuiltinRole] "Administrator")
-if (-not $IsAdmin)
-{
-    Write-Output "You need to run this from an elevated shell: search `"Windows PowerShell`" and select `"Run as Administrator`"."
-    Write-Error "Not running as administrator."
-    exit 1
-}
 
 # Allow running local scripts
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
@@ -18,9 +10,7 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Value 0
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Value 0
 
-# Run debloater
-# iex (iwr -UseBasicParsing -Uri "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/refs/heads/master/Windows10Debloater.ps1")
-
+# Ensure winget is installed
 if (-not (Get-Command winget -ErrorAction SilentlyContinue))
 {
     Get-AppxPackage Microsoft.DesktopAppInstaller | Remove-AppxPackage
@@ -30,7 +20,17 @@ if (-not (Get-Command winget -ErrorAction SilentlyContinue))
     Add-AppxPackage -Path "$env:TEMP\winget.appxbundle"
 }
 
+# Install sudo
+if (-not (Get-Command sudo -ErrorAction SilentlyContinue))
+{
+    winget install gsudo
+    $UserPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+    $MachinePath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+    $Env:Path = "${UserPath};${MachinePath}"
+}
+
 winget install alacritty
+winget install mozilla.firefox
 
 # Install MSYS2 for GNU support
 winget install msys2.msys2
@@ -51,7 +51,10 @@ Bash "grep -q \`"$Line\`" /msys2.ini || echo $Line >> /msys2.ini"
 
 # Install packages on pacman
 Bash "pacman -Syu --noconfirm"
-Bash "pacman -S --noconfirm zsh git vim"
+Bash "pacman -S --noconfirm --needed zsh git vim"
 
 # Install dotfiles
 Bash "git clone https://github.com/alberto-lazari/.dotfiles ~/.dotfiles && ~/.dotfiles/install"
+
+# Run debloater
+curl.exe "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/refs/heads/master/Windows10Debloater.ps1" | sudo powershell

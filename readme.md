@@ -20,10 +20,9 @@ On Windows some preliminary steps are required to even have a shell...
 The [setup](windows-setup.ps1) installs the basic tools I need on a computer,
 before installing the actual dotfiles.
 
-You can execute it from an elevated PowerShell window,
-by running
+Run it with
 ```powershell
-iex (iwr -UseBasicParsing -Uri "https://raw.githubusercontent.com/alberto-lazari/.dotfiles/refs/heads/main/windows-setup.ps1")
+curl.exe https://raw.githubusercontent.com/alberto-lazari/.dotfiles/refs/heads/main/windows-setup.ps1 | powershell
 ```
 
 ## Program setups
