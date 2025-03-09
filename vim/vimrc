@@ -63,7 +63,7 @@ let g:netrw_banner = 0
 set splitright splitbelow
 
 " Indent with 4 spaces on specific file types
-autocmd FileType java,kotlin,python,cs
+autocmd FileType java,kotlin,python,cs,cpp
 \ setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 " Spellcheck specific file types (and force 2 spaces tabs)
 autocmd FileType text,latex,tex,md,markdown,typst
@@ -193,6 +193,13 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
   " Disable highlighting for Java identifiers and dots
   highlight link javaIdentifier NONE
   highlight link javaDelimiter NONE
+
+  " C++ syntax highlighting flags
+  let g:cpp_attributes_highlight = 1
+  let g:cpp_operator_highlight = 1
+  " Custom flags from my fork
+  let g:cpp_custom_type_name_highlight = 1
+  let g:cpp_custom_macros_highlight = 1
 
   " Enable fzf history
   let g:fzf_history_dir = '~/.vim/cache/fzf-history'
