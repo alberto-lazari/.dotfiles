@@ -15,5 +15,6 @@
 [gpg]
 	format = ssh
 [core]
-	autocrlf = true
+	attributesfile = gitattributes
+	autocrlf = input
 	eol = lf
