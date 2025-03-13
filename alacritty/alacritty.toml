@@ -1,5 +1,6 @@
 [general]
 import = [
+    "~/.config/alacritty/shell.toml",
     "~/.config/alacritty/colors.toml",
     "~/.config/alacritty/os-specific.toml"
 ]
@@ -10,10 +11,6 @@ blinking = "never"
 
 [mouse]
 hide_when_typing = true
-
-[terminal.shell]
-args = ["--login"]
-program = "zsh"
 
 [window.dimensions]
 columns = 125

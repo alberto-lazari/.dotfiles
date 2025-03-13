@@ -1,0 +1,4 @@
+# Start WSL on its home
+[terminal.shell]
+args = ["--cd ~"]
+program = "wsl.exe"

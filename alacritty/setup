@@ -6,25 +6,44 @@ cd "$(dirname "$BASH_SOURCE")"
 
 link_files_in . -t "$SETUP_DIR"
 
-# Load OS-specific configurations
-case "$(uname -o)" in
-  Darwin)
-    link_file os-specific/macos.toml -t "$SETUP_DIR" os-specific.toml
-    # Use macOS-adapted icon, since the official one sucks
-    ./update-icon
-    ;;
-  Msys)
-    [[ -d "$APPDATA/alacritty" ]] || mkdir -p "$APPDATA/alacritty"
-    # Point to dotfiles config
-    echo $'[general]\nimport = ["~/.config/alacritty/alacritty.toml"]' > "$APPDATA/alacritty/alacritty.toml"
-    ;;
-  *) link_file os-specific/default.toml -t "$SETUP_DIR" os-specific.toml ;;
-esac
+# Set startup shell
+! which zsh &> /dev/null ||
+  link_file shell/zsh.toml -t "$SETUP_DIR" shell.toml
+! which bash &> /dev/null ||
+  link_file shell/bash.toml -t "$SETUP_DIR" shell.toml
 
 # Create colors directory structure
 [[ -d "$SETUP_DIR/colorscheme" ]] || mkdir "$SETUP_DIR/colorscheme"
 link_files_in colorscheme -t "$SETUP_DIR/colorscheme"
 link_file colorscheme/$(system-theme 2> /dev/null || echo dark).toml \
   -t "$SETUP_DIR" colors.toml
+
+# Load OS-specific configurations
+case "$(uname -o)" in
+  Darwin) # macOS
+    link_file os-specific/macos.toml -t "$SETUP_DIR" os-specific.toml
+    # Use macOS-adapted icon, since the official one sucks
+    ./update-icon
+    ;;
+  Msys) # Windows, through either MSYS2 or Git bash
+    link_file os-specific/windows.toml -t "$SETUP_DIR" os-specific.toml
+
+    # Point to dotfiles config
+    [[ -d "$APPDATA/alacritty" ]] || mkdir -p "$APPDATA/alacritty"
+    echo $'[general]\nimport = ["~/.config/alacritty/alacritty.toml"]' > "$APPDATA/alacritty/alacritty.toml"
+
+    # Set startup on WSL, if available
+    ! which wsl.exe &> /dev/null ||
+      link_file shell/wsl.toml -t "$SETUP_DIR" shell.toml
+    ;;
+  *) link_file os-specific/default.toml -t "$SETUP_DIR" os-specific.toml ;;
+esac
+
+[[ -f "$SETUP_DIR/shell.toml" || -L "$SETUP_DIR/shell.toml" ]] ||
+  # If no supported shell was detected leave the config empty.
+  # No file present would lead to an error.
+  # This way the default command will be run instead
+  echo > "$SETUP_DIR/shell.toml"
+
 # Trigger config reload
 touch "$SETUP_DIR/alacritty.toml"
