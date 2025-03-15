@@ -13,14 +13,14 @@ dotfiles_lib_dir="$(realpath "$(dirname "$BASH_SOURCE")")"
 
 print_help () {
   cat >&2 <<- EOF
-	usage: setup [-adhqv]
+	usage: setup [-dhoqv]
 	options:
-	  -a, --overwrite-all       overwrite all existing dotfiles
-	  -d, --no-overwrite        don't overwrite existing dotfiles
-	  -q, --quiet, --silent     don't print log messages
-	  -u, --update              update repository before install
-	  -v, --verbose             print detailed log messages
-	  -h, --help                print this message
+	  -o, --overwrite-all     overwrite all existing dotfiles
+	  -d, --no-overwrite      don't overwrite existing dotfiles
+	  -q, --quiet, --silent   don't print log messages
+	  -u, --update            update repository before install
+	  -v, --verbose           print detailed log messages
+	  -h, --help              print this message
 	EOF
 }
 
@@ -40,14 +40,14 @@ else
   echo > "$overwrite_file"
 fi
 
-parse_opts adhqv "$@" || {
+parse_opts dhoqv "$@" || {
   print_help
   exit 1
 }
 set -- "${OPTS[@]}"
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -a | --overwrite-all)
+    -o | --overwrite-all)
       echo A > "$overwrite_file" ;;
     -d | --no-overwrite)
       echo D > "$overwrite_file" ;;

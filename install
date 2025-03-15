@@ -6,25 +6,24 @@ cd "$(dirname "$BASH_SOURCE")"
 . lib/options.sh
 
 # Default options
-[[ -n "$DOTFILES_FORCE_SETUP" ]] || export DOTFILES_FORCE_SETUP=false
-[[ -n "$DOTFILES_SILENT" ]] || export DOTFILES_SILENT=false
-[[ -n "$DOTFILES_VERBOSE" ]] || export DOTFILES_VERBOSE=false
+export DOTFILES_FORCE_SETUP="${DOTFILES_FORCE_SETUP:=false}"
+export DOTFILES_SILENT="${DOTFILES_SILENT:=false}"
+export DOTFILES_VERBOSE="${DOTFILES_VERBOSE:=false}"
 export DOTFILES_INSTALL=true
 update=false
 overwrite_file=.overwrite
 
 print_help () {
   cat >&2 <<- EOF
-	usage: install [-adfhquv]
+	usage: install [-adhoquv]
 	options:
-	  -a, --overwrite-all       overwrite all existing dotfiles
-	  -d, --no-overwrite        don't overwrite existing dotfiles
-	  -f, --force-setup         run setup for all programs, even
-	                            if they are not found
-	  -q, --quiet, --silent     don't print log messages
-	  -u, --update              update repository before install
-	  -v, --verbose             print detailed log messages
-	  -h, --help                print this message
+	  -u, --update            update repository before install
+	  -a, --all               setup all programs, even when they are not detected
+	  -o, --overwrite-all     overwrite all existing dotfiles
+	  -d, --no-overwrite      don't overwrite existing dotfiles
+	  -q, --quiet, --silent   don't print log messages
+	  -v, --verbose           print detailed log messages
+	  -h, --help              print this message
 	EOF
 }
 
@@ -53,23 +52,23 @@ setup () {
 trap 'rm "$overwrite_file" 2> /dev/null' EXIT INT TERM
 echo > "$overwrite_file"
 
-parse_opts adfhquv "$@" || {
+parse_opts adhoquv "$@" || {
   print_help
   exit 1
 }
 set -- "${OPTS[@]}"
 while (( $# > 0 )); do
   case "$1" in
-    -a | --overwrite-all)
+    -u | --update)
+      update=true ;;
+    -a | --all)
+      DOTFILES_FORCE_SETUP=true ;;
+    -o | --overwrite-all)
       echo A > "$overwrite_file" ;;
     -d | --no-overwrite)
       echo D > "$overwrite_file" ;;
-    -f | --force-setup)
-      DOTFILES_FORCE_SETUP=true ;;
     -q | --quiet | --silent)
       DOTFILES_SILENT=true ;;
-    -u | --update)
-      update=true ;;
     -v | --verbose)
       DOTFILES_VERBOSE=true ;;
     -h | --help)
