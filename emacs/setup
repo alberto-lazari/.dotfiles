@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
-cd "$(dirname "$BASH_SOURCE")"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 SETUP_DIR=~/.emacs.d
 . ../lib/setup.sh
 
-link_files_in . -t $SETUP_DIR
+link_files_in . -t "$SETUP_DIR"

@@ -1,16 +1,16 @@
 #!/bin/bash
 set -e
-cd "$(dirname "$BASH_SOURCE")"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 . ../lib/setup.sh
 
 skipped=false
 # Configure user info in local file
 for info in {name,email}; do
-  git config user.$info > /dev/null || {
-    read -p "Enter your global git user.$info (empty to skip) " answer >&2
+  git config "user.$info" > /dev/null || {
+    read -rp "Enter your global git user.$info (empty to skip) " answer >&2
     if [[ -n "$answer" ]]; then
-      git config -f $SETUP_DIR/config.local user.$info "$answer"
+      git config -f "$SETUP_DIR/config.local" "user.$info" "$answer"
     else
       skipped=true
     fi
@@ -24,4 +24,4 @@ done
 	git config -f ${SETUP_DIR/$HOME/~}/config.local user.email 'mail@domain.com'
 	EOF
 
-link_files_in . -t $SETUP_DIR
+link_files_in . -t "$SETUP_DIR"

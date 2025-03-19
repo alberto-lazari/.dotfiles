@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
-cd "$(dirname "$BASH_SOURCE")"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
-SETUP_DIR="$HOME"
+export SETUP_DIR="$HOME"
 . ../lib/setup.sh
 
 link_files_in . --as-dotfile

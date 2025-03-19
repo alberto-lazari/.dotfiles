@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-cd "$(dirname "$BASH_SOURCE")"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 package=dotfiles
 SETUP_DIR=~/.vim
@@ -16,15 +16,16 @@ SETUP_DIR=~/.vim
 link_files_in . -t "$SETUP_DIR"
 
 # Read plugins, ignoring comments starting with " or #
-for repo in $(grep -Ev '^["#]|^$' < plugins.vim); do
-  plugin=$(basename $repo)
+grep -Ev '^["#]|^$' < plugins.vim |
+while IFS= read -r repo; do
+  plugin="$(basename "$repo")"
 
   if [[ ! -d "$SETUP_DIR/pack/$package/opt/$plugin" ]]; then
     $DOTFILES_SILENT ||
-      echo Installing vim plugin: $plugin...
+      echo "Installing vim plugin: $plugin..."
     git clone \
       --depth 1 \
-      $($DOTFILES_VERBOSE || echo -q) \
+      "$($DOTFILES_VERBOSE || echo -q)" \
       "https://github.com/$repo" \
       "$SETUP_DIR/pack/$package/opt/$plugin"
   fi

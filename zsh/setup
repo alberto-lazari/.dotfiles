@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-cd "$(dirname "$BASH_SOURCE")"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 . ../lib/setup.sh
 
@@ -15,21 +15,22 @@ if [[ ! -d "$SETUP_DIR/themes/powerlevel10k" ]]; then
     echo Installing zsh Powerlevel10k theme...
   git clone \
     --depth 1 \
-    $($DOTFILES_VERBOSE || echo -q) \
+    "$($DOTFILES_VERBOSE || echo -q)" \
     https://github.com/romkatv/powerlevel10k \
     "$SETUP_DIR/themes/powerlevel10k"
 fi
 
 # Install custom plugins
-for repo in $(grep -Ev '^#|^$' < plugins.zsh); do
-  plugin=$(basename $repo)
+grep -Ev '^#|^$' < plugins.zsh |
+while IFS= read -r repo; do
+  plugin="$(basename "$repo")"
   if [[ ! -d "$SETUP_DIR/plugins/$plugin" ]]; then
     $DOTFILES_SILENT ||
-      echo Installing zsh plugin: $plugin...
+      echo "Installing zsh plugin: $plugin..."
     git clone \
       --depth 1 \
-      $($DOTFILES_VERBOSE || echo -q) \
-      https://github.com/$repo \
+      "$($DOTFILES_VERBOSE || echo -q)" \
+      "https://github.com/$repo" \
       "$SETUP_DIR/plugins/$plugin"
   fi
 done

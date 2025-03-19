@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-cd "$(dirname "$BASH_SOURCE")"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 . ../lib/setup.sh
 
@@ -10,7 +10,7 @@ link_files_in . -t "$SETUP_DIR"
 ! which zsh &> /dev/null || shell=zsh
 ! which wsl.exe &> /dev/null || shell=wsl
 if [[ -n "$shell" ]]; then
-  link_file shell/$shell.toml -t "$SETUP_DIR" shell.toml
+  link_file "shell/$shell.toml" -t "$SETUP_DIR" shell.toml
 else
   link_file shell/bash.toml -t "$SETUP_DIR" shell.toml
 fi
@@ -18,7 +18,7 @@ fi
 # Create colors directory structure
 [[ -d "$SETUP_DIR/colorscheme" ]] || mkdir "$SETUP_DIR/colorscheme"
 link_files_in colorscheme -t "$SETUP_DIR/colorscheme"
-link_file colorscheme/$(system-theme 2> /dev/null || echo dark).toml \
+link_file "colorscheme/$(system-theme 2> /dev/null || echo dark).toml" \
   -t "$SETUP_DIR" colors.toml
 
 # Load OS-specific configurations

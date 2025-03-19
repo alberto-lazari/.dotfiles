@@ -3,7 +3,7 @@
 # - Automatically processes options and includes `symliks` library
 # - Creates SETUP_DIR folder, if it doesn't exist
 # usage: include the following lines on top of your `setup` script
-# cd "$(dirname "$BASH_SOURCE")"    # Set the working directory to the script directory
+# cd "$(dirname "${BASH_SOURCE[0]}")"    # Set the working directory to the script directory
 # SETUP_DIR=~/.emacs.d              # Set the SETUP_DIR variable (optional, default: ~/.config/PROGRAM)
 # . ../lib/setup.sh                 # Source this library
 
