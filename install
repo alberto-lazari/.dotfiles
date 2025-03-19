@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-cd "$(dirname "$BASH_SOURCE")"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 . lib/symlinks.sh
 . lib/options.sh
@@ -85,36 +85,32 @@ done
 # Update repo
 if $update; then
   $DOTFILES_SILENT || echo '[1;39m[+] Updating dotfiles...[0m'
-  git pull $($DOTFILES_SILENT && echo -q) origin main
+  git pull "$($DOTFILES_SILENT && echo -q)" origin main
 
   # Install using the updated script
   exec ./install
 fi
 
-programs="$( \
-  # List all files, appending `/` to directories
-  ls -p |
-  # Filter for directories (except `lib`)
-  grep -Ev '^lib/$|.*[^/]$' |
-  # Strip out the leading `/`
-  sed 's|/$||'
-)"
-
+installed=()
 # Setup all programs
-skipped=()
-for program in $programs; do
-  if $DOTFILES_FORCE_SETUP || which "$program" &> /dev/null; then
-    setup $program
-  else
-    skipped+=($program)
-  fi
-done
+# Read from process substitution below
+while IFS= read -r program; do
+  ! ( $DOTFILES_FORCE_SETUP || which "$program" &> /dev/null ) || {
+    setup "$program"
+    installed+=("$program")
+  }
+done < <( \
+  # List all directories (each for one program)
+  find -- * -maxdepth 0 -type d |
+  # Filter out `lib`
+  grep -v '^lib$'
+)
 
-[[ -z "${skipped[@]}" ]] || $DOTFILES_SILENT || {
-  echo [-] Some programs were not found, setup skipped for:
-  last=$(( ${#skipped[@]} - 1 ))
-  for program in "${skipped[@]::$last}"; do
+[[ -z "${installed[*]}" ]] || $DOTFILES_SILENT || {
+  echo [+] Dotfiles installed for ${#installed[@]} programs:
+  last=$(( ${#installed[@]} - 1 ))
+  for program in "${installed[@]::$last}"; do
     echo " ├── $program"
   done
-  echo " └── ${skipped[$last]}"
+  echo   " └── ${installed[$last]}"
 }
