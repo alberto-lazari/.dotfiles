@@ -16,7 +16,7 @@ link_file () {
   local target_file_name
   local overwrite
 
-  dotfiles_lib_dir="$(realpath "$(dirname "$BASH_SOURCE")")"
+  dotfiles_lib_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   [[ -n $DOTFILES_SILENT ]] || local DOTFILES_SILENT=false
   [[ -n $DOTFILES_VERBOSE ]] || local DOTFILES_VERBOSE=false
@@ -61,14 +61,14 @@ link_file () {
   # Check that the file is not already linked
   [[ "$(realpath "$file")" != "$(realpath -q "$target_file")" ]] || {
     ! $DOTFILES_VERBOSE ||
-      echo [=] Existing link skipped: $target_file_name
+      echo "[=] Existing link skipped: $target_file_name"
     return 0
   }
 
   # Link immediately if the target file does not exist
   if ! [[ -f "$target_file" || -L "$target_file" ]]; then
     $DOTFILES_SILENT ||
-      echo [+] Creating link: $target_file_name
+      echo "[+] Creating link: $target_file_name"
     ln -s "$file" "$target_file"
     return 0
   fi
@@ -88,7 +88,7 @@ link_file () {
       '') overwrite=N ;;
       [ad])
         # Keep trace of choice for all files
-        echo $overwrite > "$overwrite_file"
+        echo "$overwrite" > "$overwrite_file"
         ;;
       \?) cat >&2 <<- EOF
 				y - overwrite this file
@@ -106,15 +106,15 @@ link_file () {
     esac
   done
 
-  case $overwrite in
+  case "$overwrite" in
     [ya])
       $DOTFILES_SILENT ||
-        echo [!] Replacing file: $target_file_name
+        echo "[!] Replacing file: $target_file_name"
       ln -fs "$file" "$target_file"
       ;;
     [nd])
       $DOTFILES_SILENT ||
-        echo [-] Skipping file: $target_file_name
+        echo "[-] Skipping file: $target_file_name"
       ;;
     *) echo lib/symlinks.sh: programming error >&2
       return 2
@@ -140,7 +140,7 @@ link_files_in () {
   [[ -n $DOTFILES_VERBOSE ]] || local DOTFILES_VERBOSE=false
   dotfile=false
 
-  . "$(dirname "$BASH_SOURCE")/options.sh"
+  . "$(dirname "${BASH_SOURCE[0]}")/options.sh"
 
   parse_opts de:t: "$@"
   set -- "${OPTS[@]}"
@@ -168,11 +168,13 @@ link_files_in () {
     return 1
   fi
 
-  # Exclude sub-directories, setup scripts, readmes and explicitly excluded files
-  exclude=".*/|setup|readme\.md${exclude:+|$exclude}"
+  # Exclude setup scripts, readmes and explicitly excluded files
+  exclude="setup|readme\.md${exclude:+|$exclude}"
 
   # Loop on every file in DIRECTORY, except the excluded ones
-  for file in $(ls -p "$dir" | grep -Ewv "$exclude"); do
-    link_file "$dir/$file" $($dotfile && echo -d) ${target_dir:+-t "$target_dir"}
+  find "$dir" -maxdepth 1 -type f |
+  grep -Ewv "$exclude" |
+  while IFS= read -r file; do
+    link_file "$file" "$($dotfile && echo -d)" ${target_dir:+-t "$target_dir"}
   done
 }

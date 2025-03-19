@@ -7,7 +7,7 @@
 # SETUP_DIR=~/.emacs.d              # Set the SETUP_DIR variable (optional, default: ~/.config/PROGRAM)
 # . ../lib/setup.sh                 # Source this library
 
-dotfiles_lib_dir="$(realpath "$(dirname "$BASH_SOURCE")")"
+dotfiles_lib_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 . "$dotfiles_lib_dir/options.sh"
 . "$dotfiles_lib_dir/symlinks.sh"
 
@@ -24,7 +24,10 @@ print_help () {
 	EOF
 }
 
-[[ -n "$SETUP_DIR" ]] || export SETUP_DIR="$HOME/.config/$(basename "$(realpath "$PWD")")"
+[[ -n "$SETUP_DIR" ]] || {
+  SETUP_DIR="$HOME/.config/$(basename "$(realpath "$PWD")")"
+  export SETUP_DIR
+}
 [[ -n "$DOTFILES_SILENT" ]] || export DOTFILES_SILENT=false
 [[ -n "$DOTFILES_VERBOSE" ]] || export DOTFILES_VERBOSE=false
 [[ -n "$DOTFILES_INSTALL" ]] || export DOTFILES_INSTALL=false

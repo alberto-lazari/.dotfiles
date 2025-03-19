@@ -26,12 +26,12 @@ parse_opts () {
 
         # Loop on pairs of (options, argument)
         # If the next parameter is another option make it empty, as if no argument was provided
-        while getopts :$optstring option "$1" "$(sed 's/^-.*//' <<< "$2")"; do
+        while getopts :"$optstring" option "$1" "$(sed 's/^-.*//' <<< "$2")"; do
           case $option in
-            :) echo $0: option -$OPTARG requires an argument >&2
+            :) echo "$0: option -$OPTARG requires an argument" >&2
               return 1
               ;;
-            \?) echo $0: illegal option -$OPTARG >&2
+            \?) echo "$0: illegal option -$OPTARG" >&2
               return 1
               ;;
           esac
@@ -39,10 +39,10 @@ parse_opts () {
           # If OPTARG is unset no argument was required by the option
           # The variable could be set, but empty, that's the reason for the substitution
           if [[ -z "${OPTARG+set}" ]]; then
-            OPTS+=(-$option)
+            OPTS+=("-$option")
             arg=false
           else
-            OPTS+=(-$option "$OPTARG")
+            OPTS+=("-$option" "$OPTARG")
             arg=true
           fi
         done
