@@ -131,6 +131,9 @@ nnoremap <Space>? :RG!<Return>
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if isdirectory(expand('~/.vim/pack/dotfiles'))
+  " Disable custom filetype detection
+  let g:polyglot_disabled = ['ftdetect']
+
   " Load opt plugins
   for plugin in readfile(expand('~/.vim/plugins.vim'))
     " Ignore comments

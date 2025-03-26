@@ -45,8 +45,7 @@ tpope/vim-repeat
 " Text Objects
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 kana/vim-textobj-user
+albertolazari/vim-textobj-typst
 
 " Function parameters
 sgur/vim-textobj-parameter
-
-albertolazari/vim-textobj-typst
