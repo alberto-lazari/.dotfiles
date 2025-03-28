@@ -18,8 +18,6 @@ syntax on
 set termguicolors
 " Show partial command while typing it
 set showcmd
-" Show statusline
-set laststatus=2
 
 " Temp files
 set noswapfile nobackup undodir=~/.vim/undodir undofile
@@ -41,8 +39,6 @@ endif
 
 " Custom settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Show line numbers relative to the current one
-set number relativenumber
 " Scroll when over number of lines
 set scrolloff=2
 " Wrap preserving words and indentation
@@ -152,8 +148,6 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
   " Show horizontal cursor line when using colorscheme
   set cursorline
 
-  " Enable buffers line
-  let g:airline#extensions#tabline#enabled = 1
   " Show filename only in buffers line
   let g:airline#extensions#tabline#formatter = 'unique_tail'
   " Don't show encoding if it is default one
