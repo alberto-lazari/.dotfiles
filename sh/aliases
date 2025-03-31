@@ -13,7 +13,7 @@ p () {
 
   # Git info only if in repo
   if $(git status &> /dev/null); then
-    local git_branch="[0;32m$(git branch --show-current 2> /dev/null)[0m"
+    local git_branch="[1;32m$(git branch --show-current 2> /dev/null)[0m"
     echo -n " on $git_branch"
   fi
 
