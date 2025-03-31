@@ -1,9 +1,19 @@
 # If not running interactively, don't do anything
 [[ $- = *i* ]] || return 0
 
-set_terminal_title () {
-  echo -en "\033]0;$@\a"
+_prompt_command () {
+  local shell="$1"
+  local current_dir="$(dirname "$(dirs)")"
+
+  # Set terminal title
+  echo -en "\033]0;$shell - $current_dir\a"
+
+  # Print last command error code
+  [[ "$2" = 0 ]] || echo "[1;31m!$2[0m"
 }
+
+# Simple prompt
+export PS1='$ '
 
 # Vi keybindings
 set -o vi

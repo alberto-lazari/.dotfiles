@@ -1,31 +1,29 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 export ZSH="$ZDOTDIR"
-
-load_prompt_theme () {
-    [[ -n "${1+set}" ]] || return 1
-
-    local theme="$1"
-    . "$ZSH/themes/$theme/$theme.zsh-theme"
-}
+: "${ZSH_USE_P10K:=false}"
 
 load_plugins () {
-    local repo
-    for repo in $(grep -Ev '^#|^$' < "$ZSH/plugins.zsh"); do
-        local plugin=$(basename $repo)
-        . "$ZSH/plugins/$plugin/$plugin.plugin.zsh"
-    done
+  local repo
+  for repo in $(grep -Ev '^#|^$' < "$ZSH/plugins.zsh"); do
+    local plugin=$(basename $repo)
+    . "$ZSH/plugins/$plugin/$plugin.plugin.zsh"
+  done
 }
+
+if [[ "$ZSH_USE_P10K" = true ]]; then
+  # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+  # Initialization code that may require console input (password prompts, [y/n]
+  # confirmations, etc.) must go above this block; everything else may go below.
+  if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  fi
+  . "$ZSH/themes/powerlevel10k/powerlevel10k.zsh-theme"
+  [[ ! -f "$ZSH/.p10k.zsh" ]] || . "$ZSH/.p10k.zsh"
+fi
 
 # Load common rc
 [[ ! -f ~/.config/sh/shrc ]] || . ~/.config/sh/shrc
 
-precmd () { set_terminal_title zsh - $(basename "${PWD/$HOME/~}"); }
+precmd () { _prompt_command zsh $?; }
 
 HISTFILE="$ZSH/.zsh_history"
 HISTSIZE=10000
@@ -52,21 +50,39 @@ bindkey '^N' history-beginning-search-forward
 autoload -U select-quoted
 zle -N select-quoted
 for m in visual viopp; do
-    for c in {a,i}{\',\",\`}; do
-        bindkey -M $m $c select-quoted
-    done
+  for c in {a,i}{\',\",\`}; do
+    bindkey -M $m $c select-quoted
+  done
 done
 
-load_prompt_theme powerlevel10k
 load_plugins
 
 # Fix cursor in visual mode
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(cursor)
-ZSH_HIGHLIGHT_STYLES[cursor]=bg=white
+ZSH_HIGHLIGHT_STYLES[cursor]='bg=white'
+
+# Highlighting preferences
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=white'
+ZSH_HIGHLIGHT_STYLES[command]='fg=white,bold'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=white,bold'
+ZSH_HIGHLIGHT_STYLES[function]='fg=white,bold'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=white,bold'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=blue,bold'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=blue,bold'
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=blue,bold'
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[redirection]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=blue,bold'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=blue,bold'
+ZSH_HIGHLIGHT_STYLES[assign]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[autodirectory]='fg=white,underline'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=green'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=green'
 
 # Load tab completions (should stay at the end)
 autoload -Uz compinit && compinit
-
-# To customize prompt, run `p10k configure` or edit .p10k.zsh.
-[[ ! -f "$ZSH/.p10k.zsh" ]] || . "$ZSH/.p10k.zsh"

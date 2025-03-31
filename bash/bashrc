@@ -1,7 +1,6 @@
 # Load .bash_profile if never sourced
-if ! ${BASH_PROFILE_SOURCED:-false}; then
-    [[ ! -f ~/.bash_profile ]] || . ~/.bash_profile
-fi
+[[ ! ( "${BASH_PROFILE_SOURCED:-false}" = false && -f ~/.bash_profile ) ]] ||
+  . ~/.bash_profile
 
 # If not running interactively, don't do anything
 [[ $- = *i* ]] || return
@@ -9,12 +8,4 @@ fi
 # Load common rc
 [[ ! -f ~/.config/sh/shrc ]] || . ~/.config/sh/shrc
 
-PROMPT_COMMAND='set_terminal_title bash - $(basename "$(dirs +0)")'
-
-# Simple prompt
-export PS1="$ "
-
-# Show detailed prompt
-p () {
-    echo "[1;34m$(dirs +0)[0m $(git status &> /dev/null && echo 'on')[0;32m $(git branch --show-current 2> /dev/null)[0m"
-}
+PROMPT_COMMAND="_prompt_command bash $?"
