@@ -20,7 +20,6 @@ p () {
   if $(git rev-parse --is-inside-work-tree &> /dev/null); then
     local staged modified untracked conflicted line
     # Parse status
-    git status --porcelain=v2 --branch 2> /dev/null |
     while read -r line; do
       case "$line" in
         '# branch.head '*)
@@ -56,7 +55,8 @@ p () {
         '2 '*) let staged++ ;;
         '? '*) let untracked++ ;;
       esac
-    done
+    done < \
+      <(git status --porcelain=v2 --branch 2> /dev/null)
 
     # Check for stashed changes
     ! git rev-parse --verify refs/stash &> /dev/null ||
@@ -64,14 +64,20 @@ p () {
 
     # Display output
     local git_status="$branch"
-    [[ "$ahead" = 0 ]] || git_status="$git_status ->$ahead"
-    [[ "$behind" = 0 ]] || git_status="$git_status <-$behind"
+    # Remote status
+    if [[ "$ahead" != 0 && "$behind" != 0 ]]; then
+      git_status="$git_status $behind<->$ahead"
+    else
+      [[ "$ahead" = 0 ]] || git_status="$git_status ->$ahead"
+      [[ "$behind" = 0 ]] || git_status="$git_status <-$behind"
+    fi
+    [[ "${upstream_gone:-false}" = false ]] || git_status="$git_status <~"
+    # File status
     [[ -z "$staged" ]] || git_status="$git_status +$staged"
     [[ -z "$modified" ]] || git_status="$git_status !$modified"
     [[ -z "$untracked" ]] || git_status="$git_status ?$untracked"
     [[ -z "$conflicted" ]] || git_status="$git_status ~$conflicted"
     [[ "${stashed:-false}" = false ]] || git_status="$git_status \$"
-    [[ "${upstream_gone:-false}" = false ]] || git_status="$git_status <~"
   fi
 
   # Overwrite current prompt
@@ -80,9 +86,6 @@ p () {
 
 # Simple prompt
 export PS1='$ '
-
-# Show detailed prompt if not starting from home
-[[ "$PWD" = "$HOME" ]] || p
 
 # Vi keybindings
 set -o vi
