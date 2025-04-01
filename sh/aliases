@@ -6,27 +6,13 @@ alias l='ls -1'
 alias ll='ls -Al'
 alias la='ls -A'
 
-# Show detailed prompt
-p () {
-  # Print current directory
-  echo -n "[1;34m$(dirs)[0m"
-
-  # Git info only if in repo
-  if $(git status &> /dev/null); then
-    local git_branch="[1;32m$(git branch --show-current 2> /dev/null)[0m"
-    echo -n " on $git_branch"
-  fi
-
-  # Prompt on a new line
-  echo
-}
 alias tree='tree -C'
 t () { tree -L 2 "$@"; }
 alias chx='chmod +x'
 ! which bpytop &> /dev/null ||
   alias top='bpytop'
 ! which bat &> /dev/null ||
-  alias bat="bat --theme OneHalf$([[ $(system-theme 2> /dev/null) == light ]] && echo Light || echo Dark)"
+  alias bat="bat --theme OneHalf$([[ "$(system-theme 2> /dev/null)" = light ]] && echo Light || echo Dark)"
 system_theme () {
   \system-theme "$1" && eval "$(\system-theme -s)"
 }
