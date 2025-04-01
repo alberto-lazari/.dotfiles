@@ -63,21 +63,21 @@ p () {
       local stashed=true
 
     # Display output
-    local git_status="$branch"
+    local git_status="[1;32m$branch[0m"
     # Remote status
     if [[ "$ahead" != 0 && "$behind" != 0 ]]; then
-      git_status="$git_status $behind<->$ahead"
+      git_status="$git_status [1;35m->$behind<->$ahead[0m->"
     else
-      [[ "$ahead" = 0 ]] || git_status="$git_status ->$ahead"
-      [[ "$behind" = 0 ]] || git_status="$git_status <-$behind"
+      [[ "$ahead" = 0 ]] || git_status="$git_status [1;35m->$ahead[0m"
+      [[ "$behind" = 0 ]] || git_status="$git_status [1;35m<-$behind[0m"
     fi
-    [[ "${upstream_gone:-false}" = false ]] || git_status="$git_status <~"
+    [[ "${upstream_gone:-false}" = false ]] || git_status="$git_status [0;31m<~[0m"
     # File status
-    [[ -z "$staged" ]] || git_status="$git_status +$staged"
-    [[ -z "$modified" ]] || git_status="$git_status !$modified"
-    [[ -z "$untracked" ]] || git_status="$git_status ?$untracked"
-    [[ -z "$conflicted" ]] || git_status="$git_status ~$conflicted"
-    [[ "${stashed:-false}" = false ]] || git_status="$git_status \$"
+    [[ -z "$staged" ]] || git_status="$git_status [0;32m+$staged[0m"
+    [[ -z "$modified" ]] || git_status="$git_status [0;33m!$modified[0m"
+    [[ -z "$untracked" ]] || git_status="$git_status [0;34m?$untracked[0m"
+    [[ -z "$conflicted" ]] || git_status="$git_status [0;31m~$conflicted[0m"
+    [[ "${stashed:-false}" = false ]] || git_status="$git_status [0;33m\$[0m"
   fi
 
   # Overwrite current prompt
