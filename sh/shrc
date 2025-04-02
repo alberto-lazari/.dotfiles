@@ -3,7 +3,7 @@
 
 _prompt_command () {
   local shell="$1"
-  local current_dir="$(dirname "$(dirs)")"
+  local current_dir="$(basename "$(dirs)")"
 
   # Set terminal title
   echo -en "\033]0;$shell - $current_dir\a"
