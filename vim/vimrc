@@ -1,7 +1,7 @@
 " Basic configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Window title format: 'vim - file [+-=] (1 of n)'
-set title titlestring=vim\ -\ %t%(\ [%M]%)%a
+set title titlestring=vim\ -\ %t%([%M]%)%a
 " Normal backspace behavior
 set backspace=2
 " Indent with 2 spaces
@@ -33,14 +33,14 @@ if !has('nvim')
   "           | + lines saved each register (old name for <, vi6.2)
   "           + save/restore buffer list
 else
-  set title titlestring=nvim\ -\ %t%(\ [%M]%)%a
+  set title titlestring=nvim\ -\ %t%([%M]%)%a
 endif
 
 
 " Custom settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Scroll when over number of lines
-set scrolloff=2
+set scrolloff=1
 " Wrap preserving words and indentation
 set linebreak breakindent
 " Identify wrapped lines with @ and indentation
@@ -122,6 +122,17 @@ nnoremap <Space>b :Buffers<Return>
 nnoremap <Space>B :Buffers!<Return>
 nnoremap <Space>/ :RG<Return>
 nnoremap <Space>? :RG!<Return>
+
+" Pretty C-g output
+function! StatusInfo()
+  " Show file name as opened, relative if possible
+  let filename = expand('%:~:.')
+  let modified = &modified ? '[+]' : ''
+  let readonly = &readonly ? '[RO]' : ''
+  let line_info = 'ln '.line('.').'/'.line('$').' col '.col('.')
+  echo filename . modified . readonly . ' | ' . line_info
+endfunction
+nnoremap <C-g> :call StatusInfo()<CR>
 
 
 " Plugins
