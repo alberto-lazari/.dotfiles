@@ -45,15 +45,15 @@ p () {
             local upstream_gone=true
           ;;
         '1 '*)
-          local sc
-          read -r _ sc _ <<< "$line"
-          case "$sc" in
+          local status_code
+          read -r _ status_code _ <<< "$line"
+          case "$status_code" in
             U*) let conflicted++ ;;
-            \?*) let untracked ;;
-            *M) let modified++ ;;
+            \?*) let untracked++ ;;
+            *M | *D) let modified++ ;;
             *) let staged++ ;;
           esac
-          unset sc
+          unset status_code
           ;;
         '2 '*) let staged++ ;;
         '? '*) let untracked++ ;;
