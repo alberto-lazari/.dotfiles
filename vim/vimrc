@@ -145,35 +145,6 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
   if system('system-theme') == "light\n"
     set background=light
   endif
-  " Show horizontal cursor line when using colorscheme
-  set cursorline
-
-  " Show filename only in buffers line
-  let g:airline#extensions#tabline#formatter = 'unique_tail'
-  " Don't show encoding if it is default one
-  let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-  " Always show the mode part
-  call airline#parts#define_minwidth('mode', 0)
-
-  " Thousand separated line numbers
-  function! LineNumber()
-    return substitute(line('.'), '\d\@<=\(\(\d\{3\}\)\+\)$', ',&', 'g') . '/' .
-    \ substitute(line('$'), '\d\@<=\(\(\d\{3\}\)\+\)$', ',&', 'g')
-  endfunction
-
-  call airline#parts#define('linenumber', {'function': 'LineNumber'})
-
-  let g:airline_section_z = airline#section#create(['ln ', 'linenumber', ' col ', '%v'])
-
-  let g:airline_mode_map = {
-  \ 'c'      : '●',
-  \ 'i'      : '●',
-  \ 'n'      : '●',
-  \ 'R'      : '●',
-  \ 'v'      : '●',
-  \ 'V'      : '⁃',
-  \ ''     : '◼',
-  \ }
 
   " No '-- INSERT --' in status line
   set noshowmode

@@ -18,9 +18,6 @@ junegunn/fzf.vim
 " Atom One theme
 alberto-lazari/vim-one
 
-" Status line
-vim-airline/vim-airline
-
 " Preview substitutions
 markonm/traces.vim
 
