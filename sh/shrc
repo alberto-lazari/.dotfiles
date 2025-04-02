@@ -12,6 +12,9 @@ _prompt_command () {
   [[ "$2" = 0 ]] || echo "[1;31m!$2[0m"
 }
 
+# Simple prompt
+export PS1='$ '
+
 # Detailed prompt
 p () {
   local current_dir="[1;34m$(dirs)[0m"
@@ -83,9 +86,6 @@ p () {
   # Overwrite current prompt
   echo "$(tput up)$current_dir ${git_status+on} $git_status"
 }
-
-# Simple prompt
-export PS1='$ '
 
 # Vi keybindings
 set -o vi

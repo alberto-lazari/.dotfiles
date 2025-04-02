@@ -8,4 +8,4 @@
 # Load common rc
 [[ ! -f ~/.config/sh/shrc ]] || . ~/.config/sh/shrc
 
-PROMPT_COMMAND="_prompt_command bash $?"
+PROMPT_COMMAND='_prompt_command bash $?'
