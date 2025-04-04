@@ -28,7 +28,7 @@ p () {
         '# branch.head '*)
           local branch="${line#\# branch.head }"
           [[ "$branch" != "(detached)" ]] ||
-            branch="$( \
+            branch="@$( \
               git describe --tags --exact-match 2> /dev/null ||
               git rev-parse --short HEAD
             )"
@@ -55,6 +55,7 @@ p () {
           esac
           unset status_code
           ;;
+        'u '*) let conflicted++ ;;
         '2 '*) let staged++ ;;
         '? '*) let untracked++ ;;
       esac
@@ -68,8 +69,10 @@ p () {
     # Display output
     local git_status="[1;32m$branch[0m"
     # Remote status
+    : ${ahead:=0}
+    : ${behind:=0}
     if [[ "$ahead" != 0 && "$behind" != 0 ]]; then
-      git_status="$git_status [1;35m->$behind<->$ahead[0m->"
+      git_status="$git_status [1;35m$behind<->$ahead[0m"
     else
       [[ "$ahead" = 0 ]] || git_status="$git_status [1;35m->$ahead[0m"
       [[ "$behind" = 0 ]] || git_status="$git_status [1;35m<-$behind[0m"
