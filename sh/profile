@@ -2,6 +2,8 @@ export PATH="$HOME/bin:$PATH"
 
 # Language environment
 export LANG=en_US.UTF-8
+# Use POSIX locale for sorting (ASCII-based)
+export LC_COLLATE=C
 # Preferred editor for local and remote sessions
 export EDITOR=vim
 # Set terminal type
