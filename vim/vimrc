@@ -98,5 +98,9 @@ for module in modules
   exec 'source' . g:config_dir . '/' . module . '.vim'
 endfor
 
+if has('nvim')
+  lua require('plugins-config')
+endif
+
 " Trigger FileType autocmds on a vimrc source
 filetype detect

@@ -24,3 +24,6 @@ nnoremap <Space>b :Buffers<Return>
 nnoremap <Space>B :Buffers!<Return>
 nnoremap <Space>/ :RG<Return>
 nnoremap <Space>? :RG!<Return>
+
+" Neotree (only on nvim)
+nnoremap <Space>t :Neotree toggle=true<Return>

@@ -11,13 +11,18 @@ package=dotfiles
 [[ -d "$SETUP_DIR/cache" ]] || mkdir -p "$SETUP_DIR/cache"
 # Create spell directory to avoid prompt
 [[ -d "$SETUP_DIR/spell" ]] || mkdir -p "$SETUP_DIR/spell"
+# Create directory for lua scripts
+[[ -d "$SETUP_DIR/lua" ]] || mkdir -p "$SETUP_DIR/lua"
 
 link_files_in . -t "$SETUP_DIR" -e 'init\.vim'
 # Need to link manually, since the actual filename is 'vimrc'
 link_file init.vim -t "$SETUP_DIR" init.vim
+# Link all lua modules
+link_files_in lua -t "$SETUP_DIR/lua"
 
 # Read plugins, ignoring comments starting with " or #
-grep -Ev '^["#]|^$' < plugins.vim |
+cat plugins.{vim,nvim} |
+grep -Ev '^["#]|^$' |
 while IFS= read -r repo; do
   plugin="$(basename "$repo")"
 

@@ -1,0 +1,15 @@
+" Neovim plugins
+" list them as 'user/repository' from GitHub
+
+" Lua general-purpose library (dependency for many plugins)
+nvim-lua/plenary.nvim
+
+" Coll powerline icons
+nvim-tree/nvim-web-devicons
+
+nvim-treesitter/nvim-treesitter
+
+" File tree visualizer
+nvim-neo-tree/neo-tree.nvim
+" (dependency)
+MunifTanjim/nui.nvim
