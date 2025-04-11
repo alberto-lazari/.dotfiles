@@ -1,16 +1,19 @@
-if isdirectory(g:config_dir . '/pack/dotfiles')
-  " Disable custom filetype detection
-  let g:polyglot_disabled = ['ftdetect']
-
-  " Load opt plugins
-  for plugin in readfile(expand(g:config_dir . '/plugins.vim'))
-    " Ignore comments
-    if plugin =~ '^[^"#]'
-      let plugin = substitute(plugin, '.*/', '', '')
-      exe 'packadd!' plugin
-    endif
-  endfor
+" Skip plugins configuration if they are not found
+if !isdirectory(g:config_dir . '/pack/dotfiles')
+  finish
 endif
+
+" Disable custom filetype detection
+let g:polyglot_disabled = ['ftdetect']
+
+" Load opt plugins
+for plugin in readfile(expand(g:config_dir . '/plugins.vim'))
+  " Ignore comments
+  if plugin =~ '^[^"#]'
+    let plugin = substitute(plugin, '.*/', '', '')
+    exe 'packadd!' plugin
+  endif
+endfor
 
 colorscheme one
 set background=dark

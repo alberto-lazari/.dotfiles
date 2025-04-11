@@ -33,9 +33,9 @@ function! StatusInfo()
   let elements = [
     \ filename . modified . readonly,
     \ lines,
-    \ &fileencoding,
     \ &filetype,
     \ indent,
+    \ &fileencoding,
     \ trailing_line,
   \ ]
   echo join(filter(elements, 'v:val != ""'), ' | ')
