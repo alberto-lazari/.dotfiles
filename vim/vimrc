@@ -1,7 +1,7 @@
 " Basic configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Window title format: 'vim - file [+-=] (1 of n)'
-set title titlestring=vim\ -\ %t%([%M]%)%a
+" Window title format: '[n]vim - file [+-=] (1 of n)'
+set title titlestring=%{has('nvim')?'nvim':'vim'}\ -\ %t%([%M]%)%a
 " Normal backspace behavior
 set backspace=2
 " Indent with 2 spaces
@@ -20,8 +20,10 @@ set termguicolors
 set showcmd
 
 " Temp files
-set noswapfile nobackup undodir=~/.vim/undodir undofile
+set noswapfile nobackup
 if !has('nvim')
+  set undodir=~/.vim/undodir undofile
+
   " Move .viminfo file
   set viminfo=%,<800,'10,/50,:1000,h,f0,n~/.vim/cache/viminfo
   "           | |    |   |   |     | |  + viminfo file path
@@ -32,8 +34,6 @@ if !has('nvim')
   "           | |    + files marks saved
   "           | + lines saved each register (old name for <, vi6.2)
   "           + save/restore buffer list
-else
-  set title titlestring=nvim\ -\ %t%([%M]%)%a
 endif
 
 
@@ -126,13 +126,42 @@ nnoremap <Space>? :RG!<Return>
 " Pretty C-g output
 function! StatusInfo()
   " Show file name as opened, relative if possible
-  let filename = expand('%:~:.')
+  let filename = expand('%') != '' ? expand('%:~') : '<new>'
   let modified = &modified ? '[+]' : ''
   let readonly = &readonly ? '[RO]' : ''
-  let line_info = 'ln '.line('.').'/'.line('$').' col '.col('.')
-  echo filename . modified . readonly . ' | ' . line_info
+  let lines = line('$').' lines'
+  let indent = &expandtab ? &shiftwidth.' spaces' : &tabstop.' tabs'
+
+  " Find the first line with trailing whitespace
+  let lnum = 1
+  let trailing_line = ''
+  while lnum <= line('$')
+    if match(getline(lnum), '\s\+$') != -1
+      let trailing_line = '!~ ln '.lnum
+      break
+    endif
+    let lnum += 1
+  endwhile
+
+  let elements = [
+  \ filename.modified.readonly,
+  \ &fileencoding,
+  \ &filetype,
+  \ indent,
+  \ lines,
+  \ trailing_line,
+  \ ]
+  echo join(filter(elements, 'v:val != ""'), ' | ')
 endfunction
 nnoremap <C-g> :call StatusInfo()<CR>
+
+function! RelativeFilename()
+  return expand('%') != '' ? expand('%:~:.') : '<new>'
+endfunction
+
+" Simple statusline
+set laststatus=2
+set statusline=[%{fnamemodify(getcwd(),':~:t')}]\ %{RelativeFilename()}%m%r%h%w\ %=ln\ %l\ col\ %c
 
 
 " Plugins
