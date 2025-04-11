@@ -10,7 +10,7 @@ endfunction
 " Pretty C-g output
 function! StatusInfo()
   " Show file name as opened, relative if possible
-  let filename = expand('%') != '' ? expand('%:~') : '<new>'
+  let filename = expand('%') != '' ? expand('%:~:.') : '<new>'
   let modified = &modified ? '[+]' : ''
   let readonly = &readonly ? '[RO]' : ''
   let lines = line('$') . ' lines'
