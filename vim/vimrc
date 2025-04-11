@@ -5,7 +5,7 @@ set title titlestring=%{has('nvim')?'nvim':'vim'}\ -\ %t%([%M]%)%a
 " Normal backspace behavior
 set backspace=2
 " Indent with 2 spaces
-set expandtab tabstop=2 softtabstop=2 shiftwidth=2
+set expandtab tabstop=2 shiftwidth=2
 " Show whitespaces with ':set list'
 set listchars=eol:$,tab:-->,trail:~,extends:>,precedes:<,space:·
 " Indent filetype
@@ -60,10 +60,10 @@ set splitright splitbelow
 
 " Indent with 4 spaces on specific file types
 autocmd FileType java,kotlin,python,cs,cpp
-\ setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
+  \ setlocal tabstop=4 shiftwidth=4
 " Spellcheck specific file types (and force 2 spaces tabs)
 autocmd FileType text,latex,tex,md,markdown,typst
-\ setlocal spell expandtab tabstop=2 softtabstop=2 shiftwidth=2
+  \ setlocal spell tabstop=2 shiftwidth=2
 " Use English + Italian for spelling
 set spelllang=en,it
 " Highlight all scripts with bash syntax
@@ -130,7 +130,10 @@ function! StatusInfo()
   let modified = &modified ? '[+]' : ''
   let readonly = &readonly ? '[RO]' : ''
   let lines = line('$').' lines'
-  let indent = &expandtab ? &shiftwidth.' spaces' : &tabstop.' tabs'
+  let indent = 'indent '.(&expandtab
+    \ ? repeat('·', &shiftwidth)
+    \ : repeat('-', &tabstop - 1).'>'
+  \ )
 
   " Find the first line with trailing whitespace
   let lnum = 1
@@ -144,24 +147,22 @@ function! StatusInfo()
   endwhile
 
   let elements = [
-  \ filename.modified.readonly,
-  \ &fileencoding,
-  \ &filetype,
-  \ indent,
-  \ lines,
-  \ trailing_line,
+    \ filename.modified.readonly,
+    \ &fileencoding,
+    \ &filetype,
+    \ indent,
+    \ lines,
+    \ trailing_line,
   \ ]
   echo join(filter(elements, 'v:val != ""'), ' | ')
 endfunction
 nnoremap <C-g> :call StatusInfo()<CR>
 
-function! RelativeFilename()
-  return expand('%') != '' ? expand('%:~:.') : '<new>'
-endfunction
-
 " Simple statusline
 set laststatus=2
-set statusline=[%{fnamemodify(getcwd(),':~:t')}]\ %{RelativeFilename()}%m%r%h%w\ %=ln\ %l\ col\ %c
+set statusline=[%{fnamemodify(getcwd(),':~:t')}]
+  \\ %{expand('%')!=''?expand('%:~:.'):'<new>'}%m%r%h%w
+  \\ %=ln\ %l\ col\ %c
 
 
 " Plugins
@@ -215,5 +216,6 @@ if isdirectory(expand('~/.vim/pack/dotfiles'))
   let g:fzf_action = {
     \ 'ctrl-t': 'tab split',
     \ 'ctrl-s': 'split',
-    \ 'ctrl-v': 'vsplit' }
+    \ 'ctrl-v': 'vsplit',
+  \ }
 endif
