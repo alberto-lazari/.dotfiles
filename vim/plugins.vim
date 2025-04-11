@@ -1,4 +1,4 @@
-" Custom vim plugins
+" Vim plugins
 " list them as 'user/repository' from GitHub
 
 " Generic Plugins

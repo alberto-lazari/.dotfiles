@@ -172,7 +172,7 @@ link_files_in () {
   exclude="setup|readme\.md${exclude:+|$exclude}"
 
   # Loop on every file in DIRECTORY, except the excluded ones
-  find "$dir" -maxdepth 1 -type f |
+  find -L "$dir" -maxdepth 1 -type f |
   grep -Ewv "$exclude" |
   while IFS= read -r file; do
     link_file "$file" "$($dotfile && echo -d)" ${target_dir:+-t "$target_dir"}

@@ -1,3 +1,5 @@
+let g:config_dir = expand('<sfile>:p:h')
+
 " Basic configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Window title format: '[n]vim - file [+-=] (1 of n)'
@@ -20,21 +22,19 @@ set termguicolors
 set showcmd
 
 " Temp files
-set noswapfile nobackup
-if !has('nvim')
-  set undodir=~/.vim/undodir undofile
+set noswapfile nobackup undofile
+let &undodir = g:config_dir . '/undodir'
 
-  " Move .viminfo file
-  set viminfo=%,<800,'10,/50,:1000,h,f0,n~/.vim/cache/viminfo
-  "           | |    |   |   |     | |  + viminfo file path
-  "           | |    |   |   |     | + file marks 0-9,A-Z 0=NOT stored
-  "           | |    |   |   |     + disable 'hlsearch' loading viminfo
-  "           | |    |   |   + command-line history saved
-  "           | |    |   + search history saved
-  "           | |    + files marks saved
-  "           | + lines saved each register (old name for <, vi6.2)
-  "           + save/restore buffer list
-endif
+" Move .viminfo file
+let &viminfo="%,<800,'10,/50,:1000,h,f0,n" . g:config_dir . '/cache/viminfo'
+"             | |    |   |   |     | |  + viminfo file path
+"             | |    |   |   |     | + file marks 0-9,A-Z 0=NOT stored
+"             | |    |   |   |     + disable 'hlsearch' loading viminfo
+"             | |    |   |   + command-line history saved
+"             | |    |   + search history saved
+"             | |    + files marks saved
+"             | + lines saved each register (old name for <, vi6.2)
+"             + save/restore buffer list
 
 
 " Custom settings
@@ -57,20 +57,10 @@ set hidden
 let g:netrw_banner = 0
 " Split buffers on next child
 set splitright splitbelow
-
-" Indent with 4 spaces on specific file types
-autocmd FileType java,kotlin,python,cs,cpp
-  \ setlocal tabstop=4 shiftwidth=4
-" Spellcheck specific file types (and force 2 spaces tabs)
-autocmd FileType text,latex,tex,md,markdown,typst
-  \ setlocal spell tabstop=2 shiftwidth=2
+" No '-- INSERT --' in status line
+set noshowmode
 " Use English + Italian for spelling
 set spelllang=en,it
-" Highlight all scripts with bash syntax
-autocmd FileType sh setlocal filetype=bash
-
-" Trigger FileType autocmds on a vimrc source
-filetype detect
 
 " Mouse support
 " Drains a crazy amount of battery power if enabled (on iTerm)
@@ -94,128 +84,19 @@ else
 endif
 
 
-" Custom mappings
+" Config modules
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Easier go to start/end of line
-nnoremap gs ^
-vnoremap gs ^
-onoremap gs ^
-nnoremap gl $
-vnoremap gl $
-onoremap gl $
-" More intuitive re-do
-nnoremap U <C-r>
-" Easier copy until end of line
-nnoremap Y y$
-" Prepend space to use the system clipboard
-nnoremap <Space> "*
-vnoremap <Space> "*
+let modules = [
+  \ 'autocmds',
+  \ 'mappings',
+  \ 'status',
+  \ 'plugins-config',
+\ ]
 
-" Toggle undo tree
-nnoremap <Space>u :UndotreeToggle<Return>
-vnoremap <Space>u :UndotreeToggle<Return>
+" Load additional config steps in external modules
+for module in modules
+  exec 'source' . g:config_dir . '/' . module . '.vim'
+endfor
 
-" Map fzf commands
-nnoremap <Space>e :Files<Return>
-nnoremap <Space>E :Files!<Return>
-nnoremap <Space>b :Buffers<Return>
-nnoremap <Space>B :Buffers!<Return>
-nnoremap <Space>/ :RG<Return>
-nnoremap <Space>? :RG!<Return>
-
-" Pretty C-g output
-function! StatusInfo()
-  " Show file name as opened, relative if possible
-  let filename = expand('%') != '' ? expand('%:~') : '<new>'
-  let modified = &modified ? '[+]' : ''
-  let readonly = &readonly ? '[RO]' : ''
-  let lines = line('$').' lines'
-  let indent = 'indent '.(&expandtab
-    \ ? repeat('·', &shiftwidth)
-    \ : repeat('-', &tabstop - 1).'>'
-  \ )
-
-  " Find the first line with trailing whitespace
-  let lnum = 1
-  let trailing_line = ''
-  while lnum <= line('$')
-    if match(getline(lnum), '\s\+$') != -1
-      let trailing_line = '!~ ln '.lnum
-      break
-    endif
-    let lnum += 1
-  endwhile
-
-  let elements = [
-    \ filename.modified.readonly,
-    \ &fileencoding,
-    \ &filetype,
-    \ indent,
-    \ lines,
-    \ trailing_line,
-  \ ]
-  echo join(filter(elements, 'v:val != ""'), ' | ')
-endfunction
-nnoremap <C-g> :call StatusInfo()<CR>
-
-" Simple statusline
-set laststatus=2
-set statusline=[%{fnamemodify(getcwd(),':~:t')}]
-  \\ %{expand('%')!=''?expand('%:~:.'):'<new>'}%m%r%h%w
-  \\ %=ln\ %l\ col\ %c
-
-
-" Plugins
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if isdirectory(expand('~/.vim/pack/dotfiles'))
-  " Disable custom filetype detection
-  let g:polyglot_disabled = ['ftdetect']
-
-  " Load opt plugins
-  for plugin in readfile(expand('~/.vim/plugins.vim'))
-    " Ignore comments
-    if plugin =~ '^[^"#]'
-      let plugin = substitute(plugin, '.*/', '', '')
-      exe 'packadd!' plugin
-    endif
-  endfor
-
-  colorscheme one
-  set background=dark
-  " Set light/dark theme dynamically
-  if system('system-theme') == "light\n"
-    set background=light
-  endif
-
-  " No '-- INSERT --' in status line
-  set noshowmode
-
-  " Custom autoclosing rules for LaTeX and Typst math mode
-  for filetype in ['tex', 'latex', 'typst']
-    call lexima#add_rule({'char': '$', 'input_after': '$', 'filetype': filetype})
-    call lexima#add_rule({'char': '$', 'at': '\%#\$', 'leave': 1, 'filetype': filetype})
-    call lexima#add_rule({'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': filetype})
-    call lexima#add_rule({'char': '<space>', 'at': '\$\%#\$', 'input_before': ' ', 'input_after': ' ', 'filetype': filetype})
-    call lexima#add_rule({'char': '<BS>', 'at': '\$ \%# \$', 'delete': 1, 'filetype': filetype})
-  endfor
-
-  " Disable highlighting for Java identifiers and dots
-  highlight link javaIdentifier NONE
-  highlight link javaDelimiter NONE
-
-  " C++ syntax highlighting flags
-  let g:cpp_attributes_highlight = 1
-  let g:cpp_operator_highlight = 1
-  " Custom flags from my fork
-  let g:cpp_custom_type_name_highlight = 1
-  let g:cpp_custom_macros_highlight = 1
-
-  " Enable fzf history
-  let g:fzf_history_dir = '~/.vim/cache/fzf-history'
-  " Change fzf key bindings
-  let g:fzf_action = {
-    \ 'ctrl-t': 'tab split',
-    \ 'ctrl-s': 'split',
-    \ 'ctrl-v': 'vsplit',
-  \ }
-endif
+" Trigger FileType autocmds on a vimrc source
+filetype detect
