@@ -175,6 +175,9 @@ link_files_in () {
   find -L "$dir" -maxdepth 1 -type f |
   grep -Ewv "$exclude" |
   while IFS= read -r file; do
-    link_file "$file" "$($dotfile && echo -d)" ${target_dir:+-t "$target_dir"}
+    link_file < /dev/tty \
+      "$file" \
+      "$($dotfile && echo -d)" \
+      ${target_dir:+-t "$target_dir"}
   done
 }

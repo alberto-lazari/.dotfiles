@@ -92,19 +92,17 @@ if $update; then
 fi
 
 installed=()
+# List all directories (each for one program)
+find -- * -maxdepth 0 -type d |
+# Filter out `lib`
+grep -v '^lib$' |
 # Setup all programs
-# Read from process substitution below
 while IFS= read -r program; do
   ! ( $DOTFILES_FORCE_SETUP || which "$program" &> /dev/null ) || {
-    setup "$program"
+    setup "$program" < /dev/tty
     installed+=("$program")
   }
-done < <( \
-  # List all directories (each for one program)
-  find -- * -maxdepth 0 -type d |
-  # Filter out `lib`
-  grep -v '^lib$'
-)
+done
 
 [[ -z "${installed[*]}" ]] || $DOTFILES_SILENT || {
   echo [+] Dotfiles installed for ${#installed[@]} programs:
