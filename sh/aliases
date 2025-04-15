@@ -85,7 +85,7 @@ alias reset='git reset'
 alias stash='git stash'
 alias pop='git stash pop'
 alias submod='git submodule'
-alias gdiff='git diff'
+alias gd='git diff'
 alias clone='git clone --recurse-submodules'
 alias feature='git-flow feature'
 
