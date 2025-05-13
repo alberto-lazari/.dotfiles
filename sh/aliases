@@ -152,7 +152,6 @@ if [[ "$(uname)" = Darwin ]]; then
 
   # Applications
   alias chrome='open -a "Google Chrome"'
-  alias firefox='open -a Firefox'
   zathura () {
     [[ $# -gt 0 ]] || { echo 'usage: zathura file [...]' >&2; return 1; }
     local file
