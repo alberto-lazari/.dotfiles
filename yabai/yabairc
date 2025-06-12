@@ -6,9 +6,9 @@ layout_options=(
   window_placement          second_child
 )
 
-padding=15
+padding=13
 padding_options=(
-  external_bar              all:20:0
+  external_bar              all:18:0
   top_padding               $padding
   bottom_padding            $padding
   left_padding              $padding
