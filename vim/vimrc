@@ -20,6 +20,8 @@ syntax on
 set termguicolors
 " Show partial command while typing it
 set showcmd
+" Turn off compatibility, avoiding strange source errors
+set nocompatible
 
 " Temp files
 set noswapfile nobackup undofile
