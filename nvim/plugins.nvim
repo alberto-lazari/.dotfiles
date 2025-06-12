@@ -7,9 +7,10 @@ navarasu/onedark.nvim
 " Lua general-purpose library (dependency for many plugins)
 nvim-lua/plenary.nvim
 
-" Coll powerline icons
+" Cool powerline icons
 nvim-tree/nvim-web-devicons
 
+" AST support for better syntax highlighting
 nvim-treesitter/nvim-treesitter
 
 " File tree visualizer
