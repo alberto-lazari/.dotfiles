@@ -1,0 +1,16 @@
+# Create a terminal window dedicated to nvim
+nvim_window () {
+  ps ax |
+  grep "nvim -c cd $PWD" |
+  grep -vq grep ||
+    alacritty msg create-window \
+      -e nvim -c "cd $PWD" -c 'bw'
+}
+
+# Open unity project (if not already open)
+unity () {
+  ps ax |
+  grep "Unity -projectpath $(realpath $PWD)" |
+  grep -vq grep ||
+    open -na unity --args -projectpath "$(realpath $PWD)"
+}

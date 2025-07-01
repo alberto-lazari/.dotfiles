@@ -1,0 +1,7 @@
+use_context unity
+
+# Open Unity editor
+# unity
+
+# Open new terminal window dedicated to nvim
+nvim_window
