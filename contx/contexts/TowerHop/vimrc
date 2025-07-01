@@ -1,0 +1,11 @@
+exec 'source' . expand('~/.vim/vimrc')
+
+" Indent with tabs on Unreal C++ sources
+autocmd FileType cpp
+  \ setlocal noexpandtab tabstop=4 shiftwidth=4
+
+" Don't highlight types based on CamelCase, since in Unreal everything uses it
+let g:cpp_custom_type_name_highlight = 0
+
+" Show partial commands
+set showcmd

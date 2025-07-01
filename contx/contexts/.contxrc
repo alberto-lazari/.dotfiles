@@ -1,0 +1,2 @@
+# Show current context on prompt
+export PS1="[$CONTX] $ "

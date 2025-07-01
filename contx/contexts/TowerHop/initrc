@@ -1,0 +1,75 @@
+# Move home to dedicated directory, so Unreal can put all his junk there
+UNREAL_HOME=~/.unreal
+UNREAL_PROJECT="$PWD/$(basename "$PWD").uproject"
+
+# Add Unreal scripts to path
+UNREAL_BIN="/Users/Shared/Epic Games/UE_5.5/Engine/Build/BatchFiles"
+PATH="$UNREAL_BIN:$UNREAL_BIN/Mac/:$PATH"
+
+# Create a terminal window dedicated to vim
+ps ax |
+grep "vim -c bw" |
+grep -vq grep ||
+  alacritty msg create-window \
+    --working-directory="$PWD/Source/$(basename "$PWD")" \
+    -e vim -c 'bw' -u "$CONTX_CONTEXT_DIR/vimrc"
+
+# Open project in unreal editor (if not already open)
+ue () {
+  ps ax |
+  grep "UnrealEditor $UNREAL_PROJECT" |
+  grep -vq grep ||
+    HOME="$UNREAL_HOME" open -na UnrealEditor --args "$UNREAL_PROJECT"
+}
+
+# Build C++ source
+build () {
+  local build_type platform target build_app
+  [[ -z "$1" ]] || build_type="$1"
+  [[ -z "$2" ]] || platform="$2"
+
+  : ${build_type:=Development}
+  : ${platform:=Mac}
+  : ${build_app:=false}
+
+  case "$build_type" in
+    [Dd]evelopment)
+      build_type=Development
+      target=Editor
+      ;;
+    [Ss]hipping | [Rr]elease)
+      build_type=Shipping
+      target=Game
+      ;;
+    [Aa]pp)
+      build_type=Shipping
+      target=Game
+      build_app=true
+      ;;
+    *) echo "Build type '$build_type' not supported" >&2
+      return 1
+      ;;
+  esac
+
+  Build.sh \
+    "$platform" \
+    "$build_type" \
+    -Project="$UNREAL_PROJECT" \
+    -TargetType="$target" \
+    -Progress
+
+  ! $build_app || RunUAT.sh BuildCookRun \
+    -project="$UNREAL_PROJECT" \
+    -noP4 \
+    -platform="$platform" \
+    -clientconfig=Shipping \
+    -serverconfig=Shipping \
+    -cook \
+    -allmaps \
+    -stage \
+    -pak \
+    -compressed \
+    -nocompileeditor \
+    -nocompilerelatedcode \
+    -archive
+}
