@@ -15,7 +15,7 @@ vim_window () {
   grep -vq grep ||
     alacritty msg create-window \
       --working-directory="$PWD/Source/$(basename "$PWD")" \
-      -e vim -c 'bw' $([[ -f "$UNREAL_CONTEXT_DIR/vimrc" ]] && echo -u "$UNREAL_CONTEXT_DIR/vimrc")
+      -e vim -c 'bw' -u "$UNREAL_CONTEXT_DIR/vimrc"
 }
 
 # Open project in unreal editor (if not already open)
