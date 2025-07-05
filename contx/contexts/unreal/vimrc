@@ -1,5 +1,8 @@
 exec 'source' . expand('~/.vim/vimrc')
 
+" Show partial commands (somehow it gets disabled...)
+set showcmd
+
 " Indent with tabs on Unreal C++ sources
 autocmd FileType cpp
   \ setlocal noexpandtab tabstop=4 shiftwidth=4
@@ -7,5 +10,22 @@ autocmd FileType cpp
 " Don't highlight types based on CamelCase, since in Unreal everything uses it
 let g:cpp_custom_type_name_highlight = 0
 
-" Show partial commands
-set showcmd
+augroup unreal_cpp_highlight
+  autocmd!
+  autocmd Syntax c,cpp call s:UnrealHighlight()
+augroup END
+
+function! s:UnrealHighlight() abort
+  silent! syntax clear UnrealType
+
+  " Match Unreal custom CamelCase with prefix convention for types, like UClass, AActor, FStruct
+  syn match UnrealType /\<[TUASICEF][A-Z]\w\+\>/
+
+  " Match custom int types
+  syn match UnrealType /\<u\?int\(8\|16\|32\|64\)\>/
+
+  " Redefine macro, because Unreal type will override that match
+  syn match Constant /\<[A-Z_][A-Z_]\+\>/
+
+  hi def link UnrealType Type
+endfunction

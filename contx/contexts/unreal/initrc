@@ -1,4 +1,4 @@
-export UNREAL_CONTEXT_DIR="$CONTX_CONTEXT_DIR"
+export UNREAL_CONTEXT_DIR="$(dirname "$(realpath "$0")")"
 
 # Move home to dedicated directory, so Unreal can put all his junk there
 UNREAL_HOME=~/.unreal
