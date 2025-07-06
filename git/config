@@ -18,3 +18,5 @@
 	attributesfile = gitattributes
 	autocrlf = input
 	eol = lf
+[lfs]
+	locksverify = true
