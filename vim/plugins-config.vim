@@ -39,10 +39,10 @@ highlight link javaDelimiter NONE
 
 " C++ syntax highlighting flags
 let g:cpp_attributes_highlight = 1
-let g:cpp_operator_highlight = 1
 " Custom flags from my fork
 let g:cpp_custom_type_name_highlight = 1
-let g:cpp_custom_macros_highlight = 1
+let g:cpp_custom_macro_highlight = 1
+let g:cpp_custom_scope_highlight = 1
 
 " Enable fzf history
 let g:fzf_history_dir = g:config_dir . '/cache/fzf-history'
