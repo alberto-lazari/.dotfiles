@@ -85,7 +85,7 @@ done
 # Update repo
 if $update; then
   $DOTFILES_SILENT || echo -e '\033[1;39m[+] Updating dotfiles...\033[0m'
-  git pull "$($DOTFILES_SILENT && echo -q)" origin main
+  git pull $($DOTFILES_SILENT && echo -q) origin main
 
   # Install using the updated script
   exec ./install
