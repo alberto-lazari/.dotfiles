@@ -9,7 +9,7 @@ _prompt_command () {
   echo -en "\033]0;$shell - $current_dir\a"
 
   # Print last command error code
-  [[ "$2" = 0 ]] || echo "[1;31m!$2[0m"
+  [[ "$2" = 0 ]] || echo -e "\033[1;31m!$2\033[0m"
 }
 
 # Simple prompt
@@ -17,7 +17,7 @@ export PS1='$ '
 
 # Detailed prompt
 p () {
-  local current_dir="[1;34m$(dirs)[0m"
+  local current_dir="\033[1;34m$(dirs)\033[0m"
 
   # Git info only if in repo
   if $(git rev-parse --is-inside-work-tree &> /dev/null); then
@@ -67,27 +67,27 @@ p () {
       local stashed=true
 
     # Display output
-    local git_status="[1;32m$branch[0m"
+    local git_status="\033[1;32m$branch\033[0m"
     # Remote status
     : ${ahead:=0}
     : ${behind:=0}
     if [[ "$ahead" != 0 && "$behind" != 0 ]]; then
-      git_status="$git_status [1;35m$behind<->$ahead[0m"
+      git_status="$git_status \033[1;35m$behind<->$ahead\033[0m"
     else
-      [[ "$ahead" = 0 ]] || git_status="$git_status [1;35m->$ahead[0m"
-      [[ "$behind" = 0 ]] || git_status="$git_status [1;35m<-$behind[0m"
+      [[ "$ahead" = 0 ]] || git_status="$git_status \033[1;35m->$ahead\033[0m"
+      [[ "$behind" = 0 ]] || git_status="$git_status \033[1;35m<-$behind\033[0m"
     fi
-    [[ "${upstream_gone:-false}" = false ]] || git_status="$git_status [0;31m<~[0m"
+    [[ "${upstream_gone:-false}" = false ]] || git_status="$git_status \033[0;31m<~\033[0m"
     # File status
-    [[ -z "$staged" ]] || git_status="$git_status [0;32m+$staged[0m"
-    [[ -z "$modified" ]] || git_status="$git_status [0;33m!$modified[0m"
-    [[ -z "$untracked" ]] || git_status="$git_status [0;34m?$untracked[0m"
-    [[ -z "$conflicted" ]] || git_status="$git_status [0;31m~$conflicted[0m"
-    [[ "${stashed:-false}" = false ]] || git_status="$git_status [0;33m\$[0m"
+    [[ -z "$staged" ]] || git_status="$git_status \033[0;32m+$staged\033[0m"
+    [[ -z "$modified" ]] || git_status="$git_status \033[0;33m!$modified\033[0m"
+    [[ -z "$untracked" ]] || git_status="$git_status \033[0;34m?$untracked\033[0m"
+    [[ -z "$conflicted" ]] || git_status="$git_status \033[0;31m~$conflicted\033[0m"
+    [[ "${stashed:-false}" = false ]] || git_status="$git_status \033[0;33m\$\033[0m"
   fi
 
   # Overwrite current prompt
-  echo "$(tput up)$current_dir ${git_status+on} $git_status"
+  echo -e "\033[1A$current_dir ${git_status+on} $git_status"
 }
 
 # Vi keybindings
