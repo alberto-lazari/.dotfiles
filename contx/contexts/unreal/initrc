@@ -1,25 +1,70 @@
 export UNREAL_CONTEXT_DIR="$(dirname "$(realpath "$0")")"
 
 # Move home to dedicated directory, so Unreal can put all his junk there
-UNREAL_HOME=~/.unreal
+UE_HOME=~/.unreal
 
 # Find .uproject file in the current directory
-UNREAL_PROJECT="$( \
+UE_PROJECT="$( \
   find "$PWD" -maxdepth 1 -type f -name '*.uproject' |
   head -n 1
 )"
-[[ -n "$UNREAL_PROJECT" ]] || error "no .uproject file found in '$PDW'"
+[[ -n "$UE_PROJECT" ]] || error "no .uproject file found in '$PWD'"
 
 # Read Unreal version from .uproject file
-UNREAL_VERSION="$(jq -r .EngineAssociation < "$UNREAL_PROJECT")"
+if which jq &> /dev/null; then
+  # Use JSON parser if available
+  UE_VERSION="$(< "$UE_PROJECT" jq -r .EngineAssociation)"
+else
+  UE_VERSION="$(grep EngineAssociation "$UE_PROJECT" | grep -o '\d\+\.\d\+')"
+fi
+
+# Set variables based on platform
+case $(uname -o) in
+  Darwin)
+    UE_PLATFORM=Mac
+    UE_ROOT="/Users/Shared/Epic Games/UE_$UE_VERSION/Engine"
+    UNREAL_EDITOR="$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor.app/Contents/MacOS/UnrealEditor"
+    UE_BUILD=("$UE_ROOT/Build/Batchfiles/RunUBT.sh")
+    UE_AUTOMATION=("$UE_ROOT/Build/Batchfiles/RunUAT.sh")
+    ;;
+  GNU/Linux)
+    # Check for WSL windows
+    if uname -r | grep -q WSL; then
+      UE_PLATFORM=Win64
+      UE_ROOT="/mnt/c/Program Files/Epic Games/UE_$UE_VERSION/Engine"
+      UNREAL_EDITOR="$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor.exe"
+      UE_WIN_PROJECT="$(wslpath -w "UE_PROJECT" | sed 's: :^ :g')"
+      UE_BUILD_DIR=(cmd.exe /c \
+        "$(wslpath -w "$UE_ROOT/Build/Batchfiles/$UE_PLATFORM" | sed 's: :^ :g')"
+      )
+      UE_BUILD=("${UE_BUILD_DIR[@]}/RunUBT.bat")
+      UE_AUTOMATION=("${UE_BUILD_DIR[@]}/RunUAT.bat")
+      
+    else
+      UE_PLATFORM=Linux
+      # UE_ROOT is not clearly defined on Linux, need external config
+      UNREAL_EDITOR="$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor"
+      UE_BUILD=("$UE_ROOT/Build/Batchfiles/RunUBT.sh")
+      UE_AUTOMATION=("$UE_ROOT/Build/Batchfiles/RunUAT.sh")
+    fi
+    ;;
+  Msys)
+    UE_PLATFORM=Win64
+    UE_ROOT="/c/Program Files/Epic Games/UE_$UE_VERSION/Engine"
+    UNREAL_EDITOR="$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor.exe"
+    UE_WIN_PROJECT="$(cygpath -m "UE_PROJECT" | sed 's: :^ :g')"
+    UE_BUILD_DIR=(cmd.exe /c \
+      "$(cygpath -m "$UE_ROOT/Build/Batchfiles/$UE_PLATFORM" | sed 's: :^ :g')"
+    )
+    UE_BUILD=("${UE_BUILD_DIR[@]}/RunUBT.bat")
+    UE_AUTOMATION=("${UE_BUILD_DIR[@]}/RunUAT.bat")
+    ;;
+  *) error "'$(uname -o)' system is not supported on Unreal" ;;
+esac
 
 # Add Unreal scripts to path
-UNREAL_PREFIX="/Users/Shared/Epic Games/UE_$UNREAL_VERSION"
-[[ -d "$UNREAL_PREFIX" ]] ||
-  echo >&2 "warning: Unreal $UNREAL_VERSION not found in '$UNREAL_PREFIX'"
-
-UNREAL_BIN="$UNREAL_PREFIX/Engine/Build/BatchFiles"
-PATH="$UNREAL_BIN:$UNREAL_BIN/Mac/:$PATH"
+[[ -d "$UE_ROOT" ]] ||
+  echo >&2 "warning: Unreal Engine $UE_VERSION not found in '$UE_ROOT'"
 
 # Create a terminal window dedicated to vim
 vim_window () {
@@ -34,20 +79,24 @@ vim_window () {
 # Open project in unreal editor (if not already open)
 ue () {
   ps ax |
-  grep "UnrealEditor $UNREAL_PROJECT" |
+  grep "$UNREAL_EDITOR $UE_PROJECT" |
   grep -vq grep ||
-    HOME="$UNREAL_HOME" open -na UnrealEditor --args "$UNREAL_PROJECT"
+    HOME="$UE_HOME" "$UNREAL_EDITOR" "$UE_PROJECT"
 }
 
 # Build C++ source
 build () {
-  local build_type platform target build_app
+  local project build_type platform target cook
   [[ -z "$1" ]] || build_type="$1"
   [[ -z "$2" ]] || platform="$2"
 
+  # Use cmd-escaped project path. If empty it will use the default
+  project="$UE_WIN_PROJECT"
+
+  : ${project:=$UE_PROJECT}
   : ${build_type:=Development}
-  : ${platform:=Mac}
-  : ${build_app:=false}
+  : ${platform:=$UE_PLATFORM}
+  : ${cook:=false}
 
   case "$build_type" in
     [Dd]evelopment)
@@ -58,25 +107,22 @@ build () {
       build_type=Shipping
       target=Game
       ;;
-    [Aa]pp)
+    [Cc]ook)
       build_type=Shipping
       target=Game
-      build_app=true
+      cook=true
       ;;
-    *) echo "Build type '$build_type' not supported" >&2
-      return 1
-      ;;
+    *) error "Build type '$build_type' not supported" ;;
   esac
 
-  Build.sh \
-    "$platform" \
-    "$build_type" \
-    -Project="$UNREAL_PROJECT" \
+  "${UE_BUILD[@]}" "$platform" "$build_type" \
+    -Project="$project" \
     -TargetType="$target" \
     -Progress
 
-  ! $build_app || RunUAT.sh BuildCookRun \
-    -project="$UNREAL_PROJECT" \
+  ! $cook ||
+  "${UE_AUTOMATION[@]}" BuildCookRun \
+    -project="$project" \
     -noP4 \
     -platform="$platform" \
     -clientconfig=Shipping \
