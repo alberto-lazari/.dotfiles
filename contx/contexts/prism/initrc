@@ -1,0 +1,4 @@
+use_context unreal
+
+# Open new terminal window dedicated to vim
+vim_window
