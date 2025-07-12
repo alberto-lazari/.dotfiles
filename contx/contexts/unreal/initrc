@@ -2,10 +2,23 @@ export UNREAL_CONTEXT_DIR="$(dirname "$(realpath "$0")")"
 
 # Move home to dedicated directory, so Unreal can put all his junk there
 UNREAL_HOME=~/.unreal
-UNREAL_PROJECT="$PWD/$(basename "$PWD").uproject"
+
+# Find .uproject file in the current directory
+UNREAL_PROJECT="$( \
+  find "$PWD" -maxdepth 1 -type f -name '*.uproject' |
+  head -n 1
+)"
+[[ -n "$UNREAL_PROJECT" ]] || error "no .uproject file found in '$PDW'"
+
+# Read Unreal version from .uproject file
+UNREAL_VERSION="$(jq -r .EngineAssociation < "$UNREAL_PROJECT")"
 
 # Add Unreal scripts to path
-UNREAL_BIN="/Users/Shared/Epic Games/UE_5.5/Engine/Build/BatchFiles"
+UNREAL_PREFIX="/Users/Shared/Epic Games/UE_$UNREAL_VERSION"
+[[ -d "$UNREAL_PREFIX" ]] ||
+  echo >&2 "warning: Unreal $UNREAL_VERSION not found in '$UNREAL_PREFIX'"
+
+UNREAL_BIN="$UNREAL_PREFIX/Engine/Build/BatchFiles"
 PATH="$UNREAL_BIN:$UNREAL_BIN/Mac/:$PATH"
 
 # Create a terminal window dedicated to vim
