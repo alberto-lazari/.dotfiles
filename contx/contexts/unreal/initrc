@@ -15,7 +15,7 @@ if which jq &> /dev/null; then
   # Use JSON parser if available
   UE_VERSION="$(< "$UE_PROJECT" jq -r .EngineAssociation)"
 else
-  UE_VERSION="$(grep EngineAssociation "$UE_PROJECT" | grep -o '\d\+\.\d\+')"
+  UE_VERSION="$(grep EngineAssociation "$UE_PROJECT" | grep -o '[0-9]\+\.[0-9]\+')"
 fi
 
 # Set variables based on platform
@@ -34,11 +34,9 @@ case $(uname -o) in
       UE_ROOT="/mnt/c/Program Files/Epic Games/UE_$UE_VERSION/Engine"
       UNREAL_EDITOR="$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor.exe"
       UE_WIN_PROJECT="$(wslpath -w "UE_PROJECT" | sed 's: :^ :g')"
-      UE_BUILD_DIR=(cmd.exe /c \
-        "$(wslpath -w "$UE_ROOT/Build/Batchfiles/$UE_PLATFORM" | sed 's: :^ :g')"
-      )
-      UE_BUILD=("${UE_BUILD_DIR[@]}/RunUBT.bat")
-      UE_AUTOMATION=("${UE_BUILD_DIR[@]}/RunUAT.bat")
+      UE_BUILD_DIR="$(wslpath -w "$UE_ROOT/Build/Batchfiles/$UE_PLATFORM" | sed 's: :^ :g')"
+      UE_BUILD=(cmd.exe /c "$UE_BUILD_DIR/RunUBT.bat")
+      UE_AUTOMATION=(cmd.exe /c "$UE_BUILD_DIR/RunUAT.bat")
       
     else
       UE_PLATFORM=Linux
@@ -53,11 +51,9 @@ case $(uname -o) in
     UE_ROOT="/c/Program Files/Epic Games/UE_$UE_VERSION/Engine"
     UNREAL_EDITOR="$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor.exe"
     UE_WIN_PROJECT="$(cygpath -m "UE_PROJECT" | sed 's: :^ :g')"
-    UE_BUILD_DIR=(cmd.exe /c \
-      "$(cygpath -m "$UE_ROOT/Build/Batchfiles/$UE_PLATFORM" | sed 's: :^ :g')"
-    )
-    UE_BUILD=("${UE_BUILD_DIR[@]}/RunUBT.bat")
-    UE_AUTOMATION=("${UE_BUILD_DIR[@]}/RunUAT.bat")
+    UE_BUILD_DIR="$(cygpath -m "$UE_ROOT/Build/Batchfiles/$UE_PLATFORM" | sed 's: :^ :g')"
+    UE_BUILD=(cmd.exe /c "$UE_BUILD_DIR/RunUBT.bat")
+    UE_AUTOMATION=(cmd.exe /c "$UE_BUILD_DIR/RunUAT.bat")
     ;;
   *) error "'$(uname -o)' system is not supported on Unreal" ;;
 esac
@@ -115,13 +111,13 @@ build () {
     *) error "Build type '$build_type' not supported" ;;
   esac
 
-  "${UE_BUILD[@]}" "$platform" "$build_type" \
+  ${UE_BUILD[@]} "$platform" "$build_type" \
     -Project="$project" \
     -TargetType="$target" \
     -Progress
 
   ! $cook ||
-  "${UE_AUTOMATION[@]}" BuildCookRun \
+  ${UE_AUTOMATION[@]} BuildCookRun \
     -project="$project" \
     -noP4 \
     -platform="$platform" \
