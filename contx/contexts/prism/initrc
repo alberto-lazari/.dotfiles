@@ -1,4 +1,15 @@
 use_context unreal
 
-# Open new terminal window dedicated to vim
+# Create a terminal window dedicated to vim
+unset -f vim_window
+vim_window () {
+  ps ax |
+  grep "vim -c bw" |
+  grep -vq grep ||
+    alacritty msg create-window \
+      --working-directory="$PWD/Source/$(basename "$PWD")" \
+      -e sh -c "UNREAL_CONTEXT_DIR='$UNREAL_CONTEXT_DIR' vim -c 'bw' -u '$CONTX_CONTEXT_DIR/vimrc'"
+}
+
+# Open vim window on context startup
 vim_window

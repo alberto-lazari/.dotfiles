@@ -1,0 +1,19 @@
+execute 'source' expand('$UNREAL_CONTEXT_DIR/vimrc')
+
+function! s:FormatWithClang()
+  " Save cursor and window view
+  let l:cursor_pos = getpos(".")
+  let l:view = winsaveview()
+
+  " Format buffer with clang-format
+  silent! execute '!clang-format -i %'
+
+  " Reload buffer
+  silent! edit!
+
+  " Restore cursor and view
+  call setpos('.', l:cursor_pos)
+  call winrestview(l:view)
+endfunction
+
+autocmd BufWritePost *.cpp,*.h,*.hpp,*.cc,*.c call <SID>FormatWithClang()

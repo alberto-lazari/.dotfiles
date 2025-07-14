@@ -75,7 +75,7 @@ vim_window () {
 # Open project in unreal editor (if not already open)
 ue () {
   ps ax |
-  grep "$UNREAL_EDITOR $UE_PROJECT" |
+  grep "UnrealEditor\(\.exe\)\? $UE_PROJECT" |
   grep -vq grep ||
     HOME="$UE_HOME" "${UNREAL_EDITOR[@]}" "$UE_PROJECT"
 }
