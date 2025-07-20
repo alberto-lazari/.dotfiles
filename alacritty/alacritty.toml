@@ -6,6 +6,9 @@ import = [
 ]
 live_config_reload = true
 
+[font.normal]
+family = "MesloLGS Nerd Font"
+
 [cursor.style]
 blinking = "never"
 

@@ -9,7 +9,7 @@ bar_options=(
   padding_right=10
 )
 
-font='MesloLGS NF'
+font='MesloLGS Nerd Font'
 default=(
   icon.font="$font:Bold:13.5"
   label.font="$font:Bold:12.5"
