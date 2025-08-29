@@ -1,7 +1,10 @@
-let g:config_dir = expand('<sfile>:p:h')
-
 " Basic configuration
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Turn off compatibility, avoiding strange source errors.
+" Should be the first option set, because it seems to influence the behavior
+" of other options.
+set nocompatible
+
 " Window title format: '[n]vim - file [+-=] (1 of n)'
 set title titlestring=%{has('nvim')?'nvim':'vim'}\ -\ %t%([%M]%)%a
 " Normal backspace behavior
@@ -18,10 +21,10 @@ set nosmartindent cinkeys-=0#
 syntax on
 " Use true color
 set termguicolors
-" Turn off compatibility, avoiding strange source errors
-set nocompatible
 " Show partial command while typing it
 set showcmd
+
+let g:config_dir = expand('<sfile>:p:h')
 
 " Temp files
 set noswapfile nobackup undofile
@@ -40,7 +43,7 @@ let &viminfo="%,<800,'10,/50,:1000,h,f0,n" . g:config_dir . '/cache/viminfo'
 
 
 " Custom settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Scroll when over number of lines
 set scrolloff=1
 " Wrap preserving words and indentation
@@ -87,7 +90,7 @@ endif
 
 
 " Config modules
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let modules = [
   \ 'autocmds',
   \ 'mappings',
