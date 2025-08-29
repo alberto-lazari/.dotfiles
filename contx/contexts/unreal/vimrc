@@ -1,8 +1,5 @@
 exec 'source' . expand('~/.vim/vimrc')
 
-" Show partial commands (somehow it gets disabled...)
-set showcmd
-
 " Indent with tabs on Unreal C++ sources
 autocmd FileType cpp
   \ setlocal noexpandtab tabstop=4 shiftwidth=4
