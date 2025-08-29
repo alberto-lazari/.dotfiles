@@ -18,10 +18,46 @@ let g:polyglot_disabled = ['ftdetect']
 call LoadPlugins(g:config_dir . '/plugins.vim')
 
 colorscheme one
+" Avoid white flash on startup
 set background=dark
 " Set light/dark theme dynamically
-if system('system-theme') == "light\n"
-  set background=light
+if executable('system-theme')
+  " Check for theme change and set the right one
+  function! UpdateTheme(theme) abort
+    if a:theme ==# &background || $USER == 'root'
+        return
+    endif
+    if a:theme ==# 'light'
+      set background=light
+    elseif a:theme ==# 'dark'
+      set background=dark
+    endif
+  endfunction
+  " Async polling function
+  if has('nvim')
+    function! PollThemeChange(timer) abort
+      function! Callback(job_id, data, event) abort
+        call UpdateTheme(a:data[0])
+      endfunction
+      call jobstart(['system-theme'], {
+            \ 'stdout_buffered': v:true,
+            \ 'on_stdout': function('Callback')
+            \ })
+    endfunction
+  else
+    function! PollThemeChange(timer) abort
+      function! Callback(job_id, data) abort
+        call UpdateTheme(a:data)
+      endfunction
+      call job_start(['system-theme'], { 'out_cb': function('Callback') })
+    endfunction
+  endif
+  " Run once immediately
+  call PollThemeChange(0)
+  " Poll for a theme change every 5 seconds
+  if has('timers')
+    call timer_start(5000, 'PollThemeChange', {'repeat': -1})
+  endif
 endif
 
 " Custom autoclosing rules for LaTeX and Typst math mode
