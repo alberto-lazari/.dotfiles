@@ -86,3 +86,6 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=green'
 
 # Load tab completions (should stay at the end)
 autoload -Uz compinit && compinit
+
+# Custom alias completion
+compdef _cf cf

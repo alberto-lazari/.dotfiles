@@ -91,6 +91,34 @@ alias feature='git-flow feature'
 
 # Git custom
 cf () { git checkout "feature/$1"; }
+# Custom completion
+if [[ -n ${BASH_VERSION:-} ]]; then
+  _cf() {
+    # List all local branches starting with "feature/"
+    local branches
+    branches=$( \
+      git for-each-ref --format='%(refname:short)' refs/heads/feature/* 2>/dev/null |
+      sed 's|^feature/||')
+
+    COMPREPLY=($(compgen -W "$branches" -- "${COMP_WORDS[1]}"))
+  }
+  complete -F _cf cf
+elif [[ -n ${ZSH_VERSION:-} ]]; then
+  _cf() {
+    # List all local branches starting with "feature/"
+    local -a branches
+    branches=( $( \
+      git for-each-ref --format='%(refname:short)' refs/heads/feature/* 2>/dev/null |
+      grep '^feature/' |
+      sed 's|^feature/||') )
+
+    _arguments '*:branch:->branch'
+    if (( CURRENT == 2 )); then
+      compadd -a branches
+    fi
+  }
+  # Run compdef after compinit in .zshrc (yes, ugly but there's no other way)
+fi
 alias c='git commit -am'
 alias commit='git commit -m'
 alias rmbr='git branch -d'
