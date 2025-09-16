@@ -50,9 +50,6 @@ done
 # Display borders
 borders &
 
-# Display bar
-sketchybar &
-
 # Forward title change event to sketchybar
 yabai -m signal --add event=window_focused action='sketchybar --trigger window_focus &> /dev/null'
 yabai -m signal --add event=window_title_changed action='sketchybar --trigger title_change &> /dev/null'
