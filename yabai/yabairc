@@ -47,9 +47,6 @@ for app in "${unmanaged_apps[@]}"; do
   yabai -m rule --add app="^$app$" manage=off
 done
 
-# Display borders
-borders &
-
 # Forward title change event to sketchybar
 yabai -m signal --add event=window_focused action='sketchybar --trigger window_focus &> /dev/null'
 yabai -m signal --add event=window_title_changed action='sketchybar --trigger title_change &> /dev/null'
