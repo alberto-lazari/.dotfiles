@@ -21,7 +21,7 @@ mouse_options=(
   mouse_follows_focus       off
 
   # Raise window on mouse hover
-  focus_follows_mouse       autoraise
+  # focus_follows_mouse       autoraise
 
   # Mouse drag visual guideline
   insert_feedback_color     0xbaffffff
