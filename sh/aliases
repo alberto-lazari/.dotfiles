@@ -137,8 +137,8 @@ cleanbr () {
   done
   (( "${#branches[@]}" > 0 )) || return 0
   bash -c \
-    'read -rp >&2 "Remove all these local branches? [y/N] " answer;' \
-    '[[ "$answer" = [Yy] ]]' ||
+    $'read -rp >&2 \'Remove all these local branches? [y/N] \' answer
+      [[ "$answer" = [Yy] ]]' ||
     return 1
   git branch -D "${branches[@]}"
 }
