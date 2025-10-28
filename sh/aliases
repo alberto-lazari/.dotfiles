@@ -6,7 +6,7 @@ alias l='ls -1'
 alias ll='ls -Al'
 alias la='ls -A'
 
-alias cl='clear'
+alias cl='clear && p'
 alias tree='tree -C'
 t () { tree -L 2 "$@"; }
 alias chx='chmod +x'
