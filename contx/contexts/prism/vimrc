@@ -1,4 +1,4 @@
-execute 'source' expand('$UNREAL_CONTEXT_DIR/vimrc')
+exec 'source' expand('$UNREAL_CONTEXT_DIR/vimrc')
 
 function! s:FormatWithClang()
   " Save cursor and window view

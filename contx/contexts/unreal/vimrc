@@ -1,4 +1,4 @@
-exec 'source' . expand('~/.vim/vimrc')
+exec 'source' expand('~/.vim/vimrc')
 
 " Indent with tabs on Unreal C++ sources
 autocmd FileType cpp

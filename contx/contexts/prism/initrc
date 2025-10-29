@@ -8,7 +8,7 @@ vim_window () {
   grep -vq grep ||
     alacritty msg create-window \
       --working-directory="$PWD/Source/$(basename "$PWD")" \
-      -e sh -c "UNREAL_CONTEXT_DIR='$UNREAL_CONTEXT_DIR' vim -c 'bw' -u '$CONTX_CONTEXT_DIR/vimrc'"
+      -e sh -c "eval \"$(set -o posixbuiltins; export -p)\"; vim -c 'bw' -u '$CONTX_CONTEXT_DIR/vimrc'"
 }
 
 # Open vim window on context startup
