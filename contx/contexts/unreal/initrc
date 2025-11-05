@@ -50,10 +50,10 @@ case $(uname -o) in
     UE_PLATFORM=Win64
     UE_ROOT="/c/Program Files/Epic Games/UE_$UE_VERSION/Engine"
     UNREAL_EDITOR=("$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor.exe")
-    UE_WIN_PROJECT="$(cygpath -m "$UE_PROJECT" | sed 's: :^ :g')"
-    UE_BUILD_DIR="$(cygpath -m "$UE_ROOT/Build/BatchFiles" | sed 's: :^ :g')"
-    UE_BUILD=(cmd /c "$UE_BUILD_DIR/Build.bat")
-    UE_AUTOMATION=(cmd /c "$UE_BUILD_DIR/RunUAT.bat")
+    UE_WIN_PROJECT="$(cygpath -w "$UE_PROJECT" | sed 's: :^ :g')"
+    UE_BUILD_DIR="$(cygpath -w "$UE_ROOT/Build/BatchFiles" | sed 's: :^ :g')"
+    UE_BUILD=("$UE_BUILD_DIR/Build.bat")
+    UE_AUTOMATION=("$UE_BUILD_DIR/RunUAT.bat")
     ;;
   *) error "'$(uname -o)' system is not supported on Unreal" ;;
 esac
@@ -78,6 +78,13 @@ ue () {
   grep "UnrealEditor\(\.exe\)\? $UE_PROJECT" |
   grep -vq grep ||
     HOME="$UE_HOME" "${UNREAL_EDITOR[@]}" "$UE_PROJECT"
+}
+
+_run () {
+  case $(uname -o) in
+    Msys) cmd "/c $* && echo true" ;;
+    *) "$@" ;;
+  esac
 }
 
 # Build C++ source
@@ -111,13 +118,13 @@ build () {
     *) error "Build type '$build_type' not supported" ;;
   esac
 
-  "${UE_BUILD[@]}" "$platform" "$build_type" \
+  _run "${UE_BUILD[@]}" "$platform" "$build_type" \
     -Project="$project" \
     -TargetType="$target" \
     -Progress
 
   ! $cook ||
-  "${UE_AUTOMATION[@]}" BuildCookRun \
+  _run "${UE_AUTOMATION[@]}" BuildCookRun \
     -project="$project" \
     -noP4 \
     -platform="$platform" \
