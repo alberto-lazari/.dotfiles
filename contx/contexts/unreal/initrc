@@ -24,8 +24,8 @@ case $(uname -o) in
     UE_PLATFORM=Mac
     UE_ROOT="/Users/Shared/Epic Games/UE_$UE_VERSION/Engine"
     UNREAL_EDITOR=(open -na "$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor.app/Contents/MacOS/UnrealEditor" --args)
-    UE_BUILD=("$UE_ROOT/Build/Batchfiles/RunUBT.sh")
-    UE_AUTOMATION=("$UE_ROOT/Build/Batchfiles/RunUAT.sh")
+    UE_BUILD=("$UE_ROOT/Build/BatchFiles/RunUBT.sh")
+    UE_AUTOMATION=("$UE_ROOT/Build/BatchFiles/RunUAT.sh")
     ;;
   GNU/Linux)
     # Check for WSL windows
@@ -33,27 +33,27 @@ case $(uname -o) in
       UE_PLATFORM=Win64
       UE_ROOT="/mnt/c/Program Files/Epic Games/UE_$UE_VERSION/Engine"
       UNREAL_EDITOR=("$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor.exe")
-      UE_WIN_PROJECT="$(wslpath -w "UE_PROJECT" | sed 's: :^ :g')"
-      UE_BUILD_DIR="$(wslpath -w "$UE_ROOT/Build/Batchfiles/$UE_PLATFORM" | sed 's: :^ :g')"
-      UE_BUILD=(cmd.exe /c "$UE_BUILD_DIR/RunUBT.bat")
+      UE_WIN_PROJECT="$(wslpath -w "$UE_PROJECT" | sed 's: :^ :g')"
+      UE_BUILD_DIR="$(wslpath -w "$UE_ROOT/Build/BatchFiles" | sed 's: :^ :g')"
+      UE_BUILD=(cmd.exe /c "$UE_BUILD_DIR/Build.bat")
       UE_AUTOMATION=(cmd.exe /c "$UE_BUILD_DIR/RunUAT.bat")
       
     else
       UE_PLATFORM=Linux
       # UE_ROOT is not clearly defined on Linux, need external config
       UNREAL_EDITOR=("$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor")
-      UE_BUILD=("$UE_ROOT/Build/Batchfiles/RunUBT.sh")
-      UE_AUTOMATION=("$UE_ROOT/Build/Batchfiles/RunUAT.sh")
+      UE_BUILD=("$UE_ROOT/Build/BatchFiles/RunUBT.sh")
+      UE_AUTOMATION=("$UE_ROOT/Build/BatchFiles/RunUAT.sh")
     fi
     ;;
   Msys)
     UE_PLATFORM=Win64
     UE_ROOT="/c/Program Files/Epic Games/UE_$UE_VERSION/Engine"
     UNREAL_EDITOR=("$UE_ROOT/Binaries/$UE_PLATFORM/UnrealEditor.exe")
-    UE_WIN_PROJECT="$(cygpath -m "UE_PROJECT" | sed 's: :^ :g')"
-    UE_BUILD_DIR="$(cygpath -m "$UE_ROOT/Build/Batchfiles/$UE_PLATFORM" | sed 's: :^ :g')"
-    UE_BUILD=(cmd.exe /c "$UE_BUILD_DIR/RunUBT.bat")
-    UE_AUTOMATION=(cmd.exe /c "$UE_BUILD_DIR/RunUAT.bat")
+    UE_WIN_PROJECT="$(cygpath -m "$UE_PROJECT" | sed 's: :^ :g')"
+    UE_BUILD_DIR="$(cygpath -m "$UE_ROOT/Build/BatchFiles" | sed 's: :^ :g')"
+    UE_BUILD=(cmd /c "$UE_BUILD_DIR/Build.bat")
+    UE_AUTOMATION=(cmd /c "$UE_BUILD_DIR/RunUAT.bat")
     ;;
   *) error "'$(uname -o)' system is not supported on Unreal" ;;
 esac
@@ -111,13 +111,13 @@ build () {
     *) error "Build type '$build_type' not supported" ;;
   esac
 
-  ${UE_BUILD[@]} "$platform" "$build_type" \
+  "${UE_BUILD[@]}" "$platform" "$build_type" \
     -Project="$project" \
     -TargetType="$target" \
     -Progress
 
   ! $cook ||
-  ${UE_AUTOMATION[@]} BuildCookRun \
+  "${UE_AUTOMATION[@]}" BuildCookRun \
     -project="$project" \
     -noP4 \
     -platform="$platform" \
