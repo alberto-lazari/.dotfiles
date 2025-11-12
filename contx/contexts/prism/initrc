@@ -1,18 +1,4 @@
 use_context unreal
 
-# Create a terminal window dedicated to vim
-unset -f vim_window
-vim_window () {
-  args="-u '$CONTX_CONTEXT_DIR/vimrc' -c bw -c 'cd Source/$(basename "$PWD")'"
-  ps ax |
-  grep "vim $args" |
-  grep -vq grep ||
-    alacritty msg create-window \
-      --working-directory="$PWD" \
-      -e sh -c "eval \"$(set -o posixbuiltins; export -p)\"; vim $args"
-
-  unset args
-}
-
 # Open vim window on context startup
 vim_window

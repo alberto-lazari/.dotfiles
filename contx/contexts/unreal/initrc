@@ -64,7 +64,10 @@ esac
 
 # Create a terminal window dedicated to vim
 vim_window () {
-  args="-u '$UNREAL_CONTEXT_DIR/vimrc' -c bw -c 'cd Source/$(basename "$PWD")'"
+  : ${vimrc:=$UNREAL_CONTEXT_DIR/vimrc}
+  [[ ! -f "$CONTX_CONTEXT_DIR/vimrc" ]] || vimrc="$CONTX_CONTEXT_DIR/vimrc"
+  args="-u '$vimrc' -c bw -c 'cd Source/$(basename "$PWD")'"
+
   ps ax |
   grep "vim $args" |
   grep -vq grep ||
@@ -72,6 +75,7 @@ vim_window () {
       --working-directory="$PWD" \
       -e sh -c "eval \"$(set -o posixbuiltins; export -p)\"; vim $args"
 
+  unset vimrc
   unset args
 }
 
