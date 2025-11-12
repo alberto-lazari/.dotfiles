@@ -64,12 +64,15 @@ esac
 
 # Create a terminal window dedicated to vim
 vim_window () {
+  args="-u '$UNREAL_CONTEXT_DIR/vimrc' -c bw -c 'cd Source/$(basename "$PWD")'"
   ps ax |
-  grep "vim -c bw" |
+  grep "vim $args" |
   grep -vq grep ||
     alacritty msg create-window \
-      --working-directory="$PWD/Source/$(basename "$PWD")" \
-      -e vim -c 'bw' -u "$UNREAL_CONTEXT_DIR/vimrc"
+      --working-directory="$PWD" \
+      -e sh -c "eval \"$(set -o posixbuiltins; export -p)\"; vim $args"
+
+  unset args
 }
 
 # Open project in unreal editor (if not already open)
