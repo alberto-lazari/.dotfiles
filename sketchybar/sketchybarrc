@@ -5,7 +5,7 @@ bar_options=(
   height=20
   blur_radius=40
   color=0x40000000
-  padding_left=10
+  padding_left=13
   padding_right=10
 )
 
@@ -23,6 +23,11 @@ default=(
   icon.padding_right=4
   label.padding_left=4
   label.padding_right=4
+  background.color=0x2affffff
+  background.padding_left=2
+  background.corner_radius=3
+  background.height=15
+  background.drawing=off
 )
 
 sketchybar --bar "${bar_options[@]}" \
@@ -37,7 +42,6 @@ events=(
 plugins=(
   --add item title center
   --set title
-        icon.drawing=off
         script="$PLUGIN_DIR/window_title.sh"
   --subscribe title
               window_focus
@@ -46,8 +50,15 @@ plugins=(
 
   --add item clock right
   --set clock update_freq=10
-              icon.drawing=off
               script="$PLUGIN_DIR/clock.sh"
+
+  --add item calendar right
+  --set calendar update_freq=10
+                 script="$PLUGIN_DIR/calendar.sh"
+
+  --add item battery right
+  --set battery update_freq=60
+                script="$PLUGIN_DIR/battery.sh"
 )
 
 spaces_options=()
@@ -58,11 +69,6 @@ for space in {1..6}; do
           space="$space"
           label="$space"
           icon.drawing=off
-          background.color=0x5affffff
-          background.drawing=off
-          background.padding_left=5
-          background.corner_radius=4
-          background.height=15
           script="$PLUGIN_DIR/space.sh"
           click_script="yabai -m space --focus $sid"
   )
