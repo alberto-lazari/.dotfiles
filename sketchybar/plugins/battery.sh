@@ -15,6 +15,10 @@ esac
 
 [[ -z "$power" ]] || icon=''
 
-# Don't show if on power and not charging
-[[ -n "$power" ]] && (( "$percent" >= 80 )) ||
+# Only show when on battery or charging
+[[ -z "$power" ]] || (( "$percent" < 80 )) || {
+  sketchybar --set "$NAME" icon='' label=''
+  exit 0
+}
+
 sketchybar --set "$NAME" icon="$icon" label="$percent%"
