@@ -26,7 +26,9 @@ shift + alt - y : yabai -m space --mirror y-axis
 shift + alt - x : yabai -m space --mirror x-axis
 
 # Toggle window float
-alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+alt - t : yabai -m window --toggle float --grid 3:3:1:1:2:2; \
+  yabai -m query --windows is-floating | head -n 2 | grep false || \
+  skhd -k 'fn + ctrl - c'
 
 # Toggle window split type
 shift + alt - s : yabai -m window --toggle split
@@ -85,7 +87,7 @@ shift + alt - 7 : yabai -m window --space 7; skhd -k 'alt - 7'
 
 
 # Center floated window
-shift + alt - c : yabai -m window --grid 4:4:1:1:2:2
+shift + alt - c : skhd -k 'fn + ctrl - c'
 
 # -- Starting/Stopping/Restarting Yabai --
 
@@ -98,10 +100,6 @@ ctrl + alt - r : yabai --restart-service
 alt - a : [[ $(yabai -m config focus_follows_mouse) = disabled ]] && \
             yabai -m config focus_follows_mouse autoraise || \
             yabai -m config focus_follows_mouse off
-# Tooggle window opacity
-alt - o : [[ $(yabai -m config window_opacity) = on ]] && \
-            yabai -m config window_opacity off || \
-            yabai -m config window_opacity on
 
 
 # Open new terminal instance
