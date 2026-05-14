@@ -13,7 +13,7 @@ SETUP_DIR=~/.vim
 # Create spell directory to avoid prompt
 [[ -d "$SETUP_DIR/spell" ]] || mkdir -p "$SETUP_DIR/spell"
 
-link_files_in . -t "$SETUP_DIR"
+link_files_in . -t "$SETUP_DIR" -e _vimrc
 
 # Read plugins, ignoring comments starting with " or #
 grep -Ev '^["#]|^$' < plugins.vim |
