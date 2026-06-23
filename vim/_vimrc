@@ -1,0 +1,64 @@
+" Windows-specific minimal config designed to work out-of-the-box with
+" third-party software vim extensions, like VS or VS Code's
+
+" Basic configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Turn off compatibility, avoiding strange source errors.
+" Should be the first option set, because it seems to influence the behavior
+" of other options.
+set nocompatible
+
+" Show whitespaces with ':set list'
+set listchars=eol:$,tab:-->,trail:~,extends:>,precedes:<,space:·
+" Fix indentation problems
+set nosmartindent cinkeys-=0#
+" Show partial command while typing it
+set showcmd
+
+
+" Custom settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Scroll when over number of lines
+set scrolloff=1
+" Wrap preserving words and indentation
+set linebreak breakindent
+" Identify wrapped lines with @ and indentation
+let &showbreak='@ '
+" Show pattern match results. Default case-insensitive search
+set incsearch ignorecase smartcase
+" No ESC delay
+set timeoutlen=1000 ttimeoutlen=0
+" No timeout on custom mappings
+set notimeout ttimeout
+" Allow buffers to keep unsaved changes
+set hidden
+" Split buffers on next child
+set splitright splitbelow
+" No '-- INSERT --' in status line
+set noshowmode
+" Disable cursorline (floating caret)
+set nocursorline
+
+
+" Mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Easier go to start/end of line
+nnoremap gs ^
+vnoremap gs ^
+onoremap gs ^
+nnoremap gl $
+vnoremap gl $
+onoremap gl $
+" More intuitive re-do
+nnoremap U <C-r>
+" Easier copy until end of line
+nnoremap Y y$
+" Prepend space to use the system clipboard
+nnoremap <Space> "*
+vnoremap <Space> "*
+
+
+" Surrounds
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vnoremap S{ ^mSoyyp^C}k>`S'SyyP<<C{'S
+vnoremap S} ^mSoyyP^C{j>`S'Syyp<<C}'S
