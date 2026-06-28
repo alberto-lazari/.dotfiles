@@ -2,7 +2,7 @@
 import = [
     "~/.config/alacritty/shell.toml",
     "~/.config/alacritty/colors.toml",
-    "~/.config/alacritty/os-specific.toml"
+    "~/.config/alacritty/os-specific.toml",
 ]
 live_config_reload = true
 
