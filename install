@@ -98,7 +98,7 @@ find -- * -maxdepth 0 -type d |
 grep -v '^lib$' |
 # Setup all programs
 while IFS= read -r program; do
-  ! ( $DOTFILES_FORCE_SETUP || which "$program" &> /dev/null ) || {
+  ! ( $DOTFILES_FORCE_SETUP || type "$program" &> /dev/null ) || {
     setup "$program" < /dev/tty
     installed+=("$program")
   }
