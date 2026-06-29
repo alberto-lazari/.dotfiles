@@ -11,8 +11,8 @@ alt - p : skhd -k 'ctrl - left'
 alt - n : skhd -k 'ctrl - right'
 
 # Change focus between external displays (left and right)
-alt - s : yabai -m display --focus west
-alt - g : yabai -m display --focus east
+# alt - s : yabai -m display --focus west
+# alt - g : yabai -m display --focus east
 
 # -- Modifying the Layout --
 
