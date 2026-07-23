@@ -7,12 +7,16 @@ alt - h : yabai -m window --focus west
 alt - l : yabai -m window --focus east
 
 # Change space
-alt - p : skhd -k 'ctrl - left'
-alt - n : skhd -k 'ctrl - right'
+# alt - p : skhd -k 'ctrl - left'
+# alt - n : skhd -k 'ctrl - right'
 
 # Change focus between external displays (left and right)
 # alt - s : yabai -m display --focus west
 # alt - g : yabai -m display --focus east
+
+# Move window to display left and right
+# shift + alt - s : yabai -m window --display west; yabai -m display --focus west
+# shift + alt - g : yabai -m window --display east; yabai -m display --focus east
 
 # -- Modifying the Layout --
 
@@ -66,11 +70,6 @@ ctrl + alt - j : yabai -m window --warp south
 ctrl + alt - k : yabai -m window --warp north
 ctrl + alt - h : yabai -m window --warp west
 ctrl + alt - l : yabai -m window --warp east
-
-# Move window to display left and right
-shift + alt - s : yabai -m window --display west; yabai -m display --focus west
-shift + alt - g : yabai -m window --display east; yabai -m display --focus east
-
 
 # Move window to prev and next space
 shift + alt - p : yabai -m window --space prev; skhd -k 'ctrl - left'
