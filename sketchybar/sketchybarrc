@@ -11,7 +11,7 @@ bar_options=(
 
 font='MesloLGS Nerd Font'
 default=(
-  icon.font="$font:Bold:13.5"
+  icon.font="$font:Bold:14.5"
   label.font="$font:Bold:12.5"
   icon.color=0xffffffff
   label.color=0xffffffff
