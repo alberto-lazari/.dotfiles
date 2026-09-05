@@ -22,11 +22,11 @@ else
 fi
 
 # Automatically configure display output on X.org
-! which xrandr &> /dev/null ||
+! type xrandr &> /dev/null ||
   xrandr --output HDMI-1 --auto 2> /dev/null
 
 # Set dynamic themes
-! which system-theme &> /dev/null ||
+! type system-theme &> /dev/null ||
   eval "$(system-theme --gen-rc)"
 
 # Hook for additional local configurations

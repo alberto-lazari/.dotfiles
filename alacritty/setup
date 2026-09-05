@@ -7,8 +7,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 link_files_in . -t "$SETUP_DIR"
 
 # Set startup shell
-! which zsh &> /dev/null || shell=zsh
-! which wsl.exe &> /dev/null || shell=wsl
+! type zsh &> /dev/null || shell=zsh
+! type wsl.exe &> /dev/null || shell=wsl
 if [[ -n "$shell" ]]; then
   link_file "shell/$shell.toml" -t "$SETUP_DIR" shell.toml
 else
