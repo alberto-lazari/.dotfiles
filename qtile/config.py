@@ -78,6 +78,7 @@ keys = [
     Key([mod, "shift"], "c", lazy.window.center(), desc="Center the current window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod, "control"], "l", lazy.spawn('slock'), desc="Lock desktop"),
     Key([mod], "Space", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
