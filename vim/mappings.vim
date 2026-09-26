@@ -10,8 +10,8 @@ nnoremap U <C-r>
 " Easier copy until end of line
 nnoremap Y y$
 " Prepend space to use the system clipboard
-nnoremap <Space> "*
-vnoremap <Space> "*
+nnoremap <Space> "+
+vnoremap <Space> "+
 
 " Toggle undo tree
 nnoremap <Space>u :UndotreeToggle<Return>
